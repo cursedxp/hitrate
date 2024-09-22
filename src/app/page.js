@@ -1,9 +1,10 @@
-import Image from "next/image";
-
+import ThemeToggle from "./components/themeToggle/themeToggle";
+import ShuffleButton from "./components/shuffleButton/shuffleButton";
+import SideBar from "./components/sideBar/sideBar";
 export default function Home() {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+    <div className="relative">
+      <SideBar />
+    </div>
   );
 }
