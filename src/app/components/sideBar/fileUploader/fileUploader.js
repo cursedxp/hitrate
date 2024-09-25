@@ -4,11 +4,26 @@ import { useDispatch } from "react-redux";
 import {
   setThumbnailFiles,
   setThumbnailPreviews,
+  setIsLoading,
 } from "@/app/redux/slices/thumbnail.slice";
+import toast from "react-hot-toast";
+const FILE_SIZE = 5 * 1024 * 1024; //5MB
+const FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 export default function FileUploader() {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
+
+  const verifyFile = (file) => {
+    if (!FILE_TYPES.includes(file.type)) {
+      toast.error("Invalid file type");
+      return false;
+    }
+    if (file.size > FILE_SIZE) {
+      toast.error("File size too large");
+      return false;
+    }
+  };
 
   const handleClick = () => {
     inputRef.current.click();
@@ -16,11 +31,25 @@ export default function FileUploader() {
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    dispatch(setThumbnailFiles(files));
-    const imagePreviews = files.map((file) => {
-      return URL.createObjectURL(file);
-    });
-    dispatch(setThumbnailPreviews(imagePreviews));
+
+    try {
+      files.forEach((file) => {
+        if (verifyFile(file)) {
+          toast.error("Invalid file");
+          return;
+        }
+      });
+
+      dispatch(setThumbnailFiles(files));
+      const imagePreviews = files.map((file) => {
+        dispatch(setIsLoading(true));
+        return URL.createObjectURL(file);
+      });
+      dispatch(setThumbnailPreviews(imagePreviews));
+    } catch (error) {
+      toast.error(error.message);
+      e.target.value = null;
+    }
   };
 
   return (
@@ -37,6 +66,7 @@ export default function FileUploader() {
         className="hidden"
         ref={inputRef}
         multiple
+        accept={FILE_TYPES.join(",")}
         onChange={handleFileChange}
       />
     </div>
