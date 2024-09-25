@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   thumbnailFiles: [],
   thumbnailPreviews: [],
+  isLoading: false,
 };
 
 const thumbnailSlice = createSlice({
@@ -15,9 +16,12 @@ const thumbnailSlice = createSlice({
     setThumbnailPreviews: (state, action) => {
       state.thumbnailPreviews = action.payload;
     },
+    setIsLoading: (state, action) => {
+      state.isLoading = action.payload;
+    },
   },
 });
 
-export const { setThumbnailFiles, setThumbnailPreviews } =
+export const { setThumbnailFiles, setThumbnailPreviews, setIsLoading } =
   thumbnailSlice.actions;
 export default thumbnailSlice.reducer;
