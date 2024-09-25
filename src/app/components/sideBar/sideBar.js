@@ -18,7 +18,6 @@ export default function SideBar() {
           <ShuffleButton />
         </div>
       </div>
-      <div className="text-sm font-bold p-2">Thumbnails</div>
       <SideBarContent />
     </div>
   );
