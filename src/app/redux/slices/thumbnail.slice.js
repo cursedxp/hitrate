@@ -4,6 +4,7 @@ const initialState = {
   thumbnailFiles: [],
   thumbnailPreviews: [],
   isLoading: false,
+  selectedThumbnail: 0,
 };
 
 const thumbnailSlice = createSlice({
@@ -19,9 +20,16 @@ const thumbnailSlice = createSlice({
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
     },
+    setSelectedThumbnail: (state, action) => {
+      state.selectedThumbnail = action.payload;
+    },
   },
 });
 
-export const { setThumbnailFiles, setThumbnailPreviews, setIsLoading } =
-  thumbnailSlice.actions;
+export const {
+  setThumbnailFiles,
+  setThumbnailPreviews,
+  setIsLoading,
+  setSelectedThumbnail,
+} = thumbnailSlice.actions;
 export default thumbnailSlice.reducer;
