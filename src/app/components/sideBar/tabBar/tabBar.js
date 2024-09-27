@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function TabBar({ tabs }) {
   const [activeTab, setActiveTab] = useState(0);
-  const activeStyle = "bg-zinc-100 dark:bg-zinc-700";
+  const activeStyle = "bg-zinc-100 dark:bg-zinc-700 font-bold";
 
   return (
     <>
@@ -11,7 +11,7 @@ export default function TabBar({ tabs }) {
         {tabs.map((tab, index) => (
           <div
             key={index}
-            className={`text-sm font-bold cursor-pointer py-1 px-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-md ${
+            className={`text-sm  cursor-pointer py-1 px-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-md ${
               activeTab === index ? activeStyle : ""
             }`}
             onClick={() => setActiveTab(index)}
