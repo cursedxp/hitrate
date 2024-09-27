@@ -6,13 +6,17 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setThumbnailFiles,
   setThumbnailPreviews,
+  setSelectedThumbnail,
 } from "@/app/redux/slices/thumbnail.slice";
 
-export default function ImagePreview({ thumbnail, isLoading }) {
+export default function ImagePreview({ thumbnail, isLoading, index }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const thumbnailFiles = useSelector((state) => state.thumbnail.thumbnailFiles);
   const previews = useSelector((state) => state.thumbnail.thumbnailPreviews);
   const dispatch = useDispatch();
+  const selectedThumbnail = useSelector(
+    (state) => state.thumbnail.selectedThumbnail
+  );
 
   useEffect(() => {
     if (thumbnail) {
@@ -31,8 +35,13 @@ export default function ImagePreview({ thumbnail, isLoading }) {
     );
   }, [dispatch, thumbnail, thumbnailFiles, previews]);
 
+  const selectedThumbnailStyle = "border-4 border-blue-500";
+
   return (
-    <div className="relative h-[172px] w-[284px] rounded-md cursor-pointer hover:border-2 border-blue-500 group">
+    <div
+      className={`relative h-[172px] w-[284px] rounded-md cursor-pointer group`}
+      onClick={() => dispatch(setSelectedThumbnail(index))}
+    >
       {(isLoading || !imageLoaded) && <Loader />}
       {imageLoaded && (
         <Image
@@ -40,7 +49,9 @@ export default function ImagePreview({ thumbnail, isLoading }) {
           alt="image"
           fill
           sizes="100%"
-          className="object-cover rounded-md"
+          className={`object-cover rounded-xl ${
+            index === selectedThumbnail ? selectedThumbnailStyle : ""
+          }`}
         />
       )}
 
@@ -50,7 +61,7 @@ export default function ImagePreview({ thumbnail, isLoading }) {
             <button className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white">
               <Eye size={16} />
             </button>
-            <div className="h-[1px] w-full bg-zinc-300"></div>
+            <div className="h-[1px] w-full bg-zinc-300 dark:bg-zinc-700"></div>
             <button
               className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white"
               onClick={handleDelete}
