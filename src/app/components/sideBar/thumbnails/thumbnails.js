@@ -2,7 +2,6 @@
 import ImagePreview from "@/app/components/fileUploader/imagePreview";
 import FileUploader from "@/app/components/fileUploader/fileUploader";
 import { useSelector } from "react-redux";
-import SectionTitle from "../sectionTitle/sectionTitle";
 
 export default function Thumbnails() {
   const thumbnailPreviews = useSelector(
