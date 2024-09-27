@@ -54,10 +54,10 @@ export default function FileUploader() {
 
   return (
     <div
-      className="border-2 border-blue-500 flex items-center justify-center h-[90px] w-[138px] rounded-md cursor-pointer"
+      className="border-2 border-blue-500 flex items-center justify-center py-2 rounded-md cursor-pointer"
       onClick={handleClick}
     >
-      <div className="flex flex-col items-center">
+      <div className="flex items-center gap-2">
         <Upload className="w-4 h-4 text-blue-500" />
         <span className="text-xs text-blue-500 mt-1">Add Thumbnail</span>
       </div>

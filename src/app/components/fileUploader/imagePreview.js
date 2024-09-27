@@ -32,7 +32,7 @@ export default function ImagePreview({ thumbnail, isLoading }) {
   }, [dispatch, thumbnail, thumbnailFiles, previews]);
 
   return (
-    <div className="relative h-[90px] w-[138px] rounded-md group">
+    <div className="relative h-[172px] w-[284px] rounded-md group">
       {(isLoading || !imageLoaded) && <Loader />}
       {imageLoaded && (
         <Image
