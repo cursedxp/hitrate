@@ -32,7 +32,7 @@ export default function ImagePreview({ thumbnail, isLoading }) {
   }, [dispatch, thumbnail, thumbnailFiles, previews]);
 
   return (
-    <div className="relative h-[172px] w-[284px] rounded-md group">
+    <div className="relative h-[172px] w-[284px] rounded-md cursor-pointer hover:border-2 border-blue-500 group">
       {(isLoading || !imageLoaded) && <Loader />}
       {imageLoaded && (
         <Image
@@ -44,17 +44,18 @@ export default function ImagePreview({ thumbnail, isLoading }) {
         />
       )}
 
-      <div className="absolute top-0 left-0 w-full h-full bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md">
-        <div className="flex items-center justify-center h-full">
-          <div className="flex items-center gap-2">
-            <button className="p-2 rounded-full bg-black ">
-              <Eye size={16} className="text-white" />
+      <div className="absolute top-0 left-0 w-full h-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md ">
+        <div className="flex justify-end">
+          <div className="flex flex-col bg-zinc-200 dark:bg-zinc-800  rounded-md">
+            <button className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white">
+              <Eye size={16} />
             </button>
+            <div className="h-[1px] w-full bg-zinc-300"></div>
             <button
-              className="p-2 rounded-full bg-black "
+              className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white"
               onClick={handleDelete}
             >
-              <Trash size={16} className="text-white" />
+              <Trash size={16} />
             </button>
           </div>
         </div>
