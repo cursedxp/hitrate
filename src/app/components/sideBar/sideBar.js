@@ -5,7 +5,7 @@ import ShuffleButton from "../shuffleButton/shuffleButton";
 import { Menu } from "react-feather";
 import TabBar from "./tabBar/tabBar";
 import Thumbnails from "./thumbnails/thumbnails";
-
+import TitleManager from "../titleManager/titleManager";
 const tabs = [
   {
     name: "Images",
@@ -13,7 +13,7 @@ const tabs = [
   },
   {
     name: "Titles",
-    content: <div>Titles</div>,
+    content: <TitleManager />,
   },
 ];
 
