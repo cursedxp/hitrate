@@ -12,8 +12,8 @@ export default function Thumbnails() {
 
   return (
     <>
-      <SectionTitle title="Thumbnails" />
-      <div className="grid grid-cols-2 gap-2">
+      <SectionTitle title="Images" />
+      <div className="flex flex-col gap-4 p-2">
         {thumbnailPreviews.map((preview, index) => (
           <ImagePreview
             key={index}
