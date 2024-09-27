@@ -54,7 +54,7 @@ export default function FileUploader() {
 
   return (
     <div
-      className="border-2 border-blue-500 flex items-center justify-center py-2 rounded-md cursor-pointer"
+      className=" bg-blue-100 flex items-center justify-center py-4 rounded-md cursor-pointer"
       onClick={handleClick}
     >
       <div className="flex items-center gap-2">
