@@ -54,11 +54,11 @@ export default function FileUploader() {
 
   return (
     <div
-      className=" bg-blue-500 flex items-center gap-2 justify-center py-2 rounded-md cursor-pointer hover:bg-blue-600  text-white"
+      className=" bg-blue-500 flex items-center gap-2 justify-center py-3 rounded-md cursor-pointer hover:bg-blue-600  text-white"
       onClick={handleClick}
     >
       <Upload className="w-4 h-4" />
-      <span className="text-xs mt-1 font-bold">Add Thumbnail</span>
+      <span className="text-xs font-bold">Add Thumbnail</span>
 
       <input
         type="file"
