@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  title: "",
   titles: [],
 };
 
@@ -9,14 +8,18 @@ const titleSlice = createSlice({
   name: "title",
   initialState,
   reducers: {
-    setTitle: (state, action) => {
-      state.title = action.payload;
+    addTitle: (state) => {
+      state.titles.push("");
     },
-    setTitles: (state, action) => {
-      state.titles = action.payload;
+    updateTitle: (state, action) => {
+      const { index, value } = action.payload;
+      state.titles[index] = value;
+    },
+    removeTitle: (state, action) => {
+      state.titles.splice(action.payload, 1);
     },
   },
 });
 
-export const { setTitle, setTitles } = titleSlice.actions;
+export const { addTitle, updateTitle, removeTitle } = titleSlice.actions;
 export default titleSlice.reducer;
