@@ -6,7 +6,6 @@ import {
   updateTitle,
   removeTitle,
 } from "@/app/redux/slices/title.slice";
-
 export default function TitleManager() {
   const dispatch = useDispatch();
   const titles = useSelector((state) => state.title.titles);
@@ -25,7 +24,6 @@ export default function TitleManager() {
     }
   };
 
-  const emptyTitleStyle = "text-gray-400";
   const placeholderText = "Enter a title...";
 
   return (
@@ -51,20 +49,22 @@ export default function TitleManager() {
                 }
               }}
             />
+            {titles.length > 1 && (
+              <div className="absolute z-10 right-1 top-1 dark:bg-zinc-700">
+                <button
+                  onClick={() => handleRemoveTitle(index)}
+                  className="p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-600"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
-          {titles.length > 1 && (
-            <button
-              onClick={() => handleRemoveTitle(index)}
-              className="p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-600"
-            >
-              <Trash2 className="w-4 h-4" />
-            </button>
-          )}
         </div>
       ))}
       <button
         onClick={handleAddTitle}
-        className="flex items-center justify-center gap-1 py-2 rounded-md bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
+        className="flex items-center justify-center gap-1 py-3 rounded-md bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
       >
         <Plus className="w-4 h-4" />
         Add Title
