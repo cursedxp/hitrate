@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   titles: [],
+  selectedTitle: "",
 };
 
 const titleSlice = createSlice({
@@ -23,9 +24,17 @@ const titleSlice = createSlice({
       const [reorderedItem] = state.titles.splice(oldIndex, 1);
       state.titles.splice(newIndex, 0, reorderedItem);
     },
+    setSelectedTitle: (state, action) => {
+      state.selectedTitle = action.payload;
+    },
   },
 });
 
-export const { addTitle, updateTitle, removeTitle, reorderTitles } =
-  titleSlice.actions;
+export const {
+  addTitle,
+  updateTitle,
+  removeTitle,
+  reorderTitles,
+  setSelectedTitle,
+} = titleSlice.actions;
 export default titleSlice.reducer;
