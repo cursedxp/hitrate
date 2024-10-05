@@ -1,17 +1,22 @@
-import ContentEditable from "react-contenteditable";
-import { Plus, Trash2 } from "react-feather";
+import { Plus } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTitle,
   updateTitle,
   removeTitle,
+  setSelectedTitle,
 } from "@/app/redux/slices/title.slice";
+import TitleItem from "./titleItem";
+import { useEffect } from "react";
+
 export default function TitleManager() {
   const dispatch = useDispatch();
   const titles = useSelector((state) => state.title.titles);
+  const selectedTitle = useSelector((state) => state.title.selectedTitle);
 
   const handleTitleChange = (index, e) => {
-    dispatch(updateTitle({ index, value: e.target.value }));
+    const newValue = e.target.value;
+    dispatch(updateTitle({ index, value: newValue }));
   };
 
   const handleAddTitle = () => {
@@ -24,43 +29,35 @@ export default function TitleManager() {
     }
   };
 
-  const placeholderText = "Enter a title...";
+  const handleSetSelectedTitle = (title) => {
+    dispatch(setSelectedTitle(title));
+  };
+
+  useEffect(() => {
+    if (titles.length === 1 && titles[0] !== selectedTitle) {
+      dispatch(setSelectedTitle(titles[0]));
+    }
+  }, [titles, selectedTitle, dispatch]);
+
+  useEffect(() => {
+    console.log("SelectedTitle:", selectedTitle);
+  }, [selectedTitle]);
 
   return (
     <div className="flex flex-col gap-2 p-2 h-full overflow-scroll">
       {titles.map((title, index) => (
-        <div key={index} className="flex items-center gap-2">
-          <div className="relative w-full">
-            {!title && (
-              <span className="absolute left-2 top-2 text-gray-400 pointer-events-none">
-                {placeholderText}
-              </span>
-            )}
-            <ContentEditable
-              html={title}
-              onChange={(e) => handleTitleChange(index, e)}
-              className={`w-full p-2 rounded-md bg-zinc-200 dark:bg-zinc-700 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-blue-100 active:outline-none  dark:text-white ${
-                title ? "text-black" : "text-gray-400"
-              }`}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleAddTitle();
-                }
-              }}
-            />
-            {titles.length > 1 && (
-              <div className="absolute z-10 right-1 top-1 dark:bg-zinc-700">
-                <button
-                  onClick={() => handleRemoveTitle(index)}
-                  className="p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-600"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
+        <TitleItem
+          key={index}
+          id={index}
+          index={index}
+          title={title}
+          handleTitleChange={handleTitleChange}
+          handleRemoveTitle={handleRemoveTitle}
+          placeholderText="Enter a title..."
+          onSelect={handleSetSelectedTitle}
+          isSelected={title === selectedTitle}
+          isSingleTitle={titles.length === 1}
+        />
       ))}
       <button
         onClick={handleAddTitle}
