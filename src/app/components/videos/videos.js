@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Image } from "next/image";
+import { Formatter } from "../utils/formatters";
 
 export default function Videos({
   initialRegionCode,
@@ -44,38 +45,9 @@ export default function Videos({
     fetchVideos();
   }, [regionCode, category, language]);
 
-  const loadMore = () => {
-    if (nextPageToken) fetchVideos(nextPageToken);
-  };
-
   if (error) return <div>Error: {error}</div>;
 
-  const formatViewCount = (count) => {
-    if (count >= 1000000) {
-      return (count / 1000000).toFixed(1) + "M";
-    } else if (count >= 1000) {
-      return (count / 1000).toFixed(1) + "K";
-    } else {
-      return count.toString();
-    }
-  };
-
-  const formatPublishedAt = (publishedAt) => {
-    const now = new Date();
-    const published = new Date(publishedAt);
-    const diffInSeconds = Math.floor((now - published) / 1000);
-
-    if (diffInSeconds < 60) return `${diffInSeconds} seconds ago`;
-    if (diffInSeconds < 3600)
-      return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-    if (diffInSeconds < 86400)
-      return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-    if (diffInSeconds < 2592000)
-      return `${Math.floor(diffInSeconds / 86400)} days ago`;
-    if (diffInSeconds < 31536000)
-      return `${Math.floor(diffInSeconds / 2592000)} months ago`;
-    return `${Math.floor(diffInSeconds / 31536000)} years ago`;
-  };
+  const formatter = Formatter();
 
   return (
     <div className="flex w-full items-center justify-center p-4">
@@ -107,10 +79,13 @@ export default function Videos({
                 </p>
                 <div className="flex items-center text-sm text-gray-400 mt-1">
                   <span>
-                    {formatViewCount(video.statistics.viewCount)} views
+                    {formatter.formatViewCount(video.statistics.viewCount)}{" "}
+                    views
                   </span>
                   <span className="mx-1">•</span>
-                  <span>{formatPublishedAt(video.snippet.publishedAt)}</span>
+                  <span>
+                    {formatter.formatPublishedAt(video.snippet.publishedAt)}
+                  </span>
                 </div>
               </div>
             </div>
