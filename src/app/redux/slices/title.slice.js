@@ -18,8 +18,14 @@ const titleSlice = createSlice({
     removeTitle: (state, action) => {
       state.titles.splice(action.payload, 1);
     },
+    reorderTitles: (state, action) => {
+      const { oldIndex, newIndex } = action.payload;
+      const [reorderedItem] = state.titles.splice(oldIndex, 1);
+      state.titles.splice(newIndex, 0, reorderedItem);
+    },
   },
 });
 
-export const { addTitle, updateTitle, removeTitle } = titleSlice.actions;
+export const { addTitle, updateTitle, removeTitle, reorderTitles } =
+  titleSlice.actions;
 export default titleSlice.reducer;
