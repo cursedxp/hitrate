@@ -1,4 +1,4 @@
-import { Formatter } from "../../utils/formatters";
+import { Formatter } from "@/app/utils/formatters";
 
 export default function PreviewItem({ video }) {
   const formatter = Formatter();
