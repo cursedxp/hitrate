@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   theme: "light",
   currentPreview: 0,
+  previews: [],
 };
 
 const appSlice = createSlice({
@@ -15,8 +16,11 @@ const appSlice = createSlice({
     setCurrentPreview(state, action) {
       state.currentPreview = action.payload;
     },
+    setPreviews(state, action) {
+      state.previews = action.payload;
+    },
   },
 });
 
-export const { setTheme } = appSlice.actions;
+export const { setTheme, setCurrentPreview, setPreviews } = appSlice.actions;
 export default appSlice.reducer;
