@@ -17,27 +17,33 @@ export default function PreviewBar() {
       <div className="text-xs font-bold text-center">Previews</div>
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
-          isSelected === 0 ? "bg-zinc-100 dark:bg-zinc-700" : ""
+          isSelected === 0
+            ? "text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
+            : ""
         }`}
-        onClick={() => setIsSelected(0)}
+        onClick={() => handleClick(0)}
       >
         <Home className="w-4 h-4" />
       </button>
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
-          isSelected === 1 ? "bg-zinc-100 dark:bg-zinc-700" : ""
+          isSelected === 1
+            ? "bg-zinc-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
+            : ""
         }`}
-        onClick={() => setIsSelected(1)}
+        onClick={() => handleClick(1)}
       >
-        <Sidebar className="w-4 h-4 rotate-180" />
+        <Search className="w-4 h-4" />
       </button>
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
-          isSelected === 2 ? "bg-zinc-100 dark:bg-zinc-700" : ""
+          isSelected === 2
+            ? "text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
+            : ""
         }`}
-        onClick={() => setIsSelected(2)}
+        onClick={() => handleClick(2)}
       >
-        <Search className="w-4 h-4" />
+        <Sidebar className="w-4 h-4 rotate-180" />
       </button>
     </div>
   );
