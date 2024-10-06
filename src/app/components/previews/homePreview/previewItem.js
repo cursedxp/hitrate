@@ -1,6 +1,6 @@
-import { Formatter } from "../utils/formatters";
+import { Formatter } from "../../utils/formatters";
 
-export default function Video({ video }) {
+export default function PreviewItem({ video }) {
   const formatter = Formatter();
   return (
     <div key={video.id} className="flex flex-col dark:text-white ">

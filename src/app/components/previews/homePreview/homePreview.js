@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Video from "./video";
-export default function Videos({
+import PreviewItem from "./previewItem";
+export default function HomePreview({
   initialRegionCode,
   initialCategory,
   initialLanguage,
@@ -46,10 +46,10 @@ export default function Videos({
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="flex w-full items-center justify-center p-4">
+    <div className="flex w-full items-center justify-center ">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 w-full">
         {videos.map((video) => (
-          <Video key={video.id} video={video} />
+          <PreviewItem key={video.id} video={video} />
         ))}
       </div>
       {loading && (
