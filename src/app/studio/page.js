@@ -8,7 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
 
-export default function Home() {
+export default function StudioPage() {
   const dispatch = useDispatch();
   const currentPreview = useSelector((state) => state.app.currentPreview);
   const previews = useSelector((state) => state.app.previews);
