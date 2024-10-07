@@ -6,7 +6,8 @@ import { Menu } from "react-feather";
 import TabBar from "./tabBar/tabBar";
 import Thumbnails from "./thumbnails/thumbnails";
 import TitleManager from "../titleManager/titleManager";
-import DeviceBar from "../previewBar/previewBar";
+import UserDetails from "./userDetails/userDetails";
+
 const tabs = [
   {
     name: "Images",
@@ -23,6 +24,7 @@ export default function SideBar({ className }) {
     <div
       className={`bg-white shadow-md dark:bg-zinc-800 rounded-xl w-[300px] overflow-scroll ${className}`}
     >
+      <UserDetails />
       <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-200 dark:border-zinc-700">
         <Button className="bg-white">
           <Menu className="w-4 h-4 dark:text-white" />
