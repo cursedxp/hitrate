@@ -14,7 +14,7 @@ export default function PreviewItem({ video }) {
       <div className="flex flex-col ">
         <div className="flex flex-col gap-1">
           {video.snippet.title}
-          <div className="flex items-center text-sm text-gray-400 mt-1">
+          <div className="flex items-center text-sm text-gray-500 mt-1">
             <span>
               {formatter.formatViewCount(video.statistics.viewCount)} views
             </span>
@@ -29,7 +29,9 @@ export default function PreviewItem({ video }) {
               alt={video.snippet.channelTitle}
               className="rounded-full w-9 h-9"
             />
-            <span className="text-xs">{video.snippet.channelTitle}</span>
+            <span className="text-xs text-gray-500">
+              {video.snippet.channelTitle}
+            </span>
           </div>
           <div className="text-xs">
             {video.snippet.description.slice(0, 100)}

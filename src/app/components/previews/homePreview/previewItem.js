@@ -24,8 +24,8 @@ export default function PreviewItem({ video }) {
           <div className="text-sm font-semibold line-clamp-2 mb-1">
             {video.snippet.title}
           </div>
-          <p className="text-xs text-gray-400">{video.snippet.channelTitle}</p>
-          <div className="flex items-center text-sm text-gray-400 mt-1">
+          <p className="text-xs text-gray-500">{video.snippet.channelTitle}</p>
+          <div className="flex items-center text-sm text-gray-500 mt-1">
             <span>
               {formatter.formatViewCount(video.statistics.viewCount)} views
             </span>
