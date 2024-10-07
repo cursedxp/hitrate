@@ -11,6 +11,9 @@ const handler = NextAuth({
   callbacks: {
     async session({ session, token }) {
       session.user.id = token.sub;
+      session.user.name = token.name;
+      session.user.email = token.email;
+      session.user.image = token.picture;
       return session;
     },
   },
