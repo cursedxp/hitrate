@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Sidebar, Search, Home } from "react-feather";
+import { Sidebar, Grid } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentPreview } from "@/app/redux/slices/app.slice";
+import { ViewColumnsIcon } from "@heroicons/react/24/outline";
 
 export default function PreviewBar() {
   const dispatch = useDispatch();
@@ -18,12 +19,12 @@ export default function PreviewBar() {
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
           isSelected === 0
-            ? "text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
+            ? "bg-zinc-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
             : ""
         }`}
         onClick={() => handleClick(0)}
       >
-        <Home className="w-4 h-4" />
+        <Grid className="w-4 h-4" />
       </button>
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
@@ -33,12 +34,12 @@ export default function PreviewBar() {
         }`}
         onClick={() => handleClick(1)}
       >
-        <Search className="w-4 h-4" />
+        <ViewColumnsIcon className="w-4 h-4 rotate-90" strokeWidth={1.5} />
       </button>
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
           isSelected === 2
-            ? "text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
+            ? "bg-zinc-100 text-blue-500 dark:bg-zinc-700 dark:text-blue-500"
             : ""
         }`}
         onClick={() => handleClick(2)}
