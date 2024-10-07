@@ -8,6 +8,8 @@ import SideBarPreview from "./components/previews/sideBarPreview/sideBarPreview"
 import { useSelector, useDispatch } from "react-redux";
 import { setPreviews } from "./redux/slices/app.slice";
 import { useState, useEffect } from "react";
+import AuthButton from "./components/authButton/authButton";
+
 export default function Home() {
   const dispatch = useDispatch();
   const currentPreview = useSelector((state) => state.app.currentPreview);
@@ -52,7 +54,8 @@ export default function Home() {
     <div className="relative p-4 flex w-full">
       <SideBar />
       <div className="flex w-full flex-col gap-4 pb-4 px-4">
-        <div className="flex justify-end w-full ">
+        <div className="flex justify-between w-full">
+          <AuthButton />
           <PreviewBar />
         </div>
         <div className="self-center max-w-screen-xl">
