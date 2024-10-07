@@ -2,7 +2,11 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    remotePatterns: [{ hostname: "placehold.co" }],
+    remotePatterns: [
+      { hostname: "i.ytimg.com" },
+      { hostname: "yt3.ggpht.com" },
+      { hostname: "img.youtube.com" },
+    ],
   },
 };
 
