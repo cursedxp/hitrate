@@ -4,6 +4,7 @@ import SideBar from "./components/sideBar/sideBar";
 import HomePreview from "./components/previews/homePreview/homePreview";
 import PreviewBar from "./components/previewBar/previewBar";
 import SearchPreview from "./components/previews/searchPreview/searchPreview";
+import SideBarPreview from "./components/previews/sideBarPreview/sideBarPreview";
 import { useSelector, useDispatch } from "react-redux";
 import { setPreviews } from "./redux/slices/app.slice";
 import { useState, useEffect } from "react";
@@ -54,7 +55,6 @@ export default function Home() {
         <div className="flex justify-end w-full ">
           <PreviewBar />
         </div>
-
         <div className="self-center max-w-screen-xl">
           {currentPreview === 0 && (
             <HomePreview
@@ -64,6 +64,7 @@ export default function Home() {
             />
           )}
           {currentPreview === 1 && <SearchPreview />}
+          {currentPreview === 2 && <SideBarPreview />}
         </div>
         {loading && (
           <div className="flex justify-center items-center w-full h-24">
