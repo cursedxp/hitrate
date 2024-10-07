@@ -5,6 +5,7 @@ const initialState = {
   thumbnailPreviews: [],
   isLoading: false,
   selectedThumbnail: 0,
+  channelAvatars: {},
 };
 
 const thumbnailSlice = createSlice({
@@ -23,6 +24,9 @@ const thumbnailSlice = createSlice({
     setSelectedThumbnail: (state, action) => {
       state.selectedThumbnail = action.payload;
     },
+    setChannelAvatar: (state, action) => {
+      state.channelAvatars[action.payload.channelId] = action.payload.avatarUrl;
+    },
   },
 });
 
@@ -31,5 +35,6 @@ export const {
   setThumbnailPreviews,
   setIsLoading,
   setSelectedThumbnail,
+  setChannelAvatar,
 } = thumbnailSlice.actions;
 export default thumbnailSlice.reducer;
