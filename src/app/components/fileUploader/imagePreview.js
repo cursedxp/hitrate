@@ -39,7 +39,7 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
 
   return (
     <div
-      className={`relative h-[172px] w-[284px] rounded-md cursor-pointer group`}
+      className={`relative h-[144px]  rounded-md cursor-pointer group`}
       onClick={() => dispatch(setSelectedThumbnail(index))}
     >
       {(isLoading || !imageLoaded) && <Loader />}
