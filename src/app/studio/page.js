@@ -7,6 +7,7 @@ import SideBarPreview from "@/app/components/previews/sideBarPreview/sideBarPrev
 import { useSelector, useDispatch } from "react-redux";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
+import Chips from "../components/chips/chips";
 
 export default function StudioPage() {
   const dispatch = useDispatch();
@@ -52,7 +53,8 @@ export default function StudioPage() {
     <div className="relative p-4 flex w-full">
       <SideBar />
       <div className="flex w-full flex-col gap-4 pb-4 px-4">
-        <div className="flex justify-end w-full">
+        <div className="flex justify-between items-center w-full">
+          <Chips />
           <PreviewBar />
         </div>
         <div className="self-center max-w-screen-xl">
