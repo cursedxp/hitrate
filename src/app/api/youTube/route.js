@@ -1,49 +1,44 @@
-import { google } from "googleapis";
 import { NextResponse } from "next/server";
 
 export async function GET(request) {
-  try {
-    // Initialize the YouTube API client
-    const youtube = google.youtube({
-      version: "v3",
-      auth: process.env.YOUTUBE_API_KEY,
-    });
+  const { searchParams } = new URL(request.url);
+  const apiKey = process.env.YOUTUBE_API_KEY;
 
-    // Extract search parameters from the request URL
-    const { searchParams } = new URL(request.url);
-
-    // Set up parameters for the YouTube API request
-    const params = {
-      part: "snippet,statistics,contentDetails", // Specify which parts of the video data to retrieve
-      chart: "mostPopular", // Get the most popular videos
-      videoCategoryId: searchParams.get("videoCategoryId") || "0", // Filter by video category, default to "0" (all categories)
-      regionCode: searchParams.get("regionCode") || "US", // Filter by region, default to "US"
-      maxResults: parseInt(searchParams.get("maxResults") || "20", 10), // Number of results to return, default to 20
-      pageToken: searchParams.get("pageToken"), // Token for pagination
-      hl: searchParams.get("hl"), // Interface language
-      forUsername: searchParams.get("forUsername"), // Filter by username
-    };
-
-    // Validate and adjust the maxResults parameter
-    const validatedParams = {
-      ...params,
-      maxResults: Math.min(Math.max(params.maxResults, 1), 50), // Ensure maxResults is between 1 and 50
-    };
-
-    // Make the API request to get the list of videos
-    const response = await youtube.videos.list(validatedParams);
-
-    // Return the video data, including pagination tokens
-    return NextResponse.json({
-      items: response.data.items,
-      nextPageToken: response.data.nextPageToken,
-      prevPageToken: response.data.prevPageToken,
-    });
-  } catch (error) {
-    // Log the error and return a 500 status code
-    console.error("Error fetching trending videos:", error);
+  if (!apiKey) {
+    console.error("YouTube API key is missing");
     return NextResponse.json(
-      { error: "Error fetching trending videos" },
+      { error: "YouTube API key is not configured" },
+      { status: 500 }
+    );
+  }
+
+  const youtubeParams = new URLSearchParams(searchParams);
+  youtubeParams.append("key", apiKey);
+
+  try {
+    console.log(
+      "Calling YouTube API with params:",
+      Object.fromEntries(youtubeParams)
+    );
+    const response = await fetch(
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&${youtubeParams}`
+    );
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("YouTube API error:", response.status, errorText);
+      return NextResponse.json(
+        { error: `YouTube API error: ${errorText}` },
+        { status: response.status }
+      );
+    }
+
+    const data = await response.json();
+    return NextResponse.json(data);
+  } catch (error) {
+    console.error("Error in YouTube API route:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
       { status: 500 }
     );
   }
