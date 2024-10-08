@@ -1,7 +1,8 @@
 "use client";
 import ImagePreview from "@/app/components/fileUploader/imagePreview";
 import FileUploader from "@/app/components/fileUploader/fileUploader";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { removeThumbnail } from "@/app/redux/slices/thumbnail.slice";
 
 export default function Thumbnails() {
   const thumbnailPreviews = useSelector(
@@ -9,14 +10,16 @@ export default function Thumbnails() {
   );
   const isLoading = useSelector((state) => state.thumbnail.isLoading);
   const thumbnailFiles = useSelector((state) => state.thumbnail.thumbnailFiles);
-
-  console.log("thumbnailPreviews:", thumbnailPreviews);
-  console.log("typeof thumbnailPreviews:", typeof thumbnailPreviews);
+  const dispatch = useDispatch();
 
   if (!Array.isArray(thumbnailPreviews)) {
     console.error("thumbnailPreviews is not an array:", thumbnailPreviews);
     return <div>Error: Invalid thumbnail data</div>;
   }
+
+  const handleRemoveThumbnail = (index) => {
+    dispatch(removeThumbnail(index));
+  };
 
   return (
     <>
@@ -30,6 +33,7 @@ export default function Thumbnails() {
               isLoading &&
               index >= thumbnailFiles.length - thumbnailPreviews.length
             }
+            onRemove={() => handleRemoveThumbnail(index)}
           />
         ))}
         <FileUploader />

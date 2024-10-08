@@ -2,11 +2,12 @@ import { Upload } from "react-feather";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import {
-  setThumbnailFiles,
-  setThumbnailPreviews,
+  addThumbnailFiles,
+  addThumbnailPreviews,
   setIsLoading,
 } from "@/app/redux/slices/thumbnail.slice";
 import toast from "react-hot-toast";
+
 const FILE_SIZE = 5 * 1024 * 1024; //5MB
 const FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
@@ -23,6 +24,7 @@ export default function FileUploader() {
       toast.error("File size too large");
       return false;
     }
+    return true;
   };
 
   const handleClick = () => {
@@ -33,7 +35,7 @@ export default function FileUploader() {
     const newFiles = Array.from(e.target.files);
 
     try {
-      const validFiles = newFiles.filter((file) => !verifyFile(file));
+      const validFiles = newFiles.filter(verifyFile);
 
       if (validFiles.length === 0) {
         toast.error("No valid files selected");
@@ -41,14 +43,13 @@ export default function FileUploader() {
       }
 
       dispatch(setIsLoading(true));
-
-      dispatch(setThumbnailFiles(validFiles));
+      dispatch(addThumbnailFiles(validFiles));
 
       const newImagePreviews = validFiles.map((file) =>
         URL.createObjectURL(file)
       );
 
-      dispatch(setThumbnailPreviews(newImagePreviews));
+      dispatch(addThumbnailPreviews(newImagePreviews));
 
       // Set isLoading to false after all files have been processed
       setTimeout(() => dispatch(setIsLoading(false)), 0);

@@ -13,18 +13,23 @@ const thumbnailSlice = createSlice({
   initialState,
   reducers: {
     setThumbnailFiles: (state, action) => {
-      state.thumbnailFiles = Array.isArray(action.payload)
-        ? [...state.thumbnailFiles, ...action.payload]
-        : Array.isArray(action.payload)
-        ? [action.payload]
-        : [];
+      state.thumbnailFiles = action.payload;
     },
     setThumbnailPreviews: (state, action) => {
-      state.thumbnailPreviews = Array.isArray(action.payload)
-        ? [...state.thumbnailPreviews, ...action.payload]
-        : Array.isArray(action.payload)
-        ? [action.payload]
-        : [];
+      state.thumbnailPreviews = action.payload;
+    },
+    addThumbnailFiles: (state, action) => {
+      state.thumbnailFiles = [...state.thumbnailFiles, ...action.payload];
+    },
+    addThumbnailPreviews: (state, action) => {
+      state.thumbnailPreviews = [...state.thumbnailPreviews, ...action.payload];
+    },
+    removeThumbnail: (state, action) => {
+      const index = action.payload;
+      state.thumbnailFiles = state.thumbnailFiles.filter((_, i) => i !== index);
+      state.thumbnailPreviews = state.thumbnailPreviews.filter(
+        (_, i) => i !== index
+      );
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -41,6 +46,9 @@ const thumbnailSlice = createSlice({
 export const {
   setThumbnailFiles,
   setThumbnailPreviews,
+  addThumbnailFiles,
+  addThumbnailPreviews,
+  removeThumbnail,
   setIsLoading,
   setSelectedThumbnail,
   setChannelAvatar,
