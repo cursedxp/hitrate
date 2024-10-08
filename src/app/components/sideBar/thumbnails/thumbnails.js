@@ -8,16 +8,28 @@ export default function Thumbnails() {
     (state) => state.thumbnail.thumbnailPreviews
   );
   const isLoading = useSelector((state) => state.thumbnail.isLoading);
+  const thumbnailFiles = useSelector((state) => state.thumbnail.thumbnailFiles);
+
+  console.log("thumbnailPreviews:", thumbnailPreviews);
+  console.log("typeof thumbnailPreviews:", typeof thumbnailPreviews);
+
+  if (!Array.isArray(thumbnailPreviews)) {
+    console.error("thumbnailPreviews is not an array:", thumbnailPreviews);
+    return <div>Error: Invalid thumbnail data</div>;
+  }
 
   return (
     <>
       <div className="flex flex-col gap-4 p-2">
         {thumbnailPreviews.map((preview, index) => (
           <ImagePreview
-            key={index}
+            key={preview}
             index={index}
             thumbnail={preview}
-            isLoading={isLoading && index === thumbnailPreviews.length - 1}
+            isLoading={
+              isLoading &&
+              index >= thumbnailFiles.length - thumbnailPreviews.length
+            }
           />
         ))}
         <FileUploader />

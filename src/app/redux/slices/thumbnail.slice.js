@@ -13,10 +13,18 @@ const thumbnailSlice = createSlice({
   initialState,
   reducers: {
     setThumbnailFiles: (state, action) => {
-      state.thumbnailFiles = action.payload;
+      state.thumbnailFiles = Array.isArray(action.payload)
+        ? [...state.thumbnailFiles, ...action.payload]
+        : Array.isArray(action.payload)
+        ? [action.payload]
+        : [];
     },
     setThumbnailPreviews: (state, action) => {
-      state.thumbnailPreviews = action.payload;
+      state.thumbnailPreviews = Array.isArray(action.payload)
+        ? [...state.thumbnailPreviews, ...action.payload]
+        : Array.isArray(action.payload)
+        ? [action.payload]
+        : [];
     },
     setIsLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -37,4 +45,5 @@ export const {
   setSelectedThumbnail,
   setChannelAvatar,
 } = thumbnailSlice.actions;
+
 export default thumbnailSlice.reducer;

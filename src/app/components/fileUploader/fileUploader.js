@@ -30,24 +30,32 @@ export default function FileUploader() {
   };
 
   const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
+    const newFiles = Array.from(e.target.files);
 
     try {
-      files.forEach((file) => {
-        if (verifyFile(file)) {
-          toast.error("Invalid file");
-          return;
-        }
-      });
+      const validFiles = newFiles.filter((file) => !verifyFile(file));
 
-      dispatch(setThumbnailFiles(files));
-      const imagePreviews = files.map((file) => {
-        dispatch(setIsLoading(true));
-        return URL.createObjectURL(file);
-      });
-      dispatch(setThumbnailPreviews(imagePreviews));
+      if (validFiles.length === 0) {
+        toast.error("No valid files selected");
+        return;
+      }
+
+      dispatch(setIsLoading(true));
+
+      dispatch(setThumbnailFiles(validFiles));
+
+      const newImagePreviews = validFiles.map((file) =>
+        URL.createObjectURL(file)
+      );
+
+      dispatch(setThumbnailPreviews(newImagePreviews));
+
+      // Set isLoading to false after all files have been processed
+      setTimeout(() => dispatch(setIsLoading(false)), 0);
     } catch (error) {
       toast.error(error.message);
+      dispatch(setIsLoading(false));
+    } finally {
       e.target.value = null;
     }
   };
