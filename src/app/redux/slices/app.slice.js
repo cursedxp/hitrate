@@ -4,6 +4,7 @@ const initialState = {
   theme: "light",
   currentPreview: 0,
   previews: [],
+  comparisonList: ["trending"],
 };
 
 const appSlice = createSlice({
@@ -19,8 +20,24 @@ const appSlice = createSlice({
     setPreviews(state, action) {
       state.previews = action.payload;
     },
+    setComparisonList(state, action) {
+      state.comparisonList.push(action.payload);
+    },
+    removeComparisonList(state, action) {
+      if (state.comparisonList.length > 1) {
+        state.comparisonList = state.comparisonList.filter(
+          (item, index) => index === 0 || item !== action.payload
+        );
+      }
+    },
   },
 });
 
-export const { setTheme, setCurrentPreview, setPreviews } = appSlice.actions;
+export const {
+  setTheme,
+  setCurrentPreview,
+  setPreviews,
+  setComparisonList,
+  removeComparisonList,
+} = appSlice.actions;
 export default appSlice.reducer;
