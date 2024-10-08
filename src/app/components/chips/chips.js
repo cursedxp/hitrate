@@ -48,7 +48,7 @@ export default function Chips() {
             placeholder="Competitor, channel, etc..."
             autoFocus
           />
-          <div className="absolute top-2 right-2 p-2 hover:bg-gray-200 hover:text-gray-800 rounded-md">
+          <div className="absolute top-2 right-2 p-2 hover:bg-gray-200 hover:text-gray-800 rounded-md cursor-pointer">
             <XMarkIcon className="w-4 h-4" onClick={handleCancel} />
           </div>
         </div>
