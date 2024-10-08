@@ -3,7 +3,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { setComparisonList } from "@/app/redux/slices/app.slice";
 import Chip from "./chip";
-
+import { XMarkIcon } from "@heroicons/react/24/outline";
 export default function Chips() {
   const dispatch = useDispatch();
   const comparisonList = useSelector((state) => state.app.comparisonList);
@@ -26,6 +26,11 @@ export default function Chips() {
     }
   };
 
+  const handleCancel = () => {
+    setValue("");
+    setIsAdding(false);
+  };
+
   return (
     <div className="flex gap-2">
       {comparisonList.map((item, index) => (
@@ -33,15 +38,20 @@ export default function Chips() {
       ))}
 
       {isAdding ? (
-        <input
-          type="text"
-          className="bg-white shadow-sm text-gray-800 p-3 rounded-xl dark:text-white dark:bg-zinc-800 w-80"
-          value={value}
-          onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
-          placeholder="Competitor, channel, etc..."
-          autoFocus
-        />
+        <div className="relative">
+          <input
+            type="text"
+            className="bg-white shadow-sm text-gray-800 p-3 rounded-xl dark:text-white dark:bg-zinc-800 w-80"
+            value={value}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+            placeholder="Competitor, channel, etc..."
+            autoFocus
+          />
+          <div className="absolute top-2 right-2 p-2 hover:bg-gray-200 hover:text-gray-800 rounded-md">
+            <XMarkIcon className="w-4 h-4" onClick={handleCancel} />
+          </div>
+        </div>
       ) : (
         <button
           onClick={handleAddChip}
