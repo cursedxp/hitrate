@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
 import Chips from "../components/chips/chips";
+import youtubeServices from "@/app/services/youtubeServices";
 
 export default function StudioPage() {
   const dispatch = useDispatch();
@@ -21,22 +22,19 @@ export default function StudioPage() {
     setLoading(true);
     setError(null);
     try {
-      const params = new URLSearchParams({
-        maxResults: "20",
-        videoCategoryId: "",
-        hl: "de",
-        regionCode: "DE",
-      });
-      if (pageToken) params.append("pageToken", pageToken);
+      const params = pageToken ? { pageToken } : {};
+      const data = await youtubeServices.getTrendingVideos(params);
 
-      const response = await fetch(`/api/youTube?${params}`);
-      if (!response.ok) throw new Error("Failed to fetch videos");
-      const data = await response.json();
-
-      dispatch(
-        setPreviews(pageToken ? [...previews, ...data.items] : data.items)
-      );
+      if (data && data.items) {
+        dispatch(
+          setPreviews(pageToken ? [...previews, ...data.items] : data.items)
+        );
+        setPageToken(data.nextPageToken || null);
+      } else {
+        throw new Error("Invalid response format");
+      }
     } catch (err) {
+      console.error("Error details:", err);
       setError(err.message);
     } finally {
       setLoading(false);
