@@ -48,7 +48,7 @@ export default function UserDetails() {
                 onClick={() => {
                   /* Handle projects */
                 }}
-                className="flex items-center rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 w-full text-left"
+                className="flex items-center rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 w-full text-left"
               >
                 <Folder className="w-4 h-4 mr-2" />
                 Projects
@@ -57,7 +57,7 @@ export default function UserDetails() {
             <li>
               <button
                 onClick={handleSignOut}
-                className="flex items-center rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 w-full text-left"
+                className="flex items-center rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 w-full text-left"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign out
