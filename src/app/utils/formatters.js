@@ -1,6 +1,10 @@
 export function Formatter() {
   return {
     formatViewCount: (count) => {
+      if (count == null) return "N/A"; // Handle undefined or null
+      count = Number(count); // Ensure count is a number
+      if (isNaN(count)) return "N/A"; // Handle non-numeric values
+
       if (count >= 1000000) {
         return (count / 1000000).toFixed(1) + "M";
       } else if (count >= 1000) {
@@ -10,6 +14,7 @@ export function Formatter() {
       }
     },
     formatPublishedAt: (publishedAt) => {
+      if (!publishedAt) return "N/A"; // Handle undefined or null
       const now = new Date();
       const published = new Date(publishedAt);
       const diffInSeconds = Math.floor((now - published) / 1000);
