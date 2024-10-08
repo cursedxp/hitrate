@@ -2,13 +2,13 @@ import { Formatter } from "@/app/utils/formatters";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setChannelAvatar } from "@/app/redux/slices/thumbnail.slice";
+import { setChannelAvatar } from "@/app/redux/slices/app.slice";
 
 export default function PreviewItem({ video }) {
   const formatter = Formatter();
   const dispatch = useDispatch();
   const channelAvatar = useSelector(
-    (state) => state.thumbnail.channelAvatars[video.snippet.channelId]
+    (state) => state.app.channelAvatars[video.snippet.channelId]
   );
   const [imageLoaded, setImageLoaded] = useState(false);
 

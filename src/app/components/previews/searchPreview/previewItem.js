@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 export default function PreviewItem({ video }) {
   const formatter = Formatter();
   const channelAvatar = useSelector(
-    (state) => state.thumbnail.channelAvatars[video.snippet.channelId]
+    (state) => state.app.channelAvatars[video.snippet.channelId]
   );
   return (
     <div className="flex gap-4">

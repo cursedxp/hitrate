@@ -5,6 +5,7 @@ const initialState = {
   currentPreview: 0,
   previews: [],
   comparisonList: ["trending"],
+  channelAvatars: {},
 };
 
 const appSlice = createSlice({
@@ -30,6 +31,9 @@ const appSlice = createSlice({
         );
       }
     },
+    setChannelAvatar: (state, action) => {
+      state.channelAvatars[action.payload.channelId] = action.payload.avatarUrl;
+    },
   },
 });
 
@@ -39,5 +43,6 @@ export const {
   setPreviews,
   setComparisonList,
   removeComparisonList,
+  setChannelAvatar,
 } = appSlice.actions;
 export default appSlice.reducer;
