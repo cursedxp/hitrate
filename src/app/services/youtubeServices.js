@@ -26,9 +26,10 @@ const getDefaultParams = () => {
   return {
     part: "snippet,statistics",
     maxResults: "20",
-    videoCategoryId: "",
     hl: language,
     regionCode: region,
+    fields:
+      "items(id,snippet(title,channelId,thumbnails,description,publishedAt),statistics)",
   };
 };
 
