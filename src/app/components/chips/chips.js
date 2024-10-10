@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { setComparisonList } from "@/app/redux/slices/app.slice";
+import { setComparisonList, setPreviews } from "@/app/redux/slices/app.slice";
 import Chip from "./chip";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import youtubeServices from "@/app/services/youtubeServices";
+
 export default function Chips() {
   const dispatch = useDispatch();
   const comparisonList = useSelector((state) => state.app.comparisonList);
@@ -18,8 +20,10 @@ export default function Chips() {
     setValue(e.target.value);
   };
 
-  const handleInputKeyDown = (e) => {
+  const handleInputKeyDown = async (e) => {
     if (e.key === "Enter" && value.trim()) {
+      const data = await handleSearch(value.trim());
+      dispatch(setPreviews(data.items));
       dispatch(setComparisonList(value.trim()));
       setValue("");
       setIsAdding(false);
@@ -29,6 +33,12 @@ export default function Chips() {
   const handleCancel = () => {
     setValue("");
     setIsAdding(false);
+  };
+
+  const handleSearch = async (value) => {
+    const data = await youtubeServices.getSearchResults(value);
+    console.log(data.items);
+    return data;
   };
 
   return (
