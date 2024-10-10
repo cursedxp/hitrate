@@ -21,39 +21,46 @@ export async function apiCall(params) {
   }
 }
 
-const getDefaultParams = () => {
+const getDefaultParams = (includeStatistics = true) => {
   const { language, region } = getBrowserLanguageAndRegion();
   return {
-    part: "snippet,statistics",
+    part: includeStatistics ? "snippet,statistics" : "snippet",
     maxResults: "20",
     hl: language,
     regionCode: region,
-    fields:
-      "items(id,snippet(title,channelId,thumbnails,description,publishedAt),statistics)",
+    fields: includeStatistics
+      ? "items(id,snippet(title,channelId,thumbnails,description,publishedAt),statistics)"
+      : "",
   };
 };
 
 const youtubeServices = {
   getTrendingVideos: (params = {}) =>
-    apiCall({ ...getDefaultParams(), ...params }),
+    apiCall({
+      ...getDefaultParams(true),
+      chart: "mostPopular",
+      ...params,
+    }),
+
   getSearchResults: (query, params = {}) =>
     apiCall({
-      ...getDefaultParams(),
+      ...getDefaultParams(false),
       part: "snippet",
       type: "video",
       q: query,
       order: "relevance",
       ...params,
     }),
+
   getChannelVideos: (channelId, params = {}) =>
     apiCall({
-      ...getDefaultParams(),
-      part: "snippet,contentDetails,statistics",
+      ...getDefaultParams(true),
       type: "video",
       channelId: channelId,
       order: "date",
       ...params,
     }),
+
   intelligentSearch: async (input, params = {}) => {
     // Check if the input looks like a channel ID or username
     const isChannelSearch =
