@@ -16,18 +16,18 @@ export default function StudioPage() {
   const previews = useSelector((state) => state.app.previews);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
   const [pageToken, setPageToken] = useState(null);
-  const fetchVideos = async (pageToken = null) => {
+
+  const fetchVideos = async (newPageToken = null) => {
     setLoading(true);
     setError(null);
     try {
-      const params = pageToken ? { pageToken } : {};
+      const params = newPageToken ? { pageToken: newPageToken } : {};
       const data = await youtubeServices.getTrendingVideos(params);
 
       if (data && data.items) {
         dispatch(
-          setPreviews(pageToken ? [...previews, ...data.items] : data.items)
+          setPreviews(newPageToken ? [...previews, ...data.items] : data.items)
         );
         setPageToken(data.nextPageToken || null);
       } else {
@@ -44,6 +44,12 @@ export default function StudioPage() {
   useEffect(() => {
     fetchVideos();
   }, []);
+
+  const loadMore = () => {
+    if (pageToken) {
+      fetchVideos(pageToken);
+    }
+  };
 
   if (error) return <div>Error: {error}</div>;
 
