@@ -15,13 +15,23 @@ export async function GET(request) {
   const youtubeParams = new URLSearchParams(searchParams);
   youtubeParams.append("key", apiKey);
 
+  // Determine the endpoint based on the 'chart' parameter
+  let endpoint;
+  if (youtubeParams.get("chart") === "mostPopular") {
+    endpoint = "videos";
+  } else if (youtubeParams.get("type") === "channel") {
+    endpoint = "channels";
+  } else {
+    endpoint = "search";
+  }
+
   try {
     console.log(
-      "Calling YouTube API with params:",
+      `Calling YouTube ${endpoint} API with params:`,
       Object.fromEntries(youtubeParams)
     );
     const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&${youtubeParams}`
+      `https://www.googleapis.com/youtube/v3/${endpoint}?${youtubeParams}`
     );
 
     if (!response.ok) {
