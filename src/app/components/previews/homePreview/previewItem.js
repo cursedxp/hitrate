@@ -85,7 +85,18 @@ export default function PreviewItem({ video }) {
             </span>
             <span className="mx-1 flex-shrink-0">•</span>
             <span className="truncate">
-              {formatter.formatPublishedAt(video.snippet.publishedAt)}
+              {(video.statistics && video.statistics.viewCount) ||
+              (videoStats &&
+                videoStats.statistics &&
+                videoStats.statistics.viewCount)
+                ? formatter.formatViewCount(
+                    (video.statistics && video.statistics.viewCount) ||
+                      (videoStats &&
+                        videoStats.statistics &&
+                        videoStats.statistics.viewCount)
+                  )
+                : "Loading..."}
+              {" views"}
             </span>
           </div>
         </div>
