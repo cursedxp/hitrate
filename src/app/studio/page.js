@@ -15,7 +15,6 @@ export default function StudioPage() {
   const previews = useSelector((state) => state.app.previews);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [pageToken, setPageToken] = useState(null);
 
   const fetchVideos = async () => {
     setLoading(true);
@@ -26,7 +25,6 @@ export default function StudioPage() {
 
       if (data) {
         dispatch(setPreviews([...previews, ...data]));
-        setPageToken(data.nextPageToken || null);
       } else {
         throw new Error("Invalid response format");
       }
