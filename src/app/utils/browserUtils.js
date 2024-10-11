@@ -1,12 +1,10 @@
 export function getBrowserLanguageAndRegion() {
   let language = "en"; // Default to English
-  let region = "US"; // Default to United States
+  let region = "US";
 
-  if (typeof navigator !== "undefined") {
+  if (typeof navigator !== "undefined" && navigator.language) {
     // Get language
-    if (navigator.language) {
-      language = navigator.language.split("-")[0]; // e.g., 'en-US' becomes 'en'
-    }
+    language = navigator.language.split("-")[0]; // e.g., 'en-US' becomes 'en'
 
     // Get region
     if (navigator.language.includes("-")) {
