@@ -1,9 +1,15 @@
 import { NextResponse } from "next/server";
+import { google } from "googleapis";
+import { getBrowserLanguageAndRegion } from "@/app/utils/browserUtils";
 
 export async function GET(request) {
+  //Parameters and default values
   const { searchParams } = new URL(request.url);
+  const { language, region } = getBrowserLanguageAndRegion();
   const apiKey = process.env.YOUTUBE_API_KEY;
+  const endpoint = searchParams.get("endpoint");
 
+  //Check if API key is set
   if (!apiKey) {
     console.error("YouTube API key is missing");
     return NextResponse.json(
@@ -12,43 +18,46 @@ export async function GET(request) {
     );
   }
 
-  const youtubeParams = new URLSearchParams(searchParams);
-  youtubeParams.append("key", apiKey);
+  //Set default parameters
+  const defaultParams = {
+    part: "snippet",
+    maxResults: 20,
+    hl: language,
+    regionCode: region,
+  };
 
-  // Determine the endpoint based on the 'chart' parameter
-  let endpoint;
-  if (youtubeParams.get("chart") === "mostPopular") {
-    endpoint = "videos";
-  } else if (youtubeParams.get("type") === "channel") {
-    endpoint = "channels";
-  } else {
-    endpoint = "search";
-  }
+  //Initialize YouTube API client
+  const youtube = google.youtube({ version: "v3", auth: apiKey });
 
+  //Fetch data based on the endpoint
   try {
-    console.log(
-      `Calling YouTube ${endpoint} API with params:`,
-      Object.fromEntries(youtubeParams)
-    );
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/${endpoint}?${youtubeParams}`
-    );
+    switch (endpoint) {
+      case "search":
+        const searchResponse = youtube.search.list({
+          ...defaultParams,
+          q: searchParams.get("query"),
+          order: "relevance",
+          type: "video",
+        });
+        return NextResponse.json(searchResponse.data.items);
+      case "trending":
+        const trendingResponse = await youtube.videos.list({
+          chart: "mostPopular",
+          ...defaultParams,
+          part: "snippet,statistics",
+        });
+        return NextResponse.json(trendingResponse.data.items);
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error("YouTube API error:", response.status, errorText);
-      return NextResponse.json(
-        { error: `YouTube API error: ${errorText}` },
-        { status: response.status }
-      );
+      default:
+        return NextResponse.json(
+          { error: "Invalid YouTube endpoint" },
+          { status: 400 }
+        );
     }
-
-    const data = await response.json();
-    return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in YouTube API route:", error);
+    console.error("Error fetching YouTube data:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Error fetching YouTube data" },
       { status: 500 }
     );
   }
