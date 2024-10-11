@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
 import Chips from "../components/chips/chips";
-import youtubeServices from "@/app/services/youtubeServices";
 
 export default function StudioPage() {
   const dispatch = useDispatch();
@@ -18,17 +17,15 @@ export default function StudioPage() {
   const [error, setError] = useState(null);
   const [pageToken, setPageToken] = useState(null);
 
-  const fetchVideos = async (newPageToken = null) => {
+  const fetchVideos = async () => {
     setLoading(true);
     setError(null);
     try {
-      const params = newPageToken ? { pageToken: newPageToken } : {};
-      const data = await youtubeServices.getTrendingVideos(params);
+      const response = await fetch(`/api/youTube?endpoint=trending`);
+      const data = await response.json();
 
-      if (data && data.items) {
-        dispatch(
-          setPreviews(newPageToken ? [...previews, ...data.items] : data.items)
-        );
+      if (data) {
+        dispatch(setPreviews([...previews, ...data]));
         setPageToken(data.nextPageToken || null);
       } else {
         throw new Error("Invalid response format");
