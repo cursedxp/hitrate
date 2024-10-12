@@ -5,14 +5,15 @@ import PreviewBar from "@/app/components/previewBar/previewBar";
 import SearchPreview from "@/app/components/previews/searchPreview/searchPreview";
 import SideBarPreview from "@/app/components/previews/sideBarPreview/sideBarPreview";
 import { useSelector, useDispatch } from "react-redux";
-import { setPreviews } from "@/app/redux/slices/app.slice";
+import { setSearchList } from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
 import Chips from "../components/chips/chips";
 
+//TODO: Make this page SSR later
 export default function StudioPage() {
   const dispatch = useDispatch();
   const currentPreview = useSelector((state) => state.app.currentPreview);
-  const previews = useSelector((state) => state.app.previews);
+  const searchList = useSelector((state) => state.app.searchList);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -22,9 +23,8 @@ export default function StudioPage() {
     try {
       const response = await fetch(`/api/youTube?endpoint=trending`);
       const data = await response.json();
-
       if (data) {
-        dispatch(setPreviews([...previews, ...data]));
+        dispatch(setSearchList({ query: "trending", results: data }));
       } else {
         throw new Error("Invalid response format");
       }
@@ -37,14 +37,11 @@ export default function StudioPage() {
   };
 
   useEffect(() => {
-    fetchVideos();
-  }, []);
-
-  const loadMore = () => {
-    if (pageToken) {
-      fetchVideos(pageToken);
+    const trendingSearch = searchList.find((item) => item.query === "trending");
+    if (!trendingSearch || trendingSearch.results.length === 0) {
+      fetchVideos();
     }
-  };
+  }, []);
 
   if (error) return <div>Error: {error}</div>;
 
@@ -57,13 +54,7 @@ export default function StudioPage() {
           <PreviewBar />
         </div>
         <div className="self-center max-w-screen-xl">
-          {currentPreview === 0 && (
-            <HomePreview
-            // initialRegionCode="DE"
-            // initialCategory=""
-            // initialLanguage="de"
-            />
-          )}
+          {currentPreview === 0 && <HomePreview />}
           {currentPreview === 1 && <SearchPreview />}
           {currentPreview === 2 && <SideBarPreview />}
         </div>
