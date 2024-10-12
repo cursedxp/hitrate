@@ -12,28 +12,32 @@ export default function PreviewItem({ video }) {
   );
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  useEffect(() => {
-    const fetchChannelAvatar = async () => {
-      if (!channelAvatar) {
-        try {
-          const response = await fetch(
-            `/api/channelAvatar?channelId=${video.snippet.channelId}`
-          );
-          const data = await response.json();
-          dispatch(
-            setChannelAvatar({
-              channelId: video.snippet.channelId,
-              avatarUrl: data.avatarUrl,
-            })
-          );
-        } catch (error) {
-          console.error("Error fetching channel avatar:", error);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const fetchChannelAvatar = async () => {
+  //     if (!channelAvatar) {
+  //       try {
+  //         const response = await fetch(
+  //           `/api/channelAvatar?channelId=${video.snippet.channelId}`
+  //         );
+  //         const data = await response.json();
+  //         dispatch(
+  //           setChannelAvatar({
+  //             channelId: video.snippet.channelId,
+  //             avatarUrl: data.avatarUrl,
+  //           })
+  //         );
+  //       } catch (error) {
+  //         console.error("Error fetching channel avatar:", error);
+  //       }
+  //     }
+  //   };
 
-    fetchChannelAvatar();
-  }, [video.snippet.channelId, channelAvatar, dispatch]);
+  //   fetchChannelAvatar();
+  // }, [video.snippet.channelId, channelAvatar, dispatch]);
+
+  useEffect(() => {
+    console.log(video);
+  }, [video]);
 
   return (
     <div key={video.id} className="flex flex-col dark:text-white">
@@ -71,7 +75,7 @@ export default function PreviewItem({ video }) {
             ) : (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 32 32"
+                viewBox="0 0 24 24"
                 className="w-6 h-6"
               >
                 <path
