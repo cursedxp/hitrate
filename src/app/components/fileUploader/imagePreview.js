@@ -8,6 +8,7 @@ import {
   setThumbnailPreviews,
   setSelectedThumbnail,
 } from "@/app/redux/slices/thumbnail.slice";
+import { removePreview } from "@/app/redux/slices/app.slice";
 
 export default function ImagePreview({ thumbnail, isLoading, index }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -27,13 +28,15 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
   }, [thumbnail]);
 
   const handleDelete = useCallback(() => {
-    dispatch(
-      setThumbnailFiles(thumbnailFiles.filter((file) => file !== thumbnail))
-    );
-    dispatch(
-      setThumbnailPreviews(previews.filter((preview) => preview !== thumbnail))
-    );
-  }, [dispatch, thumbnail, thumbnailFiles, previews]);
+    // Remove from thumbnailFiles
+    dispatch(setThumbnailFiles(thumbnailFiles.filter((_, i) => i !== index)));
+
+    // Remove from thumbnailPreviews
+    dispatch(setThumbnailPreviews(previews.filter((_, i) => i !== index)));
+
+    // Remove corresponding preview
+    dispatch(removePreview(index));
+  }, [dispatch, index, thumbnailFiles, previews]);
 
   const selectedThumbnailStyle = "border-4 border-blue-500";
 
