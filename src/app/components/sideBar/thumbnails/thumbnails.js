@@ -3,7 +3,7 @@ import ImagePreview from "@/app/components/fileUploader/imagePreview";
 import FileUploader from "@/app/components/fileUploader/fileUploader";
 import { useSelector, useDispatch } from "react-redux";
 import { removeThumbnail } from "@/app/redux/slices/thumbnail.slice";
-
+import { removePreview } from "@/app/redux/slices/app.slice";
 export default function Thumbnails() {
   const thumbnailPreviews = useSelector(
     (state) => state.thumbnail.thumbnailPreviews
@@ -17,10 +17,6 @@ export default function Thumbnails() {
     return <div>Error: Invalid thumbnail data</div>;
   }
 
-  const handleRemoveThumbnail = (index) => {
-    dispatch(removeThumbnail(index));
-  };
-
   return (
     <>
       <div className="flex flex-col gap-4 p-2">
@@ -33,7 +29,6 @@ export default function Thumbnails() {
               isLoading &&
               index >= thumbnailFiles.length - thumbnailPreviews.length
             }
-            onRemove={() => handleRemoveThumbnail(index)}
           />
         ))}
         <FileUploader />
