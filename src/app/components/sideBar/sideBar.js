@@ -19,10 +19,10 @@ const tabs = [
   },
 ];
 
-export default function SideBar({ className }) {
+export default function SideBar() {
   return (
     <div
-      className={`bg-white shadow-md dark:bg-zinc-800 rounded-xl w-[300px] overflow-scroll ${className}`}
+      className={`bg-white shadow-md dark:bg-zinc-800 rounded-xl w-[300px] overflow-scroll`}
     >
       <UserDetails />
       <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-200 dark:border-zinc-700">
