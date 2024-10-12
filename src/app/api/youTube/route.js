@@ -33,13 +33,12 @@ export async function GET(request) {
   try {
     switch (endpoint) {
       case "search":
-        const searchResponse = youtube.search.list({
+        const searchResponse = await youtube.search.list({
           ...defaultParams,
           q: searchParams.get("query"),
           order: "relevance",
-          type: "video",
         });
-        return NextResponse.json(searchResponse.data.items);
+        return NextResponse.json(searchResponse.data);
       case "trending":
         const trendingResponse = await youtube.videos.list({
           chart: "mostPopular",
