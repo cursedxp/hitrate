@@ -20,10 +20,10 @@ export default function Chips() {
 
   const handleInputKeyDown = async (e) => {
     if (e.key === "Enter" && value.trim()) {
-      const data = await handleSearch(value.trim());
-      dispatch(setSearchList({ query: value.trim(), results: data }));
       setValue("");
       setIsAdding(false);
+      const data = await handleSearch(value.trim());
+      dispatch(setSearchList({ query: value.trim(), results: data }));
     }
   };
 
@@ -38,7 +38,11 @@ export default function Chips() {
 
   const handleSearch = async (query) => {
     try {
-      const response = await fetch(`/api/youTube?endpoint=search&q=${query}`);
+      const response = await fetch(
+        `/api/youTube?endpoint=intelligentSearch&query=${encodeURIComponent(
+          query
+        )}`
+      );
       const data = await response.json();
       return data;
     } catch (error) {
