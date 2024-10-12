@@ -4,7 +4,7 @@ const initialState = {
   theme: "light",
   currentPreview: 0,
   previews: [],
-  comparisonList: ["trending"],
+  searchList: [],
   channelAvatars: {},
 };
 
@@ -21,13 +21,23 @@ const appSlice = createSlice({
     setPreviews(state, action) {
       state.previews = action.payload;
     },
-    setComparisonList(state, action) {
-      state.comparisonList.push(action.payload);
+    setSearchList(state, action) {
+      const newSearch = action.payload;
+      const existingIndex = state.searchList.findIndex(
+        (item) => item.query === newSearch.query
+      );
+
+      if (existingIndex === -1) {
+        // Add new search only if it doesn't exist
+        state.searchList.push(newSearch);
+      }
+      // If it exists, do nothing
     },
-    removeComparisonList(state, action) {
-      if (state.comparisonList.length > 1) {
-        state.comparisonList = state.comparisonList.filter(
-          (item, index) => index === 0 || item !== action.payload
+    removeSearchList(state, action) {
+      const queryToRemove = action.payload;
+      if (state.searchList.length > 1 && queryToRemove !== "trending") {
+        state.searchList = state.searchList.filter(
+          (item) => item.query !== queryToRemove
         );
       }
     },
@@ -41,8 +51,8 @@ export const {
   setTheme,
   setCurrentPreview,
   setPreviews,
-  setComparisonList,
-  removeComparisonList,
+  setSearchList,
+  removeSearchList,
   setChannelAvatar,
 } = appSlice.actions;
 export default appSlice.reducer;
