@@ -21,6 +21,10 @@ const appSlice = createSlice({
     setPreviews(state, action) {
       state.previews = action.payload;
     },
+    removePreview(state, action) {
+      const index = action.payload;
+      state.previews = state.previews.filter((_, i) => i !== index);
+    },
     setSearchList(state, action) {
       const newSearch = action.payload;
       const existingIndex = state.searchList.findIndex(
@@ -54,5 +58,6 @@ export const {
   setSearchList,
   removeSearchList,
   setChannelAvatar,
+  removePreview,
 } = appSlice.actions;
 export default appSlice.reducer;
