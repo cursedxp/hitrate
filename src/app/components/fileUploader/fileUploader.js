@@ -1,11 +1,12 @@
 import { Upload } from "react-feather";
 import { useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addThumbnailFiles,
   addThumbnailPreviews,
   setIsLoading,
 } from "@/app/redux/slices/thumbnail.slice";
+import { setPreviews } from "@/app/redux/slices/app.slice";
 import toast from "react-hot-toast";
 
 const FILE_SIZE = 5 * 1024 * 1024; //5MB
@@ -14,6 +15,7 @@ const FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 export default function FileUploader() {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
+  const selectedTitle = useSelector((state) => state.title.selectedTitle);
 
   const verifyFile = (file) => {
     if (!FILE_TYPES.includes(file.type)) {
@@ -48,7 +50,22 @@ export default function FileUploader() {
       const newImagePreviews = validFiles.map((file) =>
         URL.createObjectURL(file)
       );
+      const newPreviews = validFiles.map((file) => ({
+        id: "",
+        snippet: {
+          title: selectedTitle,
+          thumbnails: {
+            medium: { url: URL.createObjectURL(file) },
+          },
+          channelTitle: "Untitled Channel",
+          publishedAt: new Date().toISOString(),
+        },
+        statistics: {
+          viewCount: 100.0,
+        },
+      }));
 
+      dispatch(setPreviews(newPreviews));
       dispatch(addThumbnailPreviews(newImagePreviews));
 
       // Set isLoading to false after all files have been processed
