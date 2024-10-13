@@ -52,7 +52,7 @@ export default function StudioPage() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="relative p-4 flex w-full">
+    <div className="relative p-4 flex w-full h-screen">
       <SideBar />
       <div className="flex w-full flex-col gap-4 pb-4 px-4">
         <div className="flex justify-between items-center w-full">
