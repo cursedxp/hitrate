@@ -13,6 +13,13 @@ export default function TitleItem({
   isSingleTitle,
 }) {
   const titles = useSelector((state) => state.title.titles);
+
+  // Add this new function to handle the &nbsp; issue
+  const handleLocalTitleChange = (index, e) => {
+    const newContent = e.target.value.replace(/&nbsp;/g, " ");
+    handleTitleChange(index, { target: { value: newContent } });
+  };
+
   return (
     <div key={index} className={`flex items-center gap-2 `}>
       <div className="relative w-full">
@@ -23,7 +30,7 @@ export default function TitleItem({
         )}
         <ContentEditable
           html={title}
-          onChange={(e) => handleTitleChange(index, e)}
+          onChange={(e) => handleLocalTitleChange(index, e)}
           className={`w-full p-2 rounded-md bg-zinc-200 dark:bg-zinc-700 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-blue-100 active:outline-none  dark:text-white ${
             title ? "text-black" : "text-gray-400"
           }`}
