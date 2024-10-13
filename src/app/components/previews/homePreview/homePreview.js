@@ -7,11 +7,6 @@ export default function HomePreview() {
   const previews = useSelector((state) => state.app.previews);
   // const trendingSearch = searchList.find((item) => item.query === "trending");
 
-  useEffect(() => {
-    console.log("Previews state updated:");
-    console.log(JSON.stringify(previews, null, 2));
-  }, [previews]);
-
   return (
     <div className="flex w-full items-center justify-center ">
       {previews.length === 0 ? (
