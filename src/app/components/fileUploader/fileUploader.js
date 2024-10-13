@@ -66,7 +66,6 @@ export default function FileUploader() {
         },
       }));
 
-      // Use addPreviews instead of setPreviews to preserve existing previews
       dispatch(addPreviews(newPreviews));
       dispatch(addThumbnailPreviews(newImagePreviews));
 
