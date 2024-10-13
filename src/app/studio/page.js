@@ -5,45 +5,51 @@ import PreviewBar from "@/app/components/previewBar/previewBar";
 import SearchPreview from "@/app/components/previews/searchPreview/searchPreview";
 import SideBarPreview from "@/app/components/previews/sideBarPreview/sideBarPreview";
 import { useSelector, useDispatch } from "react-redux";
-import { setSearchList } from "@/app/redux/slices/app.slice";
+import {
+  setSearchList,
+  setSelectedSearchItem,
+} from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
 import Chips from "../components/chips/chips";
-import { setPreviews } from "@/app/redux/slices/app.slice";
 
 //TODO: Make this page SSR later
 export default function StudioPage() {
   const dispatch = useDispatch();
   const currentPreview = useSelector((state) => state.app.currentPreview);
+  const selectedSearchItem = useSelector(
+    (state) => state.app.selectedSearchItem
+  );
   const searchList = useSelector((state) => state.app.searchList);
   const previews = useSelector((state) => state.app.previews);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // const fetchVideos = async () => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await fetch(`/api/youTube?endpoint=trending`);
-  //     const data = await response.json();
-  //     if (data) {
-  //       dispatch(setSearchList({ query: "trending", results: data }));
-  //     } else {
-  //       throw new Error("Invalid response format");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error details:", err);
-  //     setError(err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  const fetchVideos = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`/api/youTube?endpoint=trending`);
+      const data = await response.json();
+      if (data) {
+        dispatch(setSearchList({ query: "trending", results: data }));
+        dispatch(setSelectedSearchItem("trending"));
+      } else {
+        throw new Error("Invalid response format");
+      }
+    } catch (err) {
+      console.error("Error details:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  // useEffect(() => {
-  //   const trendingSearch = searchList.find((item) => item.query === "trending");
-  //   if (!trendingSearch || trendingSearch.results.length === 0) {
-  //     fetchVideos();
-  //   }
-  // }, []);
+  useEffect(() => {
+    const trendingSearch = searchList.find((item) => item.query === "trending");
+    if (!trendingSearch || trendingSearch.results.length === 0) {
+      fetchVideos();
+    }
+  }, []);
 
   useEffect(() => {
     console.log(previews);
