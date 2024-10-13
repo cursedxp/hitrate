@@ -18,21 +18,19 @@ export default function Thumbnails() {
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-4 p-2">
-        {thumbnailPreviews.map((preview, index) => (
-          <ImagePreview
-            key={preview}
-            index={index}
-            thumbnail={preview}
-            isLoading={
-              isLoading &&
-              index >= thumbnailFiles.length - thumbnailPreviews.length
-            }
-          />
-        ))}
-        <FileUploader />
-      </div>
-    </>
+    <div className="flex flex-col gap-4 p-2 h-full overflow-scroll">
+      {thumbnailPreviews.map((preview, index) => (
+        <ImagePreview
+          key={preview}
+          index={index}
+          thumbnail={preview}
+          isLoading={
+            isLoading &&
+            index >= thumbnailFiles.length - thumbnailPreviews.length
+          }
+        />
+      ))}
+      <FileUploader />
+    </div>
   );
 }
