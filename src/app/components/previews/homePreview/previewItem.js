@@ -41,7 +41,7 @@ export default function PreviewItem({ video }) {
 
   return (
     <div key={video.id} className="flex flex-col dark:text-white">
-      <div className="relative w-full h-0 pb-[56.25%]">
+      <div className="relative w-full w-[308px] h-[173px]">
         <Image
           src={
             video.snippet.thumbnails.medium?.url ||
