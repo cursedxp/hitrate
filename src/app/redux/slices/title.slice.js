@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  titles: [],
-  selectedTitle: "Untitled Video",
+  titles: [""],
+  selectedTitle: "",
 };
 
 const titleSlice = createSlice({

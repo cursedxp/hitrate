@@ -8,6 +8,7 @@ import {
 } from "@/app/redux/slices/thumbnail.slice";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import toast from "react-hot-toast";
+import { uuidv7 } from "uuidv7";
 
 const FILE_SIZE = 5 * 1024 * 1024; //5MB
 const FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
@@ -51,13 +52,13 @@ export default function FileUploader() {
         URL.createObjectURL(file)
       );
       const newPreviews = validFiles.map((file) => ({
-        id: "",
+        id: uuidv7(),
         snippet: {
-          title: selectedTitle,
+          title: "",
           thumbnails: {
             medium: { url: URL.createObjectURL(file) },
           },
-          channelTitle: "Untitled Channel",
+          channelTitle: "",
           publishedAt: new Date().toISOString(),
         },
         statistics: {

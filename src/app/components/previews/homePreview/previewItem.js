@@ -11,7 +11,7 @@ export default function PreviewItem({ video }) {
     (state) => state.app.channelAvatars[video.snippet.channelId]
   );
   const [imageLoaded, setImageLoaded] = useState(false);
-
+  const currentTitle = useSelector((state) => state.title.selectedTitle);
   // useEffect(() => {
   //   const fetchChannelAvatar = async () => {
   //     if (!channelAvatar) {
@@ -36,7 +36,7 @@ export default function PreviewItem({ video }) {
   // }, [video.snippet.channelId, channelAvatar, dispatch]);
 
   useEffect(() => {
-    console.log(video);
+    console.log(video.snippet.title);
   }, [video]);
 
   return (
@@ -47,7 +47,7 @@ export default function PreviewItem({ video }) {
             video.snippet.thumbnails.medium?.url ||
             video.snippet.thumbnails.default.url
           }
-          alt={video.snippet.title}
+          alt={video.snippet.title || currentTitle || "Untitled Video"}
           fill
           className={`rounded-lg object-cover transition-opacity duration-300 ${
             imageLoaded ? "opacity-100" : "opacity-0"
@@ -67,7 +67,7 @@ export default function PreviewItem({ video }) {
             {channelAvatar ? (
               <Image
                 src={channelAvatar}
-                alt={video.snippet.channelTitle}
+                alt={video.snippet.channelTitle || ""}
                 fill
                 className="object-cover rounded-full"
                 sizes="40px"
@@ -87,14 +87,11 @@ export default function PreviewItem({ video }) {
           </div>
         </div>
         <div className="flex flex-col flex-grow min-w-0">
-          <div
-            className="text-sm font-semibold mb-1 line-clamp-2"
-            title={video.snippet.title}
-          >
-            {video.snippet.title}
+          <div className="text-sm font-semibold mb-1 line-clamp-2">
+            {video.snippet.title || currentTitle || "Untitled Video"}
           </div>
           <p className="text-xs text-gray-500 truncate">
-            {video.snippet.channelTitle}
+            {video.snippet.channelTitle || "Lorem ipsum dolor sit amet"}
           </p>
           <div className="flex items-center text-sm text-gray-500 mt-1">
             <span className="truncate">
