@@ -21,6 +21,9 @@ const appSlice = createSlice({
     setPreviews(state, action) {
       state.previews = action.payload;
     },
+    addPreviews(state, action) {
+      state.previews = [...state.previews, ...action.payload];
+    },
     removePreview(state, action) {
       const index = action.payload;
       state.previews = state.previews.filter((_, i) => i !== index);
@@ -55,6 +58,7 @@ export const {
   setTheme,
   setCurrentPreview,
   setPreviews,
+  addPreviews,
   setSearchList,
   removeSearchList,
   setChannelAvatar,
