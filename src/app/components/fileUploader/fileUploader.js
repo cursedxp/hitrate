@@ -6,7 +6,7 @@ import {
   addThumbnailPreviews,
   setIsLoading,
 } from "@/app/redux/slices/thumbnail.slice";
-import { setPreviews } from "@/app/redux/slices/app.slice";
+import { setPreviews, addPreviews } from "@/app/redux/slices/app.slice";
 import toast from "react-hot-toast";
 import { uuidv7 } from "uuidv7";
 
@@ -66,7 +66,8 @@ export default function FileUploader() {
         },
       }));
 
-      dispatch(setPreviews(newPreviews));
+      // Use addPreviews instead of setPreviews to preserve existing previews
+      dispatch(addPreviews(newPreviews));
       dispatch(addThumbnailPreviews(newImagePreviews));
 
       // Set isLoading to false after all files have been processed
