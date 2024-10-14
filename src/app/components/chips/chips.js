@@ -11,6 +11,9 @@ import Chip from "./chip";
 export default function Chips() {
   const dispatch = useDispatch();
   const searchList = useSelector((state) => state.app.searchList);
+  const selectedSearchItem = useSelector(
+    (state) => state.app.selectedSearchItem
+  );
   const [value, setValue] = useState("");
   const [isAdding, setIsAdding] = useState(false);
 
@@ -58,6 +61,10 @@ export default function Chips() {
     }
   };
 
+  const handleChipClick = (query) => {
+    dispatch(setSelectedSearchItem(query));
+  };
+
   return (
     <div className="flex gap-2">
       {searchList.map((item, index) => (
@@ -65,6 +72,8 @@ export default function Chips() {
           key={index}
           item={item.query}
           onRemove={() => handleRemoveChip(item.query)}
+          onClick={() => handleChipClick(item.query)}
+          isActive={item.query === selectedSearchItem}
         />
       ))}
 

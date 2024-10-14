@@ -11,14 +11,16 @@ export default function HomePreview() {
   );
   const [channelAvatars, setChannelAvatars] = useState({});
 
-  // Combine previews and search results
+  // Update allPreviews when selectedSearchItem changes
   useEffect(() => {
-    console.log("Current searchList:", searchList);
     const searchResults = searchList.find(
       (item) => item.query === selectedSearchItem
     );
-    console.log("Found searchResults:", searchResults);
-    setAllPreviews([...previews, ...(searchResults?.results || [])]);
+    if (searchResults) {
+      setAllPreviews(searchResults.results || []);
+    } else {
+      setAllPreviews(previews);
+    }
   }, [selectedSearchItem, searchList, previews]);
 
   // Fetch channel avatars
