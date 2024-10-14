@@ -7,6 +7,7 @@ const initialState = {
   searchList: [],
   selectedSearchItem: "",
   channelAvatars: {},
+  channelHandle: "",
   allPreviews: [],
 };
 
@@ -58,6 +59,9 @@ const appSlice = createSlice({
     },
     setAllPreviews: (state, action) => {
       state.allPreviews = action.payload;
+    },
+    setChannelHandle: (state, action) => {
+      state.channelHandle = action.payload;
     },
   },
 });
