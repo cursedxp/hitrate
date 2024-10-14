@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchList, removeSearchList } from "@/app/redux/slices/app.slice";
+import {
+  setSearchList,
+  removeSearchList,
+  setSelectedSearchItem,
+} from "@/app/redux/slices/app.slice";
 import Chip from "./chip";
 
 export default function Chips() {
@@ -23,7 +27,10 @@ export default function Chips() {
       setValue("");
       setIsAdding(false);
       const data = await handleSearch(value.trim());
-      dispatch(setSearchList({ query: value.trim(), results: data }));
+      console.log("selected Item on chips:", value.trim());
+
+      dispatch(setSearchList({ query: value.trim(), results: data.items }));
+      dispatch(setSelectedSearchItem(value.trim()));
     }
   };
 
@@ -44,9 +51,10 @@ export default function Chips() {
         )}`
       );
       const data = await response.json();
-      return data;
+      return data || { items: [] }; // Ensure we always return an object with items array
     } catch (error) {
       console.error("Error fetching search results:", error);
+      return { items: [] }; // Return an object with empty items array in case of error
     }
   };
 
