@@ -1,14 +1,18 @@
 import { Formatter } from "@/app/utils/formatters";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+
 export default function PreviewItem({ video }) {
   const formatter = Formatter();
+  const currentTitle = useSelector((state) => state.title.selectedTitle);
+
   return (
     <div className="flex gap-2 bg">
       <div className="relative w-[160px] h-[94px]">
         <Image
           src={
-            video.snippet.thumbnails.maxres?.url ||
-            video.snippet.thumbnails.high.url
+            video.snippet.thumbnails.medium?.url ||
+            video.snippet.thumbnails.default.url
           }
           alt={video.snippet.title}
           className="rounded-lg"
@@ -25,7 +29,7 @@ export default function PreviewItem({ video }) {
       <div className="flex flex-col max-w-[200px]">
         <div className="flex flex-col gap-1">
           <div className="text-xs font-medium line-clamp-2 break-words">
-            {video.snippet.title}
+            {video.snippet.title || currentTitle || "Untitled Video"}
           </div>
           <div className="flex gap-2 text-gray-500 text-xs">
             {video.snippet.channelTitle}
