@@ -7,7 +7,7 @@ export default function TabBar({ tabs }) {
 
   return (
     <>
-      <div className="flex gap-2 px-2 py-2 border-b border-zinc-200  dark:border-zinc-700">
+      <div className="flex gap-2 px-2 py-2 border-b border-zinc-100  dark:border-zinc-700">
         {tabs.map((tab, index) => (
           <div
             key={index}
