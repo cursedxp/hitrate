@@ -1,39 +1,12 @@
 import { Formatter } from "@/app/utils/formatters";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { setChannelAvatar } from "@/app/redux/slices/app.slice";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-export default function PreviewItem({ video }) {
+export default function PreviewItem({ video, channelAvatar }) {
   const formatter = Formatter();
-  const dispatch = useDispatch();
-  const channelAvatar = useSelector(
-    (state) => state.app.channelAvatars[video.snippet.channelId]
-  );
   const [imageLoaded, setImageLoaded] = useState(false);
   const currentTitle = useSelector((state) => state.title.selectedTitle);
-  // useEffect(() => {
-  //   const fetchChannelAvatar = async () => {
-  //     if (!channelAvatar) {
-  //       try {
-  //         const response = await fetch(
-  //           `/api/channelAvatar?channelId=${video.snippet.channelId}`
-  //         );
-  //         const data = await response.json();
-  //         dispatch(
-  //           setChannelAvatar({
-  //             channelId: video.snippet.channelId,
-  //             avatarUrl: data.avatarUrl,
-  //           })
-  //         );
-  //       } catch (error) {
-  //         console.error("Error fetching channel avatar:", error);
-  //       }
-  //     }
-  //   };
-
-  //   fetchChannelAvatar();
-  // }, [video.snippet.channelId, channelAvatar, dispatch]);
 
   return (
     <div key={video.id} className="flex flex-col dark:text-white">

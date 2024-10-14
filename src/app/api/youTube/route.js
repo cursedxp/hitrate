@@ -119,6 +119,30 @@ export async function GET(request) {
           items: mergedResults,
         });
 
+      case "channelAvatars":
+        const channelIds = searchParams.get("channelIds")?.split(",") || [];
+        const uniqueChannelIds = [...new Set(channelIds)];
+
+        if (uniqueChannelIds.length === 0) {
+          return NextResponse.json(
+            { error: "No channel IDs provided" },
+            { status: 400 }
+          );
+        }
+
+        const channelResponse = await youtube.channels.list({
+          part: "snippet",
+          id: uniqueChannelIds.join(","),
+          maxResults: 50, // Adjust as needed, max is 50
+        });
+
+        const avatarMap = {};
+        channelResponse.data.items.forEach((channel) => {
+          avatarMap[channel.id] = channel.snippet.thumbnails.default.url;
+        });
+
+        return NextResponse.json(avatarMap);
+
       default:
         return NextResponse.json(
           { error: "Invalid YouTube endpoint" },
