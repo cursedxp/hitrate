@@ -60,6 +60,7 @@ export default function FileUploader() {
           },
           channelTitle: "",
           publishedAt: new Date().toISOString(),
+          description: "This is a generated thumbnail description",
         },
         statistics: {
           viewCount: 100.0,
