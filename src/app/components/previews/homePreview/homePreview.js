@@ -11,13 +11,13 @@ export default function HomePreview() {
   );
   const [channelAvatars, setChannelAvatars] = useState({});
 
-  // Update allPreviews when selectedSearchItem changes
+  // Combine previews and search results
   useEffect(() => {
     const searchResults = searchList.find(
       (item) => item.query === selectedSearchItem
     );
     if (searchResults) {
-      setAllPreviews(searchResults.results || []);
+      setAllPreviews([...previews, ...searchResults.results]);
     } else {
       setAllPreviews(previews);
     }
@@ -50,14 +50,15 @@ export default function HomePreview() {
 
   useEffect(() => {
     console.log("selected Item on preview:", selectedSearchItem);
-  }, [selectedSearchItem]);
+    console.log("Current allPreviews:", allPreviews);
+  }, [selectedSearchItem, allPreviews]);
 
   return (
     <div className="flex w-full items-center justify-center ">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-4 gap-y-8 w-full">
         {allPreviews.map((video, index) => (
           <PreviewItem
-            key={index}
+            key={video.id.videoId || index}
             video={video}
             channelAvatar={channelAvatars[video.snippet.channelId]}
           />
