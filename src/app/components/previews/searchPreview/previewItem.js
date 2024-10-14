@@ -7,6 +7,8 @@ export default function PreviewItem({ video }) {
   const channelAvatar = useSelector(
     (state) => state.app.channelAvatars[video.snippet.channelId]
   );
+  const currentTitle = useSelector((state) => state.title.selectedTitle);
+
   return (
     <div className="flex gap-4">
       <div className="flex relative w-[500px] h-[280px]">
@@ -15,7 +17,7 @@ export default function PreviewItem({ video }) {
             video.snippet.thumbnails.medium?.url ||
             video.snippet.thumbnails.default.url
           }
-          alt={video.snippet.title}
+          alt={video.snippet.title || currentTitle || "Untitled Video"}
           fill
           loading="lazy"
           className="object-cover rounded-xl"
@@ -26,9 +28,11 @@ export default function PreviewItem({ video }) {
           )}`}
         />
       </div>
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <div className="flex flex-col gap-1">
-          {video.snippet.title}
+          <h2 className="text-lg font-semibold line-clamp-2">
+            {video.snippet.title || currentTitle || "Untitled Video"}
+          </h2>
           <div className="flex items-center text-xs text-gray-500 ">
             <span>
               {formatter.formatViewCount(video.statistics.viewCount)} views
