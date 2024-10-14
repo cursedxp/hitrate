@@ -1,54 +1,38 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import PreviewItem from "./previewItem";
 import { useSelector, useDispatch } from "react-redux";
-import { setAllPreviews } from "@/app/redux/slices/app.slice";
+import { setChannelAvatars } from "@/app/redux/slices/app.slice";
 
 export default function HomePreview() {
   const dispatch = useDispatch();
-  const searchList = useSelector((state) => state.app.searchList);
-  const previews = useSelector((state) => state.app.previews);
   const allPreviews = useSelector((state) => state.app.allPreviews);
-  const selectedSearchItem = useSelector(
-    (state) => state.app.selectedSearchItem
-  );
-  const [channelAvatars, setChannelAvatars] = useState({});
+  const channelAvatars = useSelector((state) => state.app.channelAvatars);
 
-  // Combine previews and search results
-  useEffect(() => {
-    const searchResults = searchList.find(
-      (item) => item.query === selectedSearchItem
-    );
-    if (searchResults) {
-      dispatch(setAllPreviews([...previews, ...searchResults.results]));
-    } else {
-      dispatch(setAllPreviews(previews));
-    }
-  }, [selectedSearchItem, searchList, previews]);
-
-  // Fetch channel avatars
   useEffect(() => {
     const fetchChannelAvatars = async () => {
       const channelIds = [
         ...new Set(allPreviews.map((video) => video.snippet.channelId)),
       ];
-      if (channelIds.length === 0) return;
+      const missingChannelIds = channelIds.filter((id) => !channelAvatars[id]);
+
+      if (missingChannelIds.length === 0) return;
 
       try {
         const response = await fetch(
-          `/api/youTube?endpoint=channelAvatars&channelIds=${channelIds.join(
+          `/api/youTube?endpoint=channelAvatars&channelIds=${missingChannelIds.join(
             ","
           )}`
         );
         if (!response.ok) throw new Error("Failed to fetch channel avatars");
         const data = await response.json();
-        setChannelAvatars(data);
+        dispatch(setChannelAvatars(data));
       } catch (error) {
         console.error("Error fetching channel avatars:", error);
       }
     };
 
     fetchChannelAvatars();
-  }, [allPreviews]);
+  }, [allPreviews, channelAvatars, dispatch]);
 
   return (
     <div className="flex w-full items-center justify-center ">
