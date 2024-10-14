@@ -66,9 +66,9 @@ export default function StudioPage() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="relative p-4 flex w-full h-screen">
+    <div className="relative p-4 flex w-full h-screen overflow-scroll">
       <SideBar />
-      <div className="flex w-full flex-col gap-4 pb-4 px-4">
+      <div className="flex w-full flex-col gap-4 pb-4 px-4 overflow-scroll">
         <div className="flex justify-between items-center w-full">
           <Chips />
           <PreviewBar />
