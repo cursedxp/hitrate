@@ -35,10 +35,6 @@ export default function PreviewItem({ video }) {
   //   fetchChannelAvatar();
   // }, [video.snippet.channelId, channelAvatar, dispatch]);
 
-  useEffect(() => {
-    console.log(video.snippet.title);
-  }, [video]);
-
   return (
     <div key={video.id} className="flex flex-col dark:text-white">
       <div className="relative w-full w-[308px] h-[173px]">
