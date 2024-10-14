@@ -51,10 +51,6 @@ export default function StudioPage() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(previews);
-  }, [previews]);
-
   if (error) return <div>Error: {error}</div>;
 
   return (
