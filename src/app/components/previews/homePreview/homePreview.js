@@ -1,19 +1,28 @@
+import { useEffect, useState } from "react";
 import PreviewItem from "./previewItem";
 import { useSelector } from "react-redux";
 
 export default function HomePreview() {
   const searchList = useSelector((state) => state.app.searchList);
   const previews = useSelector((state) => state.app.previews);
+  const [allPreviews, setAllPreviews] = useState([]);
   const selectedSearchItem = useSelector(
     (state) => state.app.selectedSearchItem
   );
 
   // Combine previews and search results
-  const allPreviews = [
-    ...previews,
-    ...(searchList.find((item) => item.query === selectedSearchItem)?.results ||
-      []),
-  ];
+  useEffect(() => {
+    console.log("Current searchList:", searchList);
+    const searchResults = searchList.find(
+      (item) => item.query === selectedSearchItem
+    );
+    console.log("Found searchResults:", searchResults);
+    setAllPreviews([...previews, ...(searchResults?.results || [])]);
+  }, [selectedSearchItem, searchList, previews]);
+
+  useEffect(() => {
+    console.log("selected Item on preview:", selectedSearchItem);
+  }, [selectedSearchItem]);
 
   return (
     <div className="flex w-full items-center justify-center ">
