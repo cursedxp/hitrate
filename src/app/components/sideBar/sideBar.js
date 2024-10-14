@@ -21,9 +21,9 @@ const tabs = [
 
 export default function SideBar() {
   return (
-    <div className={`bg-white shadow-md dark:bg-zinc-800 rounded-xl w-[300px]`}>
+    <div className={`bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px]`}>
       <UserDetails />
-      <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-200 dark:border-zinc-700">
+      <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-100 dark:border-zinc-700">
         <Button className="bg-white">
           <Menu className="w-4 h-4 dark:text-white" />
         </Button>
