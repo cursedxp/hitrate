@@ -21,7 +21,7 @@ export default function UserDetails() {
 
   return (
     <div className="relative">
-      <div className="flex items-center gap-2 p-4 border-b border-zinc-200 dark:border-zinc-700">
+      <div className="flex items-center gap-2 p-4 border-b border-zinc-100 dark:border-zinc-700">
         <Image
           src={user.image}
           alt={user.name}
