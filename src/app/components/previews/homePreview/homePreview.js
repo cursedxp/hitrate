@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import PreviewItem from "./previewItem";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setAllPreviews } from "@/app/redux/slices/app.slice";
 
 export default function HomePreview() {
+  const dispatch = useDispatch();
   const searchList = useSelector((state) => state.app.searchList);
   const previews = useSelector((state) => state.app.previews);
-  const [allPreviews, setAllPreviews] = useState([]);
+  const allPreviews = useSelector((state) => state.app.allPreviews);
   const selectedSearchItem = useSelector(
     (state) => state.app.selectedSearchItem
   );
@@ -17,9 +19,9 @@ export default function HomePreview() {
       (item) => item.query === selectedSearchItem
     );
     if (searchResults) {
-      setAllPreviews([...previews, ...searchResults.results]);
+      dispatch(setAllPreviews([...previews, ...searchResults.results]));
     } else {
-      setAllPreviews(previews);
+      dispatch(setAllPreviews(previews));
     }
   }, [selectedSearchItem, searchList, previews]);
 
@@ -47,11 +49,6 @@ export default function HomePreview() {
 
     fetchChannelAvatars();
   }, [allPreviews]);
-
-  useEffect(() => {
-    console.log("selected Item on preview:", selectedSearchItem);
-    console.log("Current allPreviews:", allPreviews);
-  }, [selectedSearchItem, allPreviews]);
 
   return (
     <div className="flex w-full items-center justify-center ">
