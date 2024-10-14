@@ -7,6 +7,7 @@ const initialState = {
   searchList: [],
   selectedSearchItem: "",
   channelAvatars: {},
+  allPreviews: [],
 };
 
 const appSlice = createSlice({
@@ -55,6 +56,9 @@ const appSlice = createSlice({
     setChannelAvatar: (state, action) => {
       state.channelAvatars[action.payload.channelId] = action.payload.avatarUrl;
     },
+    setAllPreviews: (state, action) => {
+      state.allPreviews = action.payload;
+    },
   },
 });
 
@@ -68,5 +72,6 @@ export const {
   setChannelAvatar,
   removePreview,
   setSelectedSearchItem,
+  setAllPreviews,
 } = appSlice.actions;
 export default appSlice.reducer;
