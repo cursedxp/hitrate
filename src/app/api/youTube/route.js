@@ -33,7 +33,7 @@ export async function GET(request) {
   try {
     switch (endpoint) {
       case "search":
-        const searchResponse = await youtube.search.list({
+        let searchResponse = await youtube.search.list({
           ...defaultParams,
           q: searchParams.get("query"),
           order: "relevance",
@@ -46,7 +46,12 @@ export async function GET(request) {
           part: "snippet,statistics",
         });
         return NextResponse.json(trendingResponse.data.items);
-
+      case "video":
+        const videoResponse = await youtube.videos.list({
+          part: "snippet,statistics",
+          id: searchParams.get("videoId") || "",
+        });
+        return NextResponse.json(videoResponse.data.items);
       case "intelligentSearch":
         const query = searchParams.get("query");
         let channelId;
@@ -68,25 +73,51 @@ export async function GET(request) {
           }
         }
 
+        let intelligentSearchResponse;
         if (channelId) {
-          // If we have a channel ID, fetch videos for that channel
-          const channelVideosResponse = await youtube.search.list({
+          intelligentSearchResponse = await youtube.search.list({
             ...defaultParams,
             channelId: channelId,
             order: "date",
             type: "video",
           });
-          return NextResponse.json(channelVideosResponse.data);
         } else {
-          // If it's not a channel search or channel not found, perform a general search
-          const searchResponse = await youtube.search.list({
+          intelligentSearchResponse = await youtube.search.list({
             ...defaultParams,
             q: query,
             order: "relevance",
             type: "video",
           });
-          return NextResponse.json(searchResponse.data);
         }
+
+        // Get video IDs from search results
+        const videoIds = intelligentSearchResponse.data.items.map(
+          (item) => item.id.videoId
+        );
+
+        // Fetch video statistics
+        const videoStatsResponse = await youtube.videos.list({
+          part: "statistics",
+          id: videoIds.join(","),
+        });
+
+        // Merge search results with video statistics
+        const mergedResults = intelligentSearchResponse.data.items.map(
+          (item) => {
+            const stats = videoStatsResponse.data.items.find(
+              (statItem) => statItem.id === item.id.videoId
+            );
+            return {
+              ...item,
+              statistics: stats ? stats.statistics : null,
+            };
+          }
+        );
+
+        return NextResponse.json({
+          ...intelligentSearchResponse.data,
+          items: mergedResults,
+        });
 
       default:
         return NextResponse.json(
