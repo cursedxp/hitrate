@@ -10,7 +10,7 @@ export default function PreviewItem({ video, channelAvatar }) {
 
   return (
     <div key={video.id} className="flex flex-col dark:text-white">
-      <div className="relative w-full w-[308px] h-[173px]">
+      <div className="relative w-[308px] h-[173px]">
         <Image
           src={
             video.snippet.thumbnails.medium?.url ||
