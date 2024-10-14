@@ -11,6 +11,7 @@ import {
 } from "@/app/redux/slices/app.slice";
 import { useState, useEffect } from "react";
 import Chips from "../components/chips/chips";
+import { setAllPreviews } from "@/app/redux/slices/app.slice";
 
 //TODO: Make this page SSR later
 export default function StudioPage() {
@@ -50,6 +51,17 @@ export default function StudioPage() {
       fetchVideos();
     }
   }, []);
+
+  useEffect(() => {
+    const searchResults = searchList.find(
+      (item) => item.query === selectedSearchItem
+    );
+    if (searchResults) {
+      dispatch(setAllPreviews([...previews, ...searchResults.results]));
+    } else {
+      dispatch(setAllPreviews(previews));
+    }
+  }, [selectedSearchItem, searchList, previews]);
 
   if (error) return <div>Error: {error}</div>;
 
