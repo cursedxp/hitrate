@@ -13,15 +13,15 @@ export default function Chip({ item, onRemove, onClick, isActive }) {
       onClick={() => onClick(item)}
     >
       <span>{item}</span>
-      <XMarkIcon
-        className={`w-4 h-4 cursor-pointer ${
-          isActive ? "text-white" : "text-gray-600 dark:text-gray-300"
-        }`}
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove(item);
-        }}
-      />
+      {item !== "trending" && (
+        <XMarkIcon
+          className={`w-4 h-4 cursor-pointer`}
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove(item);
+          }}
+        />
+      )}
     </div>
   );
 }
