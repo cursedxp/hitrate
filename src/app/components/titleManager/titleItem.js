@@ -31,7 +31,7 @@ export default function TitleItem({
         <ContentEditable
           html={title}
           onChange={(e) => handleLocalTitleChange(index, e)}
-          className={`w-full p-2 rounded-md bg-zinc-200 dark:bg-zinc-700 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-blue-100 active:outline-none  dark:text-white ${
+          className={`w-full p-2 rounded-lg border dark:bg-zinc-700 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-blue-100 active:outline-none  dark:text-white ${
             title ? "text-black" : "text-gray-400"
           }`}
           onKeyDown={(e) => {
