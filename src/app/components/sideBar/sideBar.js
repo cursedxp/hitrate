@@ -7,6 +7,7 @@ import TabBar from "./tabBar/tabBar";
 import Thumbnails from "./thumbnails/thumbnails";
 import TitleManager from "../titleManager/titleManager";
 import UserDetails from "./userDetails/userDetails";
+import { useSelector } from "react-redux";
 
 const tabs = [
   {
@@ -20,6 +21,7 @@ const tabs = [
 ];
 
 export default function SideBar() {
+  const projectName = useSelector((state) => state.app.projectName);
   return (
     <div className={`bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px]`}>
       <UserDetails />
@@ -27,7 +29,7 @@ export default function SideBar() {
         <Button className="bg-white">
           <Menu className="w-4 h-4 dark:text-white" />
         </Button>
-        <span className="text-sm font-bold">ProjectName</span>
+        <span className="text-sm font-bold">{projectName}</span>
         <div className="flex gap-2 justify-end flex-1">
           <ThemeToggle />
           <ShuffleButton />
