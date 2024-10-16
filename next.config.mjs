@@ -7,6 +7,7 @@ const nextConfig = {
       { hostname: "yt3.ggpht.com" },
       { hostname: "img.youtube.com" },
       { hostname: "lh3.googleusercontent.com" },
+      { hostname: "picsum.photos" },
     ],
   },
 };
