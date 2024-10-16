@@ -5,7 +5,9 @@ import { useSession } from "next-auth/react";
 import { Plus } from "react-feather";
 import ProjectItem from "../components/dashboard/projectItem/projectItem";
 import NewProjectButton from "../components/dashboard/newProjectButton/newProjectButton";
+import Modal from "../components/modal/modal";
 export default function Dashboard() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState(0);
   const { data: session } = useSession();
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function Dashboard() {
       </div>
       <section className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <ProjectItem />
-        <NewProjectButton />
+        <NewProjectButton onClick={() => setIsModalOpen(true)} />
       </section>
     </div>
   );
