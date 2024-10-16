@@ -95,7 +95,7 @@ export default function Chips() {
       ) : (
         <button
           onClick={handleAddChip}
-          className="bg-white shadow-sm text-gray-800 p-4 rounded-xl dark:text-white dark:bg-zinc-800"
+          className="bg-white shadow-md text-gray-800 p-4 rounded-xl dark:text-white dark:bg-zinc-800"
         >
           <PlusIcon className="w-4 h-4" />
         </button>
