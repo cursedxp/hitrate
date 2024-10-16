@@ -61,7 +61,7 @@ export default function TitleManager() {
       ))}
       <button
         onClick={handleAddTitle}
-        className="flex items-center justify-center gap-1 py-3 rounded-md bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
+        className="flex items-center justify-center gap-1 py-3 rounded-lg bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
       >
         <Plus className="w-4 h-4" />
         Add Title
