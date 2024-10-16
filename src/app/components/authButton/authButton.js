@@ -13,11 +13,11 @@ export default function AuthButton() {
         <Image
           src={session.user.image}
           alt="User avatar"
-          width={44}
-          height={44}
+          width={32}
+          height={32}
           className="rounded-full"
         />
-        <div className="flex flex-col ">
+        <div className="flex flex-col text-sm">
           <span>{session.user.name}</span>
           <div
             onClick={() => signOut()}
