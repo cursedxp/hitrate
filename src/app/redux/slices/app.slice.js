@@ -3,12 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   theme: "light",
   currentPreview: 0,
+  //rename this later to uploadedPreviews
   previews: [],
   searchList: [],
   selectedSearchItem: "",
   channelAvatars: {},
   channelHandle: "",
+  //rename this later to mergedPreviews
   allPreviews: [],
+  projectName: "Untitled",
 };
 
 const appSlice = createSlice({
@@ -63,6 +66,9 @@ const appSlice = createSlice({
     setChannelHandle: (state, action) => {
       state.channelHandle = action.payload;
     },
+    setProjectName: (state, action) => {
+      state.projectName = action.payload;
+    },
   },
 });
 
@@ -77,5 +83,7 @@ export const {
   removePreview,
   setSelectedSearchItem,
   setAllPreviews,
+  setChannelHandle,
+  setProjectName,
 } = appSlice.actions;
 export default appSlice.reducer;
