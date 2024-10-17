@@ -14,7 +14,7 @@ export async function POST(req) {
       success_url: `${req.headers.get(
         "origin"
       )}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${req.headers.get("origin")}/cancel`,
+      cancel_url: `${req.headers.get("origin")}/pricing`,
     });
     return NextResponse.json({ sessionId: session.id });
   } catch (error) {
