@@ -30,12 +30,7 @@ const handler = NextAuth({
               name: user.name,
               image: user.image,
               isSubscribed: false,
-              trialStartAt: new Date(),
-              trialEndAt: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000), // 15 days from now
               subscriptionStatus: "trial", // 'trial', 'active', 'expired', 'canceled'
-              subscriptionPlan: null, // e.g., 'basic', 'premium', 'pro'
-              subscriptionStartDate: null,
-              subscriptionEndDate: null,
               lastLoginAt: new Date(),
               projects: [],
             });
@@ -71,12 +66,7 @@ const handler = NextAuth({
           session.user.email = token.email;
           session.user.image = token.picture;
           session.user.isSubscribed = userData.isSubscribed;
-          session.user.trialStartAt = userData.trialStartAt;
-          session.user.trialEndAt = userData.trialEndAt;
           session.user.subscriptionStatus = userData.subscriptionStatus;
-          session.user.subscriptionPlan = userData.subscriptionPlan;
-          session.user.subscriptionStartDate = userData.subscriptionStartDate;
-          session.user.subscriptionEndDate = userData.subscriptionEndDate;
           session.user.lastLoginAt = userData.lastLoginAt;
           session.user.projects = userData.projects || []; // Add this line to include projects in the session
         } else {
@@ -86,12 +76,7 @@ const handler = NextAuth({
           session.user.email = token.email;
           session.user.image = token.picture;
           session.user.isSubscribed = false; // Default value
-          session.user.trialStartAt = null; // Default value
-          session.user.trialEndAt = null; // Default value
           session.user.subscriptionStatus = "trial"; // Default value
-          session.user.subscriptionPlan = null; // Default value
-          session.user.subscriptionStartDate = null; // Default value
-          session.user.subscriptionEndDate = null; // Default value
           session.user.lastLoginAt = new Date(); // Default value
           session.user.projects = []; // Default value
         }
@@ -103,12 +88,7 @@ const handler = NextAuth({
         session.user.email = token.email;
         session.user.image = token.picture;
         session.user.isSubscribed = false; // Default value
-        session.user.trialStartAt = null; // Default value
-        session.user.trialEndAt = null; // Default value
         session.user.subscriptionStatus = "trial"; // Default value
-        session.user.subscriptionPlan = null; // Default value
-        session.user.subscriptionStartDate = null; // Default value
-        session.user.subscriptionEndDate = null; // Default value
         session.user.lastLoginAt = new Date(); // Default value
         session.user.projects = []; // Default value
       }
