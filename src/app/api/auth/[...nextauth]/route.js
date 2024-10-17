@@ -3,7 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { signInWithCredential, getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "@/app/firebase/firebase.config";
+import { db } from "@/app/lib/firebase/firebase.config";
 
 const handler = NextAuth({
   providers: [
