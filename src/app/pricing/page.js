@@ -12,15 +12,35 @@ export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
   const [openFAQ, setOpenFAQ] = useState(null);
 
+  const monthlyPriceId = "price_1QAq2SPryQLXqSIpN2rPAPy8";
+  const yearlyPriceId = "price_1QAs5yPryQLXqSIpb2G8hjIL";
   const handleSubscribe = async () => {
-    const stripe = await stripePromise;
-    const response = await fetch("/api/stripe/route", { method: "POST" });
-    const session = await response.json();
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-    if (result.error) {
-      console.error(result.error.message);
+    try {
+      const stripe = await stripePromise;
+      const priceId = isYearly ? yearlyPriceId : monthlyPriceId;
+
+      const response = await fetch("/api/stripe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ priceId }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const { sessionId } = await response.json();
+      const result = await stripe.redirectToCheckout({
+        sessionId: sessionId,
+      });
+
+      if (result.error) {
+        console.error(result.error.message);
+      }
+    } catch (error) {
+      console.error("Error in handleSubscribe:", error);
     }
   };
 
