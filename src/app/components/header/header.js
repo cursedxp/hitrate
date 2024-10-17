@@ -1,5 +1,6 @@
 import AuthButton from "../authButton/authButton";
 import { motion } from "framer-motion";
+import Link from "next/link";
 export default function Header() {
   return (
     <header className="bg-white">
@@ -16,13 +17,12 @@ export default function Header() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <motion.a
-                  href="#"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
+                <Link
+                  className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                  href={`/${item.toLowerCase()}`}
                 >
                   {item}
-                </motion.a>
+                </Link>
               </motion.li>
             ))}
           </ul>
