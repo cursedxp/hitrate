@@ -117,7 +117,7 @@ export default function Pricing() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-white rounded-2xl border-2 border-blue-500 shadow-sm p-10 max-w-sm w-full mt-10 mb-20 relative"
+        className="bg-white rounded-2xl  shadow-md p-10 max-w-sm w-full mt-10 mb-20 relative"
       >
         {isYearly && (
           <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-1 rounded-tr-2xl rounded-bl-2xl text-sm font-semibold">
@@ -205,7 +205,7 @@ export default function Pricing() {
         </ul>
         <motion.button
           onClick={handleSubscribe}
-          className="w-full bg-blue-600 text-white rounded-2xl py-4 font-semibold hover:bg-blue-700 transition duration-300"
+          className="w-full bg-blue-500 text-white rounded-2xl py-4 font-semibold hover:bg-blue-700 transition duration-300"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
