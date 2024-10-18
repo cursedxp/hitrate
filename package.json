@@ -13,6 +13,7 @@
     "@next-auth/firebase-adapter": "^2.0.1",
     "@reduxjs/toolkit": "^2.2.7",
     "@stripe/stripe-js": "^4.8.0",
+    "canvas-confetti": "^1.9.3",
     "firebase": "^10.14.1",
     "framer-motion": "^11.11.7",
     "googleapis": "^144.0.0",
