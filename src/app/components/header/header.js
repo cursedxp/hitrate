@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 export default function Header() {
   return (
-    <header className="bg-white">
+    <header className="fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center justify-center h-20 ">
         <nav className="flex items-center justify-between h-full w-full max-w-7xl">
           <div className="text-2xl font-bold uppercase tracking-widest">
