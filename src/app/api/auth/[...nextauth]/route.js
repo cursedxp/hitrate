@@ -29,8 +29,7 @@ const handler = NextAuth({
               email: user.email,
               name: user.name,
               image: user.image,
-              isSubscribed: false,
-              subscriptionStatus: "trial", // 'trial', 'active', 'expired', 'canceled'
+              subscriptionStatus: "trialing", // Changed from 'trial' to match Stripe's status
               lastLoginAt: new Date(),
               projects: [],
             });
@@ -61,36 +60,31 @@ const handler = NextAuth({
 
         if (userDoc.exists()) {
           const userData = userDoc.data();
-          session.user.id = token.sub;
-          session.user.name = token.name;
-          session.user.email = token.email;
-          session.user.image = token.picture;
-          session.user.isSubscribed = userData.isSubscribed;
-          session.user.subscriptionStatus = userData.subscriptionStatus;
-          session.user.lastLoginAt = userData.lastLoginAt;
-          session.user.projects = userData.projects || []; // Add this line to include projects in the session
+          session.user = {
+            ...session.user,
+            id: token.sub,
+            subscriptionStatus: userData.subscriptionStatus,
+            lastLoginAt: userData.lastLoginAt,
+            projects: userData.projects || [],
+          };
         } else {
-          // Fallback to token data if Firestore data is unavailable
-          session.user.id = token.sub;
-          session.user.name = token.name;
-          session.user.email = token.email;
-          session.user.image = token.picture;
-          session.user.isSubscribed = false; // Default value
-          session.user.subscriptionStatus = "trial"; // Default value
-          session.user.lastLoginAt = new Date(); // Default value
-          session.user.projects = []; // Default value
+          session.user = {
+            ...session.user,
+            id: token.sub,
+            subscriptionStatus: "trialing",
+            lastLoginAt: new Date(),
+            projects: [],
+          };
         }
       } catch (error) {
         console.error("Error fetching user data from Firestore:", error);
-        // Fallback to token data if Firestore is unavailable
-        session.user.id = token.sub;
-        session.user.name = token.name;
-        session.user.email = token.email;
-        session.user.image = token.picture;
-        session.user.isSubscribed = false; // Default value
-        session.user.subscriptionStatus = "trial"; // Default value
-        session.user.lastLoginAt = new Date(); // Default value
-        session.user.projects = []; // Default value
+        session.user = {
+          ...session.user,
+          id: token.sub,
+          subscriptionStatus: "trialing",
+          lastLoginAt: new Date(),
+          projects: [],
+        };
       }
 
       return session;
