@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
@@ -11,43 +11,53 @@ export default function SuccessPage() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const effectRan = useRef(false);
 
   useEffect(() => {
-    if (session_id) {
-      fetch(`/api/stripe?session_id=${session_id}`)
-        .then((res) => {
-          if (!res.ok) {
-            throw new Error(`HTTP error! status: ${res.status}`);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          if (!data.session) {
-            throw new Error("Session data not found in response");
-          }
-          setSession(data.session);
-          setLoading(false);
-          // Trigger confetti effect on successful load
-          confetti({
-            particleCount: 200,
-            spread: 100,
-            origin: { y: 0.6 },
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching session:", error);
-          setError(
-            "Failed to fetch session data. Please try again later or contact support."
-          );
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-      setError(
-        "No session ID provided. Please ensure you're using a valid payment link."
-      );
-    }
+    if (effectRan.current) return;
+
+    const fetchSessionData = async () => {
+      if (!session_id) {
+        setLoading(false);
+        setError(
+          "No session ID provided. Please ensure you're using a valid payment link."
+        );
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/stripe?session_id=${session_id}`);
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const data = await res.json();
+        if (!data.session) {
+          throw new Error("Session data not found in response");
+        }
+        setSession(data.session);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching session:", error);
+        setError(
+          "Failed to fetch session data. Please try again later or contact support."
+        );
+        setLoading(false);
+      }
+    };
+
+    fetchSessionData();
+    effectRan.current = true;
   }, [session_id]);
+
+  useEffect(() => {
+    if (session && !loading && !error) {
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 },
+      });
+    }
+  }, [session, loading, error]);
 
   const LoadingSpinner = () => (
     <motion.div
@@ -106,9 +116,9 @@ export default function SuccessPage() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-white p-8 rounded-2xl  shadow-md max-w-md w-full"
+        className="bg-white p-8 rounded-2xl shadow-md max-w-md w-full"
       >
-        <div className="flex flex-col  space-y-6">
+        <div className="flex flex-col space-y-6">
           <div className="flex flex-col">
             <p className="text-sm text-black font-bold">PAYMENT DETAILS</p>
           </div>
@@ -143,7 +153,7 @@ export default function SuccessPage() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {loading ? (
           <LoadingSpinner key="loading" />
         ) : error ? (
