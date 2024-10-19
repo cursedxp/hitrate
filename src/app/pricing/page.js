@@ -3,18 +3,43 @@
 import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSession, signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 );
 
+// Reusable animated button component
+const AnimatedButton = ({ onClick, className, children }) => (
+  <motion.button
+    onClick={onClick}
+    className={className}
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+  >
+    {children}
+  </motion.button>
+);
+
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
   const [openFAQ, setOpenFAQ] = useState(null);
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
   const monthlyPriceId = "price_1QAq2SPryQLXqSIpN2rPAPy8";
   const yearlyPriceId = "price_1QAs5yPryQLXqSIpb2G8hjIL";
+
   const handleSubscribe = async () => {
+    if (status === "loading") return; // Wait for the session to load
+
+    if (!session) {
+      // Redirect to NextAuth sign-in
+      signIn("google");
+      return;
+    }
+
     try {
       const stripe = await stripePromise;
       const priceId = isYearly ? yearlyPriceId : monthlyPriceId;
