@@ -2,6 +2,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -17,5 +18,6 @@ const app = initializeApp(firebaseConfig);
 const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
 
 const db = getFirestore(app);
+const storage = getStorage(app);
 
-export { db, analytics };
+export { db, analytics, storage };
