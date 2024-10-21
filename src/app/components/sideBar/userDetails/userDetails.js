@@ -3,8 +3,10 @@ import Image from "next/image";
 import { useState } from "react";
 import { ChevronDown, LogOut, Folder } from "react-feather";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function UserDetails() {
+  const router = useRouter();
   const user = useSelector((state) => state.user.user);
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -46,7 +48,7 @@ export default function UserDetails() {
             <li>
               <button
                 onClick={() => {
-                  /* Handle projects */
+                  router.push("/studio");
                 }}
                 className="flex items-center rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 w-full text-left"
               >
