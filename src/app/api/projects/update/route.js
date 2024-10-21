@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/app/lib/firebase/firebase.config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { getServerSession } from "next-auth";
+import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function POST(req) {
@@ -22,7 +22,7 @@ export async function POST(req) {
 
   try {
     // Get the user document
-    const userRef = doc(db, "users", req.user.id);
+    const userRef = doc(db, "users", session.user.id);
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
