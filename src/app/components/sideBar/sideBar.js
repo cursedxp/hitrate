@@ -26,9 +26,6 @@ export default function SideBar() {
     <div className={`bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px]`}>
       <UserDetails />
       <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-100 dark:border-zinc-700">
-        <Button className="bg-white">
-          <Menu className="w-4 h-4 dark:text-white" />
-        </Button>
         <span className="text-sm font-bold">{projectName}</span>
         <div className="flex gap-2 justify-end flex-1">
           <ThemeToggle />
