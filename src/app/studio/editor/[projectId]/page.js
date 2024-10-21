@@ -46,7 +46,6 @@ export default function EditorPage() {
         }
         const data = await response.json();
         dispatch(setProjectName(data.project.name));
-        console.log("Project loaded:", data.project);
       } catch (err) {
         console.error("Error fetching project data:", err);
         setError(err.message);
