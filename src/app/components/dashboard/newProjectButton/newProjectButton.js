@@ -1,10 +1,41 @@
 import { Plus } from "react-feather";
-export default function NewProjectButton({ onClick }) {
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+
+export default function NewProjectButton() {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  const handleClick = async () => {
+    if (!session) {
+      console.error("User not logged in");
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/projects/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create project");
+      }
+
+      const { projectId } = await response.json();
+      router.push(`/studio/editor/${projectId}`);
+    } catch (error) {
+      console.error("Error creating new project:", error);
+    }
+  };
+
   return (
     <div>
       <button
         className="relative h-48 rounded-xl w-full border-2 border-blue-500 flex flex-col justify-center items-center hover:scale-105 transition-all duration-300 hover:shadow-lg"
-        onClick={onClick}
+        onClick={handleClick}
       >
         <div className="rounded-full text-blue-500 bg-blue-200 w-12 h-12 flex justify-center items-center">
           <Plus className="w-6 h-6" />
