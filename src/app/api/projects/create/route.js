@@ -22,6 +22,10 @@ export async function POST(req) {
       title: "",
       titles: [],
       thumbnailUrls: [],
+      description: "This is a generated thumbnail description",
+      statistics: {
+        viewCount: 100.0,
+      },
     };
 
     const userRef = doc(db, "users", userId);
