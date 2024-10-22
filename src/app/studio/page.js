@@ -27,7 +27,10 @@ export default function Dashboard() {
         throw new Error("Failed to fetch projects");
       }
       const data = await response.json();
-      setProjects(data.projects);
+      const sortedProjects = data.projects.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      });
+      setProjects(sortedProjects);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
