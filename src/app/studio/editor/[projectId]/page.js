@@ -9,6 +9,7 @@ import {
   setSelectedSearchItem,
   setAllPreviews,
   setChannelAvatars,
+  setCurrentProjectId,
 } from "@/app/redux/slices/app.slice";
 import SideBar from "@/app/components/sideBar/sideBar";
 import HomePreview from "@/app/components/previews/homePreview/homePreview";
@@ -45,7 +46,9 @@ export default function EditorPage() {
           throw new Error("Failed to fetch project data");
         }
         const data = await response.json();
-        dispatch(setProjectName(data.project.name));
+        dispatch(setProjectName(data.project.name || "Untitled")); // Add a fallback name if it doesn't exist
+        dispatch(setCurrentProjectId(projectId));
+        // You might want to dispatch other project data here as well
       } catch (err) {
         console.error("Error fetching project data:", err);
         setError(err.message);

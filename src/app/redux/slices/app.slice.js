@@ -12,6 +12,7 @@ const initialState = {
   //rename this later to mergedPreviews
   allPreviews: [],
   projectName: "Untitled",
+  currentProjectId: null,
 };
 
 const appSlice = createSlice({
@@ -69,6 +70,9 @@ const appSlice = createSlice({
     setProjectName: (state, action) => {
       state.projectName = action.payload;
     },
+    setCurrentProjectId: (state, action) => {
+      state.currentProjectId = action.payload;
+    },
   },
 });
 
@@ -85,5 +89,6 @@ export const {
   setAllPreviews,
   setChannelHandle,
   setProjectName,
+  setCurrentProjectId,
 } = appSlice.actions;
 export default appSlice.reducer;
