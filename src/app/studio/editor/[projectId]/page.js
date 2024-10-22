@@ -17,6 +17,7 @@ import PreviewBar from "@/app/components/previewBar/previewBar";
 import SearchPreview from "@/app/components/previews/searchPreview/searchPreview";
 import SideBarPreview from "@/app/components/previews/sideBarPreview/sideBarPreview";
 import Chips from "@/app/components/chips/chips";
+import { setThumbnailPreviews } from "@/app/redux/slices/thumbnail.slice";
 
 export default function EditorPage() {
   const { projectId } = useParams();
@@ -46,7 +47,7 @@ export default function EditorPage() {
           throw new Error("Failed to fetch project data");
         }
         const data = await response.json();
-        dispatch(setProjectName(data.project.name || "Untitled")); // Add a fallback name if it doesn't exist
+        console.log("Fetched project data:", data); // Log the entire project data
         dispatch(setCurrentProjectId(projectId));
         // You might want to dispatch other project data here as well
       } catch (err) {
@@ -120,6 +121,27 @@ export default function EditorPage() {
 
     fetchChannelAvatars();
   }, [previews, channelAvatars, dispatch]);
+
+  useEffect(() => {
+    const fetchProjectThumbnails = async () => {
+      if (projectId) {
+        try {
+          const response = await fetch(`/api/projects/${projectId}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch project data");
+          }
+          const data = await response.json();
+          if (data.project && data.project.thumbnailUrls) {
+            dispatch(setThumbnailPreviews(data.project.thumbnailUrls));
+          }
+        } catch (error) {
+          console.error("Error fetching project thumbnails:", error);
+        }
+      }
+    };
+
+    fetchProjectThumbnails();
+  }, [projectId, dispatch]);
 
   if (status === "loading" || loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;

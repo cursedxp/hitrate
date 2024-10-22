@@ -1,16 +1,13 @@
 "use client";
 import ImagePreview from "@/app/components/fileUploader/imagePreview";
 import FileUploader from "@/app/components/fileUploader/fileUploader";
-import { useSelector, useDispatch } from "react-redux";
-import { removeThumbnail } from "@/app/redux/slices/thumbnail.slice";
-import { removePreview } from "@/app/redux/slices/app.slice";
+import { useSelector } from "react-redux";
+
 export default function Thumbnails() {
   const thumbnailPreviews = useSelector(
     (state) => state.thumbnail.thumbnailPreviews
   );
   const isLoading = useSelector((state) => state.thumbnail.isLoading);
-  const thumbnailFiles = useSelector((state) => state.thumbnail.thumbnailFiles);
-  const dispatch = useDispatch();
 
   if (!Array.isArray(thumbnailPreviews)) {
     console.error("thumbnailPreviews is not an array:", thumbnailPreviews);
@@ -24,10 +21,7 @@ export default function Thumbnails() {
           key={preview}
           index={index}
           thumbnail={preview}
-          isLoading={
-            isLoading &&
-            index >= thumbnailFiles.length - thumbnailPreviews.length
-          }
+          isLoading={isLoading && index === thumbnailPreviews.length - 1}
         />
       ))}
       <FileUploader />
