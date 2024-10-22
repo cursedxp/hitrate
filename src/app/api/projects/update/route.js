@@ -31,13 +31,15 @@ export async function POST(req) {
       );
     }
 
-    if (!projects[projectId]) {
+    const projectIndex = projects.findIndex(
+      (project) => project.id === projectId
+    );
+    if (projectIndex === -1) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    // Update the project
-    projects[projectId] = {
-      ...projects[projectId],
+    projects[projectIndex] = {
+      ...projects[projectIndex],
       ...updates,
       updatedAt: new Date().toISOString(),
     };

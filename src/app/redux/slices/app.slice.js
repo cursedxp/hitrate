@@ -83,6 +83,18 @@ const appSlice = createSlice({
       state.channelAvatars = {};
       state.channelHandle = "";
     },
+    setProjects(state, action) {
+      state.projects = action.payload;
+    },
+    addProject(state, action) {
+      state.projects.push(action.payload);
+    },
+    updateProject(state, action) {
+      const index = state.projects.findIndex((p) => p.id === action.payload.id);
+      if (index !== -1) {
+        state.projects[index] = { ...state.projects[index], ...action.payload };
+      }
+    },
   },
 });
 
@@ -101,5 +113,8 @@ export const {
   setProjectName,
   setCurrentProjectId,
   clearProjectData,
+  setProjects,
+  addProject,
+  updateProject,
 } = appSlice.actions;
 export default appSlice.reducer;

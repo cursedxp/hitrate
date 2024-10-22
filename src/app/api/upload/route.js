@@ -55,25 +55,29 @@ export async function POST(req) {
     }
 
     const userData = userDoc.data();
-    let projects = userData.projects;
+    let projects = userData.projects || [];
 
-    // Ensure projects is an object
-    if (!projects || typeof projects !== "object") {
-      projects = {};
+    // Ensure projects is an array
+    if (!Array.isArray(projects)) {
+      projects = [];
     }
 
-    if (!projects[projectId]) {
+    const projectIndex = projects.findIndex(
+      (project) => project.id === projectId
+    );
+
+    if (projectIndex === -1) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     // Update the specific project
-    projects[projectId] = {
-      ...projects[projectId],
-      thumbnailUrls: [...(projects[projectId].thumbnailUrls || []), url],
+    projects[projectIndex] = {
+      ...projects[projectIndex],
+      thumbnailUrls: [...(projects[projectIndex].thumbnailUrls || []), url],
       updatedAt: new Date().toISOString(),
     };
 
-    // Update the user document with the modified projects object
+    // Update the user document with the modified projects array
     await updateDoc(userRef, { projects });
 
     return NextResponse.json({ url }, { status: 200 });

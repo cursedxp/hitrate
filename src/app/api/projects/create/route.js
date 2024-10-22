@@ -19,6 +19,9 @@ export async function POST(req) {
       name: "Untitled",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      title: "",
+      titles: [],
+      thumbnailUrls: [],
     };
 
     const userRef = doc(db, "users", userId);
@@ -32,10 +35,10 @@ export async function POST(req) {
     let projects = userData.projects;
 
     if (!projects) {
-      projects = {};
+      projects = [];
     }
 
-    projects[newProject.id] = newProject;
+    projects.push(newProject);
 
     await updateDoc(userRef, { projects });
 
