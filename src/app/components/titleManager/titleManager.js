@@ -39,10 +39,6 @@ export default function TitleManager() {
     }
   }, [titles, selectedTitle, dispatch]);
 
-  useEffect(() => {
-    console.log("SelectedTitle:", selectedTitle);
-  }, [selectedTitle]);
-
   return (
     <div className="flex flex-col gap-2 p-2 h-full overflow-scroll">
       {titles.map((title, index) => (

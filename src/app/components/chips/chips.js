@@ -30,7 +30,6 @@ export default function Chips() {
       setValue("");
       setIsAdding(false);
       const data = await handleSearch(value.trim());
-      console.log("selected Item on chips:", value.trim());
 
       dispatch(setSearchList({ query: value.trim(), results: data.items }));
       dispatch(setSelectedSearchItem(value.trim()));

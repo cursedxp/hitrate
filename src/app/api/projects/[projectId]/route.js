@@ -16,7 +16,6 @@ export async function GET(request, { params }) {
     const userDoc = await getDoc(doc(db, "users", session.user.id));
     if (userDoc.exists()) {
       const userData = userDoc.data();
-      console.log("User document:", userData);
 
       if (!userData.projects) {
         return NextResponse.json(
