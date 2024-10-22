@@ -11,17 +11,9 @@ export async function POST(req) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { projectId, updates } = await req.json();
-
-  if (!projectId || !updates || Object.keys(updates).length === 0) {
-    return NextResponse.json(
-      { error: "Missing projectId or updates" },
-      { status: 400 }
-    );
-  }
-
   try {
-    // Get the user document
+    const { projectId, updates } = await req.json();
+
     const userRef = doc(db, "users", session.user.id);
     const userDoc = await getDoc(userRef);
 
@@ -29,37 +21,24 @@ export async function POST(req) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const projects = userDoc.data().projects;
-    const projectIndex = projects.findIndex(
-      (project) => project.id === projectId
-    );
+    const userData = userDoc.data();
+    const projects = userData.projects || {};
 
-    if (projectIndex === -1) {
+    if (!projects[projectId]) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    // Apply updates to the project
-    Object.keys(updates).forEach((key) => {
-      if (key === "thumbnailUrls") {
-        // If updating thumbnailUrls, append new URLs to the existing array
-        projects[projectIndex].thumbnailUrls = [
-          ...(projects[projectIndex].thumbnailUrls || []),
-          ...updates.thumbnailUrls,
-        ];
-      } else {
-        projects[projectIndex][key] = updates[key];
-      }
-    });
+    // Update the project
+    projects[projectId] = {
+      ...projects[projectId],
+      ...updates,
+      updatedAt: new Date().toISOString(),
+    };
 
-    // Update the updatedAt timestamp
-    projects[projectIndex].updatedAt = new Date().toISOString();
-
+    // Update the user document with the modified projects
     await updateDoc(userRef, { projects });
 
-    return NextResponse.json(
-      { message: "Project updated successfully" },
-      { status: 200 }
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error) {
     console.error("Error updating project:", error);
     return NextResponse.json(
