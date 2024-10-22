@@ -9,6 +9,7 @@ import {
   setSelectedThumbnail,
 } from "@/app/redux/slices/thumbnail.slice";
 import { removePreview } from "@/app/redux/slices/app.slice";
+import { useParams } from "next/navigation";
 
 export default function ImagePreview({ thumbnail, isLoading, index }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -18,6 +19,7 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
   const selectedThumbnail = useSelector(
     (state) => state.thumbnail.selectedThumbnail
   );
+  const { projectId } = useParams();
 
   useEffect(() => {
     if (thumbnail) {
@@ -27,22 +29,49 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
     }
   }, [thumbnail]);
 
-  const handleDelete = useCallback(() => {
-    // Remove from thumbnailFiles
-    dispatch(setThumbnailFiles(thumbnailFiles.filter((_, i) => i !== index)));
+  const handleDelete = useCallback(
+    async (e) => {
+      e.stopPropagation(); // Prevent the click from bubbling up to the parent div
 
-    // Remove from thumbnailPreviews
-    dispatch(setThumbnailPreviews(previews.filter((_, i) => i !== index)));
+      try {
+        const response = await fetch("/api/thumbnails/delete", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            projectId,
+            thumbnailUrl: thumbnail,
+          }),
+        });
 
-    // Remove corresponding preview
-    dispatch(removePreview(index));
-  }, [dispatch, index, thumbnailFiles, previews]);
+        if (!response.ok) {
+          throw new Error("Failed to delete thumbnail");
+        }
+
+        // Remove from thumbnailFiles
+        dispatch(
+          setThumbnailFiles(thumbnailFiles.filter((_, i) => i !== index))
+        );
+
+        // Remove from thumbnailPreviews
+        dispatch(setThumbnailPreviews(previews.filter((_, i) => i !== index)));
+
+        // Remove corresponding preview
+        dispatch(removePreview(index));
+      } catch (error) {
+        console.error("Error deleting thumbnail:", error);
+        // Handle error (e.g., show an error message to the user)
+      }
+    },
+    [dispatch, index, thumbnailFiles, previews, projectId, thumbnail]
+  );
 
   const selectedThumbnailStyle = "border-4 border-blue-500";
 
   return (
     <div
-      className={`relative h-[144px]  rounded-md cursor-pointer group`}
+      className={`relative h-[144px] rounded-md cursor-pointer group`}
       onClick={() => dispatch(setSelectedThumbnail(index))}
     >
       {(isLoading || !imageLoaded) && <Loader />}
