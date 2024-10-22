@@ -3,7 +3,7 @@ import { Storage } from "@google-cloud/storage";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/app/lib/firebase/firebase.config";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 const storage = new Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
@@ -13,7 +13,7 @@ const storage = new Storage({
   },
 });
 
-const bucket = storage.bucket(process.env.GOOGLE_CLOUD_STORAGE_BUCKET);
+const bucket = storage.bucket(process.env.GOOGLE_CLOUD_STORAGE_BUCKET_NAME);
 
 export async function POST(req) {
   const session = await getServerSession(authOptions);
@@ -48,13 +48,40 @@ export async function POST(req) {
 
     // Update Firebase with the new thumbnail URL
     const userRef = doc(db, "users", session.user.id);
-    await updateDoc(userRef, {
-      [`projects.${projectId}.thumbnailUrls`]: arrayUnion(url),
-    });
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const userData = userDoc.data();
+    let projects = userData.projects;
+
+    // Ensure projects is an object
+    if (!projects || typeof projects !== "object") {
+      projects = {};
+    }
+
+    if (!projects[projectId]) {
+      return NextResponse.json({ error: "Project not found" }, { status: 404 });
+    }
+
+    // Update the specific project
+    projects[projectId] = {
+      ...projects[projectId],
+      thumbnailUrls: [...(projects[projectId].thumbnailUrls || []), url],
+      updatedAt: new Date().toISOString(),
+    };
+
+    // Update the user document with the modified projects object
+    await updateDoc(userRef, { projects });
 
     return NextResponse.json({ url }, { status: 200 });
   } catch (error) {
     console.error("Error uploading file:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Upload failed", details: error.message },
+      { status: 500 }
+    );
   }
 }

@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { signInWithCredential, getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase/firebase.config";
 
 export const authOptions = {
@@ -14,44 +14,34 @@ export const authOptions = {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      try {
-        const credential = GoogleAuthProvider.credential(account.id_token);
-        const firebaseAuth = getAuth();
-        await signInWithCredential(firebaseAuth, credential);
-
-        // Attempt to interact with Firestore, but handle offline scenario
+      if (account.provider === "google") {
         try {
-          const userDocRef = doc(db, "users", user.id);
-          const userDoc = await getDoc(userDocRef);
+          const userRef = doc(db, "users", user.id);
+          const userSnap = await getDoc(userRef);
 
-          if (!userDoc.exists()) {
-            await setDoc(userDocRef, {
-              email: user.email,
+          if (!userSnap.exists()) {
+            // User doesn't exist, create a new user document
+            await setDoc(userRef, {
               name: user.name,
+              email: user.email,
               image: user.image,
-              subscriptionStatus: "trialing", // Changed from 'trial' to match Stripe's status
+              createdAt: new Date(),
               lastLoginAt: new Date(),
-              projects: [],
+              subscriptionStatus: "trialing",
+              projects: {}, // Initialize projects as an empty object
+            });
+          } else {
+            // User exists, update last login
+            await updateDoc(userRef, {
+              lastLoginAt: new Date(),
             });
           }
-        } catch (firestoreError) {
-          console.warn(
-            "Firestore operation failed, possibly offline:",
-            firestoreError
-          );
-          // Continue with sign-in even if Firestore is unavailable
+        } catch (error) {
+          console.error("Error during sign in:", error);
+          return false;
         }
-
-        return true; // Sign-in successful
-      } catch (error) {
-        console.error("Firebase sign-in error:", error);
-        // If the error is due to being offline, allow sign-in
-        if (error.code === "unavailable") {
-          console.warn("Signing in without Firestore due to offline status");
-          return true;
-        }
-        return false; // Other sign-in errors
       }
+      return true;
     },
     async session({ session, token }) {
       try {

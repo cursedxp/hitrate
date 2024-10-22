@@ -22,7 +22,14 @@ export async function POST(req) {
     }
 
     const userData = userDoc.data();
-    const projects = userData.projects || {};
+    let projects = userData.projects;
+
+    if (!projects || typeof projects !== "object") {
+      return NextResponse.json(
+        { error: "Invalid projects data" },
+        { status: 400 }
+      );
+    }
 
     if (!projects[projectId]) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });

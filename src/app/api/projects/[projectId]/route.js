@@ -20,32 +20,21 @@ export async function GET(request, { params }) {
 
       if (!userData.projects) {
         return NextResponse.json(
-          { error: "User has no projects field" },
+          { error: "User has no projects" },
           { status: 404 }
         );
       }
 
-      if (typeof userData.projects !== "object") {
-        return NextResponse.json(
-          { error: "Projects field is not an object" },
-          { status: 404 }
-        );
-      }
+      let project;
 
-      if (Object.keys(userData.projects).length === 0) {
-        return NextResponse.json(
-          { error: "Projects object is empty" },
-          { status: 404 }
-        );
+      if (Array.isArray(userData.projects)) {
+        project = userData.projects.find((p) => p.id === projectId);
+      } else if (typeof userData.projects === "object") {
+        project = userData.projects[projectId];
       }
-
-      const project = userData.projects[projectId];
 
       if (project) {
-        return NextResponse.json(
-          { project: { id: projectId, ...project } },
-          { status: 200 }
-        );
+        return NextResponse.json({ project }, { status: 200 });
       } else {
         return NextResponse.json(
           {
