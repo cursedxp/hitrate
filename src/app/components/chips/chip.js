@@ -5,7 +5,7 @@ import { removeSearchList } from "@/app/redux/slices/app.slice";
 export default function Chip({ item, onRemove, onClick, isActive }) {
   return (
     <div
-      className={`shadow-sm p-3 rounded-xl shadow-lg flex items-center gap-2 cursor-pointer transition-colors duration-200 ${
+      className={`p-3 rounded-xl shadow-lg flex items-center gap-2 cursor-pointer transition-colors duration-200 ${
         isActive
           ? "bg-black text-white dark:bg-white dark:text-black"
           : "bg-white text-gray-800 dark:text-white dark:bg-zinc-800"
