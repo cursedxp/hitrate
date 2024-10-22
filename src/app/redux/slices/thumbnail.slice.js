@@ -36,6 +36,12 @@ const thumbnailSlice = createSlice({
     setSelectedThumbnail: (state, action) => {
       state.selectedThumbnail = action.payload;
     },
+    clearThumbnailData: (state) => {
+      state.thumbnailFiles = [];
+      state.thumbnailPreviews = [];
+      state.isLoading = false;
+      state.selectedThumbnail = 0;
+    },
   },
 });
 
@@ -48,6 +54,7 @@ export const {
   setIsLoading,
   setSelectedThumbnail,
   setChannelAvatar,
+  clearThumbnailData,
 } = thumbnailSlice.actions;
 
 export default thumbnailSlice.reducer;

@@ -47,9 +47,11 @@ export default function EditorPage() {
           throw new Error("Failed to fetch project data");
         }
         const data = await response.json();
-        console.log("Fetched project data:", data); // Log the entire project data
+        console.log("Fetched project data:", data);
         dispatch(setCurrentProjectId(projectId));
-        // You might want to dispatch other project data here as well
+        dispatch(setProjectName(data.project.name));
+        dispatch(setThumbnailPreviews(data.project.thumbnailUrls || []));
+        // Add more dispatches here to set other project data as needed
       } catch (err) {
         console.error("Error fetching project data:", err);
         setError(err.message);

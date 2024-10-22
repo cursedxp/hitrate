@@ -27,6 +27,10 @@ const titleSlice = createSlice({
     setSelectedTitle: (state, action) => {
       state.selectedTitle = action.payload;
     },
+    clearTitleData: (state) => {
+      state.titles = [""];
+      state.selectedTitle = "";
+    },
   },
 });
 
@@ -36,5 +40,6 @@ export const {
   removeTitle,
   reorderTitles,
   setSelectedTitle,
+  clearTitleData,
 } = titleSlice.actions;
 export default titleSlice.reducer;

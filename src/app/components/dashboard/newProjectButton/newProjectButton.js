@@ -1,10 +1,15 @@
 import { Plus } from "react-feather";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useDispatch } from "react-redux";
+import { clearProjectData } from "@/app/redux/slices/app.slice";
+import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
+import { clearTitleData } from "@/app/redux/slices/title.slice";
 
 export default function NewProjectButton() {
   const router = useRouter();
   const { data: session } = useSession();
+  const dispatch = useDispatch();
 
   const handleClick = async () => {
     if (!session) {
@@ -13,6 +18,11 @@ export default function NewProjectButton() {
     }
 
     try {
+      // Clear all project-related data from Redux store
+      dispatch(clearProjectData());
+      dispatch(clearThumbnailData());
+      dispatch(clearTitleData());
+
       const response = await fetch("/api/projects/create", {
         method: "POST",
         headers: {

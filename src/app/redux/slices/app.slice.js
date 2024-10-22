@@ -73,6 +73,16 @@ const appSlice = createSlice({
     setCurrentProjectId: (state, action) => {
       state.currentProjectId = action.payload;
     },
+    clearProjectData: (state) => {
+      state.projectName = "Untitled";
+      state.currentProjectId = null;
+      state.previews = [];
+      state.allPreviews = [];
+      state.searchList = [];
+      state.selectedSearchItem = "";
+      state.channelAvatars = {};
+      state.channelHandle = "";
+    },
   },
 });
 
@@ -90,5 +100,6 @@ export const {
   setChannelHandle,
   setProjectName,
   setCurrentProjectId,
+  clearProjectData,
 } = appSlice.actions;
 export default appSlice.reducer;
