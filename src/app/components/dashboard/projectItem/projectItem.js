@@ -1,15 +1,28 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
-export default function ProjectItem() {
+export default function ProjectItem({ project }) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/studio/editor/${project.id}`);
+  };
+
+  // Get the first thumbnail URL or use a default image
+  const previewImageUrl =
+    project.thumbnailUrls && project.thumbnailUrls.length > 0
+      ? project.thumbnailUrls[0]
+      : "https://picsum.photos/400/300";
+
   return (
-    <div>
+    <div onClick={handleClick} className="cursor-pointer">
       <div className="relative h-48 rounded-xl">
         <Image
-          src="https://picsum.photos/400/300"
-          alt="Project"
+          src={previewImageUrl}
+          alt={project.name}
           fill
           className={`rounded-xl object-cover transition-opacity duration-300 ${
             imageLoaded ? "opacity-100" : "opacity-0"
@@ -25,13 +38,16 @@ export default function ProjectItem() {
       </div>
       <div className="flex flex-col pt-4">
         <div className="text-md font-semibold mb-1 line-clamp-2">
-          Demo Project
+          {project.name}
         </div>
-        <div className="text-sm text-gray-500 line-clamp-2">12.06.2024</div>
+        <div className="text-sm text-gray-500 line-clamp-2">
+          {new Date(project.createdAt).toLocaleDateString()}
+        </div>
       </div>
     </div>
   );
 }
+
 // Helper functions for image placeholder
 const shimmer = (w, h) => `
 <svg width="${w}" height="${h}" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">

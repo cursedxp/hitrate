@@ -6,28 +6,38 @@ import { Plus } from "react-feather";
 import ProjectItem from "../components/dashboard/projectItem/projectItem";
 import NewProjectButton from "../components/dashboard/newProjectButton/newProjectButton";
 import Modal from "../components/modal/modal";
+
 export default function Dashboard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isActive, setIsActive] = useState(0);
+  const [isActive, setIsActive] = useState("Projects");
   const { data: session } = useSession();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Fetch projects from your API or database
-    fetchProjects();
-  }, []);
+    if (session) {
+      fetchProjects();
+    }
+  }, [session]);
 
   const fetchProjects = async () => {
-    // Implement API call to get user's projects
-    // For example:
-    // const response = await api.getUserProjects();
-    // setProjects(response.data);
+    try {
+      const response = await fetch("/api/projects/read");
+      if (!response.ok) {
+        throw new Error("Failed to fetch projects");
+      }
+      const data = await response.json();
+      setProjects(data.projects);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCreateProject = async (newProject) => {
-    // Implement API call to create a new project
-    // For example:
-    // const response = await api.createProject(newProject);
-    // setProjects([...projects, response.data]);
-  };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-col max-w-7xl py-32 h-screen mx-auto">
@@ -69,7 +79,9 @@ export default function Dashboard() {
         </button>
       </div>
       <section className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <ProjectItem />
+        {projects.map((project) => (
+          <ProjectItem key={project.id} project={project} />
+        ))}
         <NewProjectButton onClick={() => setIsModalOpen(true)} />
       </section>
     </div>
