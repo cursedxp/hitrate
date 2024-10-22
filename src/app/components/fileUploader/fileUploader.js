@@ -17,6 +17,7 @@ export default function FileUploader() {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   const selectedTitle = useSelector((state) => state.title.selectedTitle);
+  const projectId = useSelector((state) => state.app.currentProjectId);
 
   const verifyFile = (file) => {
     if (!FILE_TYPES.includes(file.type)) {
@@ -34,7 +35,7 @@ export default function FileUploader() {
     inputRef.current.click();
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const newFiles = Array.from(e.target.files);
 
     try {
@@ -46,32 +47,44 @@ export default function FileUploader() {
       }
 
       dispatch(setIsLoading(true));
-      dispatch(addThumbnailFiles(validFiles));
 
-      const newImagePreviews = validFiles.map((file) =>
-        URL.createObjectURL(file)
-      );
-      const newPreviews = validFiles.map((file) => ({
-        id: uuidv7(),
-        snippet: {
-          title: "",
-          thumbnails: {
-            medium: { url: URL.createObjectURL(file) },
+      for (const file of validFiles) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("projectId", projectId);
+
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error("Upload failed");
+        }
+
+        const { url } = await response.json();
+
+        const newPreview = {
+          id: uuidv7(),
+          snippet: {
+            title: "",
+            thumbnails: {
+              medium: { url },
+            },
+            channelTitle: "",
+            publishedAt: new Date().toISOString(),
+            description: "This is a generated thumbnail description",
           },
-          channelTitle: "",
-          publishedAt: new Date().toISOString(),
-          description: "This is a generated thumbnail description",
-        },
-        statistics: {
-          viewCount: 100.0,
-        },
-      }));
+          statistics: {
+            viewCount: 100.0,
+          },
+        };
 
-      dispatch(addPreviews(newPreviews));
-      dispatch(addThumbnailPreviews(newImagePreviews));
+        dispatch(addPreviews([newPreview]));
+        dispatch(addThumbnailPreviews([url]));
+      }
 
-      // Set isLoading to false after all files have been processed
-      setTimeout(() => dispatch(setIsLoading(false)), 0);
+      dispatch(setIsLoading(false));
     } catch (error) {
       toast.error(error.message);
       dispatch(setIsLoading(false));
