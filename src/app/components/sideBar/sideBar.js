@@ -87,12 +87,12 @@ export default function SideBar() {
             autoFocus
           />
         ) : (
-          <span
-            className="text-sm font-bold cursor-pointer"
+          <div
+            className="text-sm ml-2 font-bold cursor-pointer"
             onClick={handleProjectNameClick}
           >
             {projectName}
-          </span>
+          </div>
         )}
         <div className="flex gap-2 justify-end flex-1">
           <ThemeToggle />
