@@ -82,6 +82,7 @@ export default function EditorPage() {
         snippet: {
           title: selectedTitle,
           thumbnails: { medium: { url: thumbnail } },
+          publishedAt: new Date().toISOString(),
         },
         channelTitle: "",
         publishedAt: new Date().toISOString(),
