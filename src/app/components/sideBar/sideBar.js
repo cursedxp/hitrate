@@ -73,7 +73,9 @@ export default function SideBar() {
   };
 
   return (
-    <div className={`bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px]`}>
+    <div
+      className={`bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px] flex-shrink-0`}
+    >
       <UserDetails />
       <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-100 dark:border-zinc-700">
         {isEditing ? (
