@@ -13,6 +13,7 @@ const initialState = {
   allPreviews: [],
   projectName: "Untitled",
   currentProjectId: null,
+  shakeUploaded: false,
 };
 
 const appSlice = createSlice({
@@ -95,6 +96,15 @@ const appSlice = createSlice({
         state.projects[index] = { ...state.projects[index], ...action.payload };
       }
     },
+    shufflePreviews: (state) => {
+      state.allPreviews = [...state.allPreviews].sort(
+        () => Math.random() - 0.5
+      );
+      state.shakeUploaded = true;
+    },
+    resetShake: (state) => {
+      state.shakeUploaded = false;
+    },
   },
 });
 
@@ -116,5 +126,7 @@ export const {
   setProjects,
   addProject,
   updateProject,
+  shufflePreviews,
+  resetShake,
 } = appSlice.actions;
 export default appSlice.reducer;

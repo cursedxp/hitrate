@@ -2,14 +2,23 @@ import { Formatter } from "@/app/utils/formatters";
 import Image from "next/image";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
-export default function PreviewItem({ video, channelAvatar }) {
+export default function PreviewItem({ video, channelAvatar, shake }) {
   const formatter = Formatter();
   const [imageLoaded, setImageLoaded] = useState(false);
   const currentTitle = useSelector((state) => state.title.selectedTitle);
 
+  const shakeAnimation = {
+    x: [0, -10, 10, -10, 10, 0],
+    transition: { duration: 0.5, repeat: 3, repeatType: "reverse" },
+  };
+
   return (
-    <div key={video.id} className="flex flex-col dark:text-white">
+    <motion.div
+      animate={shake ? shakeAnimation : {}}
+      className="flex flex-col dark:text-white"
+    >
       <div className="relative w-[308px] h-[173px]">
         <Image
           src={
@@ -84,7 +93,7 @@ export default function PreviewItem({ video, channelAvatar }) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
