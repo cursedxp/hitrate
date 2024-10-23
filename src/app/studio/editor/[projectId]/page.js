@@ -18,7 +18,7 @@ import SearchPreview from "@/app/components/previews/searchPreview/searchPreview
 import SideBarPreview from "@/app/components/previews/sideBarPreview/sideBarPreview";
 import Chips from "@/app/components/chips/chips";
 import { setThumbnailPreviews } from "@/app/redux/slices/thumbnail.slice";
-
+import { setSelectedTitle, setTitles } from "@/app/redux/slices/title.slice";
 export default function EditorPage() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
@@ -51,7 +51,8 @@ export default function EditorPage() {
         dispatch(setCurrentProjectId(projectId));
         dispatch(setProjectName(data.project.name));
         dispatch(setThumbnailPreviews(data.project.thumbnailUrls || []));
-        // Add more dispatches here to set other project data as needed
+        dispatch(setTitles(data.project.titles || [""]));
+        dispatch(setSelectedTitle(data.project.title || "Untitled"));
       } catch (err) {
         console.error("Error fetching project data:", err);
         setError(err.message);
