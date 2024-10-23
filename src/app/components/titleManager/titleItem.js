@@ -21,7 +21,7 @@ export default function TitleItem({
   };
 
   return (
-    <div key={index} className="flex w-full">
+    <div key={index} className="flex relative w-full">
       {!title && (
         <span className="absolute left-2 top-2 text-gray-400 pointer-events-none">
           {placeholderText}
