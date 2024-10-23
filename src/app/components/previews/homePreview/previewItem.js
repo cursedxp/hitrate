@@ -17,9 +17,9 @@ export default function PreviewItem({ video, channelAvatar, shake }) {
   return (
     <motion.div
       animate={shake ? shakeAnimation : {}}
-      className="flex flex-col dark:text-white"
+      className="flex flex-col dark:text-white w-full"
     >
-      <div className="relative w-[308px] h-[173px]">
+      <div className="relative w-full pt-[56.25%]">
         <Image
           src={
             video.snippet.thumbnails.medium?.url ||
@@ -30,7 +30,7 @@ export default function PreviewItem({ video, channelAvatar, shake }) {
           className={`rounded-lg object-cover transition-opacity duration-300 ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33.33vw, 25vw"
           onLoadingComplete={() => setImageLoaded(true)}
           loading="lazy"
           placeholder="blur"

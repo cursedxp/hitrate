@@ -181,17 +181,19 @@ export default function EditorPage() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div className="relative p-4 flex w-full h-screen overflow-scroll">
+    <div className="flex w-full h-screen overflow-hidden">
       <SideBar />
-      <div className="flex w-full flex-col gap-4 pb-4 px-4 overflow-scroll">
-        <div className="flex justify-between items-center w-full">
-          <Chips />
-          <PreviewBar />
-        </div>
-        <div className="self-center max-w-screen-xl">
-          {currentPreview === 0 && <HomePreview />}
-          {currentPreview === 1 && <SearchPreview />}
-          {currentPreview === 2 && <SideBarPreview />}
+      <div className="flex-grow overflow-y-auto">
+        <div className="p-4 flex flex-col gap-4">
+          <div className="flex justify-between items-center w-full">
+            <Chips />
+            <PreviewBar />
+          </div>
+          <div className="w-full max-w-[2000px] mx-auto">
+            {currentPreview === 0 && <HomePreview />}
+            {currentPreview === 1 && <SearchPreview />}
+            {currentPreview === 2 && <SideBarPreview />}
+          </div>
         </div>
       </div>
     </div>

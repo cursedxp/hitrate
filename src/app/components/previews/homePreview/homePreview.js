@@ -42,8 +42,8 @@ export default function HomePreview() {
   }, [allPreviews, channelAvatars, dispatch, shakeUploaded]);
 
   return (
-    <div className="flex w-full items-center justify-center">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-x-4 gap-y-8 w-full">
+    <div className="w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         <AnimatePresence>
           {allPreviews.map((video, index) => (
             <motion.div
