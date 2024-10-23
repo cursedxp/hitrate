@@ -6,8 +6,12 @@ import { Plus } from "react-feather";
 import ProjectItem from "../components/dashboard/projectItem/projectItem";
 import NewProjectButton from "../components/dashboard/newProjectButton/newProjectButton";
 import Modal from "../components/modal/modal";
-
+import { clearProjectData } from "@/app/redux/slices/app.slice";
+import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
+import { clearTitleData } from "@/app/redux/slices/title.slice";
+import { useDispatch } from "react-redux";
 export default function Dashboard() {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState("Projects");
   const { data: session } = useSession();
@@ -16,6 +20,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (session) {
+      resetReduxStates();
       fetchProjects();
     }
   }, [session]);
@@ -36,6 +41,12 @@ export default function Dashboard() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const resetReduxStates = () => {
+    dispatch(clearProjectData());
+    dispatch(clearThumbnailData());
+    dispatch(clearTitleData());
   };
 
   if (loading) {
