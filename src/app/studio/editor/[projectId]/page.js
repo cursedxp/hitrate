@@ -83,10 +83,11 @@ export default function EditorPage() {
           title: selectedTitle,
           thumbnails: { medium: { url: thumbnail } },
           publishedAt: new Date().toISOString(),
+          description: "This is a generated thumbnail description",
         },
         channelTitle: "",
         publishedAt: new Date().toISOString(),
-        description: "This is a generated thumbnail description",
+
         statistics: {
           viewCount: 100.0,
         },
