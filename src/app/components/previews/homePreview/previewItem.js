@@ -10,8 +10,8 @@ export default function PreviewItem({ video, channelAvatar, shake }) {
   const currentTitle = useSelector((state) => state.title.selectedTitle);
 
   const shakeAnimation = {
-    x: [0, -10, 10, -10, 10, 0],
-    transition: { duration: 0.5, repeat: 3, repeatType: "reverse" },
+    y: [0, -5, 5, -5, 5, 0],
+    transition: { duration: 0.5, repeat: 1, repeatType: "reverse" },
   };
 
   return (
