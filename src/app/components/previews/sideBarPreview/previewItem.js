@@ -7,7 +7,7 @@ export default function PreviewItem({ video }) {
   const currentTitle = useSelector((state) => state.title.selectedTitle);
 
   return (
-    <div className="flex gap-2 bg">
+    <div className="flex gap-2 w-[380px]">
       <div className="relative w-[160px] h-[94px]">
         <Image
           src={
