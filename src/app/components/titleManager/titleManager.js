@@ -1,4 +1,4 @@
-import { Plus } from "react-feather";
+import { Plus, Cpu } from "react-feather";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addTitle,
@@ -75,6 +75,50 @@ export default function TitleManager() {
     }
   }, [titles, selectedTitle]);
 
+  const handleGenerateAITitles = async () => {
+    try {
+      const response = await fetch("/api/ai", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ titles }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate titles");
+      }
+
+      const data = await response.json();
+      let generatedTitles = data.titles;
+
+      // Ensure generatedTitles is an array
+      if (typeof generatedTitles === "string") {
+        generatedTitles = generatedTitles
+          .split("\n")
+          .filter((title) => title.trim() !== "");
+      }
+
+      // Remove any numbering, quotation marks, and trim whitespace from the titles
+      generatedTitles = generatedTitles.map((title) => {
+        return title
+          .replace(/^\d+\.\s*/, "") // Remove numbering
+          .replace(/^["']|["']$/g, "") // Remove leading and trailing quotes
+          .trim();
+      });
+
+      // Add generated titles to the existing titles
+      generatedTitles.forEach((title) => {
+        if (title) {
+          dispatch(addTitle(title));
+        }
+      });
+    } catch (error) {
+      console.error("Error generating titles:", error);
+      // Handle error (e.g., show an error message to the user)
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2 p-2 h-full overflow-scroll">
       {titles.map((title, index) => (
@@ -91,13 +135,23 @@ export default function TitleManager() {
           isSingleTitle={titles.length === 1}
         />
       ))}
-      <button
-        onClick={handleAddTitle}
-        className="flex items-center justify-center gap-1 py-3 rounded-lg bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
-      >
-        <Plus className="w-4 h-4" />
-        Add Title
-      </button>
+      <div className="flex gap-2">
+        <button
+          onClick={handleAddTitle}
+          className="flex items-center w-full justify-center gap-1 py-3 rounded-lg bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
+        >
+          <Plus className="w-4 h-4" />
+          Add Title
+        </button>
+        {titles.length > 0 && (
+          <button
+            onClick={handleGenerateAITitles}
+            className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold border-2 border-black dark:border-white"
+          >
+            <Cpu className="w-4 h-4" />
+          </button>
+        )}
+      </div>
     </div>
   );
 }

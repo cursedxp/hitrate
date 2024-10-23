@@ -9,8 +9,12 @@ const titleSlice = createSlice({
   name: "title",
   initialState,
   reducers: {
-    addTitle: (state) => {
-      state.titles.push("");
+    addTitle: (state, action) => {
+      if (action.payload) {
+        state.titles.push(action.payload);
+      } else {
+        state.titles.push("");
+      }
     },
     updateTitle: (state, action) => {
       const { index, value } = action.payload;
