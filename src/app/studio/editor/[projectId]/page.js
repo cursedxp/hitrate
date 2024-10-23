@@ -19,6 +19,10 @@ import SideBarPreview from "@/app/components/previews/sideBarPreview/sideBarPrev
 import Chips from "@/app/components/chips/chips";
 import { setThumbnailPreviews } from "@/app/redux/slices/thumbnail.slice";
 import { setSelectedTitle, setTitles } from "@/app/redux/slices/title.slice";
+import { uuidv7 } from "uuidv7";
+import { setPreviews } from "@/app/redux/slices/app.slice";
+import { useSelector as thumbnailSelector } from "@/app/redux/slices/thumbnail.slice";
+
 export default function EditorPage() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
@@ -32,7 +36,10 @@ export default function EditorPage() {
   const channelAvatars = useSelector((state) => state.app.channelAvatars);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const selectedTitle = useSelector((state) => state.title.selectedTitle);
+  const thumbnailPreviews = useSelector(
+    (state) => state.thumbnail.thumbnailPreviews
+  );
   useEffect(() => {
     const fetchProjectData = async () => {
       if (!projectId) {
@@ -65,6 +72,29 @@ export default function EditorPage() {
       fetchProjectData();
     }
   }, [projectId, status, dispatch]);
+
+  useEffect(() => {
+    const preparePreviews = () => {
+      if (!thumbnailPreviews || thumbnailPreviews.length === 0) return;
+
+      const newPreviews = thumbnailPreviews.map((thumbnail) => ({
+        id: uuidv7(),
+        snippet: {
+          title: selectedTitle,
+          thumbnails: { medium: { url: thumbnail } },
+        },
+        channelTitle: "",
+        publishedAt: new Date().toISOString(),
+        description: "This is a generated thumbnail description",
+        statistics: {
+          viewCount: 100.0,
+        },
+      }));
+      dispatch(setPreviews(newPreviews));
+    };
+
+    preparePreviews();
+  }, [thumbnailPreviews, selectedTitle, dispatch]);
 
   useEffect(() => {
     const fetchVideos = async () => {
