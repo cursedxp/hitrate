@@ -7,13 +7,14 @@ import {
   setSelectedTitle,
 } from "@/app/redux/slices/title.slice";
 import TitleItem from "./titleItem";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function TitleManager() {
   const dispatch = useDispatch();
   const titles = useSelector((state) => state.title.titles);
   const selectedTitle = useSelector((state) => state.title.selectedTitle);
   const projectId = useSelector((state) => state.app.currentProjectId);
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const handleTitleChange = (index, e) => {
     const newValue = e.target.value;
@@ -76,6 +77,7 @@ export default function TitleManager() {
   }, [titles, selectedTitle]);
 
   const handleGenerateAITitles = async () => {
+    setIsGenerating(true);
     try {
       const response = await fetch("/api/ai", {
         method: "POST",
@@ -116,6 +118,8 @@ export default function TitleManager() {
     } catch (error) {
       console.error("Error generating titles:", error);
       // Handle error (e.g., show an error message to the user)
+    } finally {
+      setIsGenerating(false);
     }
   };
 
@@ -146,9 +150,10 @@ export default function TitleManager() {
         {titles.length > 0 && (
           <button
             onClick={handleGenerateAITitles}
-            className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold border-2 border-black dark:border-white"
+            disabled={isGenerating}
+            className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold border-2 border-black dark:border-white disabled:opacity-50"
           >
-            <Cpu className="w-4 h-4" />
+            <Cpu className={`w-4 h-4 ${isGenerating ? "animate-spin" : ""}`} />
           </button>
         )}
       </div>
