@@ -11,32 +11,6 @@ export default function SearchPreview() {
     (state) => state.thumbnail.hiddenThumbnails
   );
 
-  useEffect(() => {
-    const fetchChannelAvatars = async () => {
-      const channelIds = [
-        ...new Set(allPreviews.map((video) => video.snippet.channelId)),
-      ];
-      const missingChannelIds = channelIds.filter((id) => !channelAvatars[id]);
-
-      if (missingChannelIds.length === 0) return;
-
-      try {
-        const response = await fetch(
-          `/api/youTube?endpoint=channelAvatars&channelIds=${missingChannelIds.join(
-            ","
-          )}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch channel avatars");
-        const data = await response.json();
-        dispatch(setChannelAvatars(data));
-      } catch (error) {
-        console.error("Error fetching channel avatars:", error);
-      }
-    };
-
-    fetchChannelAvatars();
-  }, [allPreviews, channelAvatars, dispatch]);
-
   const visiblePreviews = allPreviews.filter(
     (video) =>
       !hiddenThumbnails.includes(
