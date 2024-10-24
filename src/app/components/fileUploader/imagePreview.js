@@ -14,6 +14,7 @@ import { useParams } from "next/navigation";
 
 export default function ImagePreview({ thumbnail, isLoading, index }) {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const thumbnailFiles = useSelector((state) => state.thumbnail.thumbnailFiles);
   const previews = useSelector((state) => state.thumbnail.thumbnailPreviews);
   const hiddenThumbnails = useSelector(
@@ -36,6 +37,7 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
   const handleDelete = useCallback(
     async (e) => {
       e.stopPropagation();
+      setIsDeleting(true);
 
       try {
         const response = await fetch("/api/thumbnails/delete", {
@@ -71,6 +73,8 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
       } catch (error) {
         console.error("Error deleting thumbnail:", error);
         // Handle error (e.g., show an error message to the user)
+      } finally {
+        setIsDeleting(false);
       }
     },
     [
@@ -102,12 +106,13 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
       onClick={() => dispatch(setSelectedThumbnail(index))}
     >
       {(isLoading || !imageLoaded) && <Loader />}
+      {isDeleting && <Loader text="Removing..." />}
       <div
         className={`relative w-full h-full rounded-xl ${
           isHidden ? "brightness-50" : ""
-        }`}
+        } ${isDeleting ? "opacity-50" : ""}`}
       >
-        {imageLoaded && (
+        {imageLoaded && !isDeleting && (
           <Image
             src={thumbnail}
             alt="image"
@@ -123,25 +128,27 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
         )}
       </div>
 
-      <div className="absolute top-0 left-0 w-full h-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
-        <div className="flex justify-end">
-          <div className="flex flex-col bg-white dark:bg-zinc-800 rounded-md m-2">
-            <button
-              className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white"
-              onClick={handleToggleHidden}
-              title={isHidden ? "Show thumbnail" : "Hide thumbnail"}
-            >
-              <Eye size={16} />
-            </button>
-            <button
-              className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white"
-              onClick={handleDelete}
-            >
-              <Trash size={16} />
-            </button>
+      {!isDeleting && (
+        <div className="absolute top-0 left-0 w-full h-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
+          <div className="flex justify-end">
+            <div className="flex flex-col bg-white dark:bg-zinc-800 rounded-md m-2">
+              <button
+                className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white"
+                onClick={handleToggleHidden}
+                title={isHidden ? "Show thumbnail" : "Hide thumbnail"}
+              >
+                <Eye size={16} />
+              </button>
+              <button
+                className="p-2 rounded-md hover:bg-zinc-700 hover:text-white text-black dark:text-white"
+                onClick={handleDelete}
+              >
+                <Trash size={16} />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
