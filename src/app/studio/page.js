@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
 
   const fetchProjects = async () => {
+    setLoading(true);
     try {
       const response = await fetch("/api/projects/read");
       if (!response.ok) {
@@ -29,6 +30,7 @@ export default function Dashboard() {
         return new Date(b.createdAt) - new Date(a.createdAt);
       });
       setProjects(sortedProjects);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching projects:", error);
     } finally {
@@ -41,10 +43,6 @@ export default function Dashboard() {
     dispatch(clearThumbnailData());
     dispatch(clearTitleData());
   };
-
-  if (loading) {
-    return <Loader />;
-  }
 
   useEffect(() => {
     if (session) {
@@ -71,7 +69,7 @@ export default function Dashboard() {
         </div>
         <nav className="">
           <ul className="flex mt-4 space-x-4">
-            {["Projects", "Collections"].map((item) => (
+            {["Projects"].map((item) => (
               <li key={item}>
                 <a
                   href={`#${item.toLowerCase().replace(" ", "-")}`}
@@ -87,11 +85,13 @@ export default function Dashboard() {
           </ul>
         </nav>
       </div>
-      <div className="absolute right-4 top-4 flex items-center space-x-4">
-        <button className="bg-blue-500 text-white p-4 rounded-full hover:bg-blue-600">
-          <Plus className="w-4 h-4" />
-        </button>
-      </div>
+      {projects.length > 11 && (
+        <div className="absolute right-4 top-4 flex items-center space-x-4">
+          <button className="bg-blue-500 text-white p-4 rounded-full hover:bg-blue-600">
+            <Plus className="w-4 h-4" />
+          </button>
+        </div>
+      )}
       <section className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {projects.map((project) => (
           <ProjectItem key={project.id} project={project} />
