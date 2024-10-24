@@ -124,22 +124,26 @@ export default function TitleManager() {
   };
 
   return (
-    <div className="flex flex-col gap-2 p-2 h-full overflow-scroll">
-      {titles.map((title, index) => (
-        <TitleItem
-          key={index}
-          id={index}
-          index={index}
-          title={title}
-          handleTitleChange={handleTitleChange}
-          handleRemoveTitle={handleRemoveTitle}
-          placeholderText="Enter a title..."
-          onSelect={handleSetSelectedTitle}
-          isSelected={title === selectedTitle}
-          isSingleTitle={titles.length === 1}
-        />
-      ))}
-      <div className="flex gap-2">
+    <div className="flex flex-col h-full">
+      <div className="flex-grow overflow-y-auto">
+        <div className="flex flex-col gap-2 p-2">
+          {titles.map((title, index) => (
+            <TitleItem
+              key={index}
+              id={index}
+              index={index}
+              title={title}
+              handleTitleChange={handleTitleChange}
+              handleRemoveTitle={handleRemoveTitle}
+              placeholderText="Enter a title..."
+              onSelect={handleSetSelectedTitle}
+              isSelected={title === selectedTitle}
+              isSingleTitle={titles.length === 1}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="flex gap-2 p-2 border-t border-gray-100 dark:border-gray-700 mt-auto">
         <button
           onClick={handleAddTitle}
           className="flex items-center w-full justify-center gap-1 py-3 rounded-lg bg-blue-500 text-white text-xs font-bold hover:bg-blue-600"
@@ -151,7 +155,7 @@ export default function TitleManager() {
           <button
             onClick={handleGenerateAITitles}
             disabled={isGenerating}
-            className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold border-2 border-black dark:border-white disabled:opacity-50"
+            className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold dark:border-white disabled:opacity-50 hover:bg-zinc-100 dark:hover:bg-zinc-700"
           >
             <Cpu className={`w-4 h-4 ${isGenerating ? "animate-spin" : ""}`} />
           </button>

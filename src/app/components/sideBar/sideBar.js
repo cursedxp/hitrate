@@ -2,10 +2,8 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setProjectName } from "@/app/redux/slices/app.slice";
-import Button from "../button/button";
 import ThemeToggle from "../themeToggle/themeToggle";
 import ShuffleButton from "../shuffleButton/shuffleButton";
-import { Menu } from "react-feather";
 import TabBar from "./tabBar/tabBar";
 import Thumbnails from "./thumbnails/thumbnails";
 import TitleManager from "../titleManager/titleManager";
@@ -73,9 +71,7 @@ export default function SideBar() {
   };
 
   return (
-    <div
-      className={`bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px] flex-shrink-0`}
-    >
+    <div className="bg-white shadow-xl dark:bg-zinc-800 rounded-xl w-[300px] flex-shrink-0 flex flex-col h-full">
       <UserDetails />
       <div className="flex gap-2 px-2 py-2 items-center border-b border-zinc-100 dark:border-zinc-700">
         {isEditing ? (
@@ -101,7 +97,9 @@ export default function SideBar() {
           <ShuffleButton />
         </div>
       </div>
-      <TabBar tabs={tabs} />
+      <div className="flex-grow overflow-hidden">
+        <TabBar tabs={tabs} />
+      </div>
     </div>
   );
 }
