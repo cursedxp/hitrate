@@ -7,6 +7,9 @@ export default function SearchPreview() {
   const dispatch = useDispatch();
   const allPreviews = useSelector((state) => state.app.allPreviews);
   const channelAvatars = useSelector((state) => state.app.channelAvatars);
+  const hiddenThumbnails = useSelector(
+    (state) => state.thumbnail.hiddenThumbnails
+  );
 
   useEffect(() => {
     const fetchChannelAvatars = async () => {
@@ -34,9 +37,17 @@ export default function SearchPreview() {
     fetchChannelAvatars();
   }, [allPreviews, channelAvatars, dispatch]);
 
+  const visiblePreviews = allPreviews.filter(
+    (video) =>
+      !hiddenThumbnails.includes(
+        video.snippet.thumbnails.medium?.url ||
+          video.snippet.thumbnails.default.url
+      )
+  );
+
   return (
     <div className="flex flex-col gap-4 w-full">
-      {allPreviews.map((video) => (
+      {visiblePreviews.map((video) => (
         <PreviewItem
           key={video.id}
           video={video}

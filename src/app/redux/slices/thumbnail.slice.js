@@ -5,6 +5,7 @@ const initialState = {
   thumbnailPreviews: [],
   isLoading: false,
   selectedThumbnail: 0,
+  hiddenThumbnails: [], // Add this line
 };
 
 const thumbnailSlice = createSlice({
@@ -42,6 +43,15 @@ const thumbnailSlice = createSlice({
       state.isLoading = false;
       state.selectedThumbnail = 0;
     },
+    toggleHiddenThumbnail: (state, action) => {
+      const thumbnailUrl = action.payload;
+      const index = state.hiddenThumbnails.indexOf(thumbnailUrl);
+      if (index === -1) {
+        state.hiddenThumbnails.push(thumbnailUrl);
+      } else {
+        state.hiddenThumbnails.splice(index, 1);
+      }
+    },
   },
 });
 
@@ -55,6 +65,7 @@ export const {
   setSelectedThumbnail,
   setChannelAvatar,
   clearThumbnailData,
+  toggleHiddenThumbnail,
 } = thumbnailSlice.actions;
 
 export default thumbnailSlice.reducer;

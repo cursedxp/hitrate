@@ -9,6 +9,9 @@ export default function HomePreview() {
   const allPreviews = useSelector((state) => state.app.allPreviews);
   const channelAvatars = useSelector((state) => state.app.channelAvatars);
   const shakeUploaded = useSelector((state) => state.app.shakeUploaded);
+  const hiddenThumbnails = useSelector(
+    (state) => state.thumbnail.hiddenThumbnails
+  );
 
   useEffect(() => {
     const fetchChannelAvatars = async () => {
@@ -41,11 +44,19 @@ export default function HomePreview() {
     }
   }, [allPreviews, channelAvatars, dispatch, shakeUploaded]);
 
+  const visiblePreviews = allPreviews.filter(
+    (video) =>
+      !hiddenThumbnails.includes(
+        video.snippet.thumbnails.medium?.url ||
+          video.snippet.thumbnails.default.url
+      )
+  );
+
   return (
     <div className="w-full">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         <AnimatePresence>
-          {allPreviews.map((video, index) => (
+          {visiblePreviews.map((video, index) => (
             <motion.div
               key={video.id.videoId || index}
               layout
