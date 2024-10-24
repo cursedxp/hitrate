@@ -81,7 +81,7 @@ export default function SideBar() {
             onChange={handleProjectNameChange}
             onBlur={handleProjectNameSave}
             onKeyDown={handleKeyDown}
-            className="w-full text-sm font-bold bg-transparent border-none outline-none"
+            className="w-full text-sm font-bold bg-transparent border-none outline-none p-1 bg-zinc-100 dark:bg-zinc-700 rounded-md"
             autoFocus
           />
         ) : (
