@@ -84,10 +84,8 @@ export default function EditorPage() {
       }
     };
 
-    if (status === "authenticated") {
-      fetchProjectData();
-    }
-  }, [projectId, status, dispatch]);
+    fetchProjectData();
+  }, [projectId, dispatch]);
 
   useEffect(() => {
     const preparePreviews = () => {

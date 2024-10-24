@@ -13,18 +13,10 @@ import { useDispatch } from "react-redux";
 import Loader from "@/app/components/loader/loader";
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isActive, setIsActive] = useState("Projects");
   const { data: session } = useSession();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (session) {
-      resetReduxStates();
-      fetchProjects();
-    }
-  }, [session]);
 
   const fetchProjects = async () => {
     try {
@@ -53,6 +45,13 @@ export default function Dashboard() {
   if (loading) {
     return <Loader />;
   }
+
+  useEffect(() => {
+    if (session) {
+      resetReduxStates();
+      fetchProjects();
+    }
+  }, [session]);
 
   return (
     <div className="flex flex-col max-w-7xl py-32 h-screen mx-auto">
@@ -97,7 +96,7 @@ export default function Dashboard() {
         {projects.map((project) => (
           <ProjectItem key={project.id} project={project} />
         ))}
-        <NewProjectButton onClick={() => setIsModalOpen(true)} />
+        <NewProjectButton />
       </section>
     </div>
   );
