@@ -106,7 +106,7 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
       onClick={() => dispatch(setSelectedThumbnail(index))}
     >
       {(isLoading || !imageLoaded) && <Loader />}
-      {isDeleting && <Loader text="Removing..." />}
+      {isDeleting && <Loader text="" />}
       <div
         className={`relative w-full h-full rounded-xl ${
           isHidden ? "brightness-50" : ""
