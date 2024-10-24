@@ -1,7 +1,10 @@
 "use client";
 import Header from "./components/header/header";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const router = useRouter();
   return (
     <>
       <Header />
@@ -47,7 +50,12 @@ export default function Home() {
                 and views.
               </p>
               <div className="flex items-center justify-center">
-                <button className="bg-blue-500 text-xl  text-white px-8 py-4 rounded-2xl  hover:shadow-2xl transition-shadow duration-300 hover:scale-105 ">
+                <button
+                  className="bg-blue-500 text-xl  text-white px-8 py-4 rounded-2xl  hover:shadow-2xl transition-shadow duration-300 hover:scale-105 "
+                  onClick={() => {
+                    router.push("/studio");
+                  }}
+                >
                   Launch App
                 </button>
               </div>
