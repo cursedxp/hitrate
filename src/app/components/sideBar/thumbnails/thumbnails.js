@@ -15,16 +15,22 @@ export default function Thumbnails() {
   }
 
   return (
-    <div className="flex flex-col gap-4 p-2 h-full overflow-scroll">
-      {thumbnailPreviews.map((preview, index) => (
-        <ImagePreview
-          key={preview}
-          index={index}
-          thumbnail={preview}
-          isLoading={isLoading && index === thumbnailPreviews.length - 1}
-        />
-      ))}
-      <FileUploader />
+    <div className="flex flex-col h-full">
+      <div className="flex-grow overflow-y-auto">
+        <div className="flex flex-col gap-4 p-2">
+          {thumbnailPreviews.map((preview, index) => (
+            <ImagePreview
+              key={preview}
+              index={index}
+              thumbnail={preview}
+              isLoading={isLoading && index === thumbnailPreviews.length - 1}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="p-2 border-t border-gray-200 dark:border-gray-700">
+        <FileUploader />
+      </div>
     </div>
   );
 }
