@@ -28,7 +28,7 @@ export default function Thumbnails() {
           ))}
         </div>
       </div>
-      <div className="p-2 border-t border-gray-200 dark:border-gray-700">
+      <div className="p-2 border-t border-zinc-100 dark:border-zinc-700">
         <FileUploader />
       </div>
     </div>
