@@ -98,25 +98,32 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
 
   return (
     <div
-      className={`relative h-[180px] rounded-md cursor-pointer group ${
-        isHidden ? "opacity-50" : ""
-      }`}
+      className="relative h-[180px] rounded-xl cursor-pointer group"
       onClick={() => dispatch(setSelectedThumbnail(index))}
     >
       {(isLoading || !imageLoaded) && <Loader />}
-      {imageLoaded && (
-        <Image
-          src={thumbnail}
-          alt="image"
-          fill
-          sizes="100%"
-          className={`object-cover rounded-xl ${
-            index === selectedThumbnail ? selectedThumbnailStyle : ""
-          }`}
-        />
-      )}
+      <div
+        className={`relative w-full h-full rounded-xl ${
+          isHidden ? "brightness-50" : ""
+        }`}
+      >
+        {imageLoaded && (
+          <Image
+            src={thumbnail}
+            alt="image"
+            fill
+            sizes="100%"
+            className={`object-cover rounded-xl ${
+              index === selectedThumbnail ? selectedThumbnailStyle : ""
+            }`}
+          />
+        )}
+        {isHidden && (
+          <div className="absolute top-0 left-0 w-full h-full bg-black/50 rounded-xl" />
+        )}
+      </div>
 
-      <div className="absolute top-0 left-0 w-full h-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md ">
+      <div className="absolute top-0 left-0 w-full h-full bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl">
         <div className="flex justify-end">
           <div className="flex flex-col bg-white dark:bg-zinc-800 rounded-md m-2">
             <button
