@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-
+import { useDispatch } from "react-redux";
+import { setChannelName, setChannelAvatar } from "@/app/redux/slices/app.slice";
+import { useSelector } from "react-redux";
 export default function Creator() {
+  const channelName = useSelector((state) => state.app.channelName);
+  const channelAvatar = useSelector((state) => state.app.channelAvatar);
+  const dispatch = useDispatch();
   const [creatorName, setCreatorName] = useState("");
-  const [creatorImage, setCreatorImage] = useState("");
-  const [exactChannelName, setExactChannelName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isMatch, setIsMatch] = useState(false);
 
@@ -27,23 +30,23 @@ export default function Creator() {
           );
           const avatarData = await avatarResponse.json();
           if (avatarData[channelId]) {
-            setCreatorImage(avatarData[channelId]);
-            setExactChannelName(channelTitle);
+            dispatch(setChannelName(channelTitle));
+            dispatch(setChannelAvatar(avatarData[channelId]));
             setIsMatch(true);
           } else {
-            setCreatorImage("");
-            setExactChannelName("");
+            dispatch(setChannelName(""));
+            dispatch(setChannelAvatar(""));
             setIsMatch(false);
           }
         } else {
-          setCreatorImage("");
-          setExactChannelName("");
+          dispatch(setChannelAvatar(""));
+          dispatch(setChannelName(""));
           setIsMatch(false);
         }
       } catch (error) {
         console.error("Error searching for creator:", error);
-        setCreatorImage("");
-        setExactChannelName("");
+        dispatch(setChannelAvatar(""));
+        dispatch(setChannelName(""));
         setIsMatch(false);
       } finally {
         setIsLoading(false);
@@ -53,8 +56,8 @@ export default function Creator() {
 
   const handleReset = () => {
     setCreatorName("");
-    setCreatorImage("");
-    setExactChannelName("");
+    dispatch(setChannelAvatar(""));
+    dispatch(setChannelName(""));
     setIsMatch(false);
   };
 
@@ -68,12 +71,18 @@ export default function Creator() {
             className="w-full p-2 border border-zinc-200 dark:border-zinc-800 rounded-md"
             value={creatorName}
             onChange={(e) => setCreatorName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleAddCreator();
+              }
+            }}
           />
           <button
-            className="bg-blue-500 text-white p-2 rounded-md"
+            className="bg-blue-500 text-sm text-white p-2 rounded-md"
             onClick={handleAddCreator}
+            disabled={isLoading} // Disable button while loading
           >
-            Add Creator
+            {isLoading ? "Loading..." : "Add Creator"}
           </button>
         </>
       )}
@@ -85,15 +94,15 @@ export default function Creator() {
                 <div className="w-full h-full bg-gray-200 animate-pulse"></div>
               ) : (
                 <Image
-                  src={creatorImage}
-                  alt={exactChannelName}
+                  src={channelAvatar}
+                  alt={channelName}
                   width={40}
                   height={40}
                   className="object-cover"
                 />
               )}
             </div>
-            <div>{exactChannelName}</div>
+            <div>{channelName}</div>
           </div>
           <button
             className="p-2 rounded-md hover:bg-zinc-200 dark:hover:bg-zinc-800"

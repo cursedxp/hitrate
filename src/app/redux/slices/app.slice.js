@@ -8,7 +8,8 @@ const initialState = {
   searchList: [],
   selectedSearchItem: "",
   channelAvatars: {},
-  channelHandle: "",
+  channelName: "",
+  channelAvatar: "",
   //rename this later to mergedPreviews
   allPreviews: [],
   projectName: "Untitled",
@@ -62,11 +63,14 @@ const appSlice = createSlice({
     setChannelAvatars: (state, action) => {
       state.channelAvatars = { ...state.channelAvatars, ...action.payload };
     },
+    setChannelAvatar: (state, action) => {
+      state.channelAvatar = action.payload;
+    },
     setAllPreviews: (state, action) => {
       state.allPreviews = action.payload;
     },
-    setChannelHandle: (state, action) => {
-      state.channelHandle = action.payload;
+    setChannelName: (state, action) => {
+      state.channelName = action.payload;
     },
     setProjectName: (state, action) => {
       state.projectName = action.payload;
@@ -119,7 +123,7 @@ export const {
   removePreview,
   setSelectedSearchItem,
   setAllPreviews,
-  setChannelHandle,
+  setChannelName,
   setProjectName,
   setCurrentProjectId,
   clearProjectData,
@@ -128,5 +132,6 @@ export const {
   updateProject,
   shufflePreviews,
   resetShake,
+  setChannelAvatar,
 } = appSlice.actions;
 export default appSlice.reducer;

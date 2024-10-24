@@ -8,7 +8,8 @@ export default function PreviewItem({ video, channelAvatar, shake }) {
   const formatter = Formatter();
   const [imageLoaded, setImageLoaded] = useState(false);
   const currentTitle = useSelector((state) => state.title.selectedTitle);
-
+  const channelName = useSelector((state) => state.app.channelName);
+  const channelImage = useSelector((state) => state.app.channelAvatar);
   const shakeAnimation = {
     y: [0, -5, 5, -5, 5, 0],
     transition: { duration: 0.5, repeat: 1, repeatType: "reverse" },
@@ -42,9 +43,9 @@ export default function PreviewItem({ video, channelAvatar, shake }) {
       <div className="flex gap-2 mt-2">
         <div className="flex-shrink-0">
           <div className="relative w-10 h-10 overflow-hidden rounded-full bg-white flex items-center justify-center">
-            {channelAvatar ? (
+            {channelAvatar || channelImage ? (
               <Image
-                src={channelAvatar}
+                src={channelAvatar || channelImage}
                 alt={video.snippet.channelTitle || ""}
                 fill
                 className="object-cover rounded-full"
@@ -69,7 +70,7 @@ export default function PreviewItem({ video, channelAvatar, shake }) {
             {video.snippet.title || currentTitle || "Untitled Video"}
           </div>
           <p className="text-xs text-gray-500 truncate">
-            {video.snippet.channelTitle || "Lorem ipsum dolor sit amet"}
+            {video.snippet.channelTitle || channelName || "Your Channel Name"}
           </p>
           <div className="flex items-center text-sm text-gray-500 mt-1">
             <span className="truncate">
