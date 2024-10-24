@@ -31,7 +31,7 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
 
   const handleDelete = useCallback(
     async (e) => {
-      e.stopPropagation(); // Prevent the click from bubbling up to the parent div
+      e.stopPropagation();
 
       try {
         const response = await fetch("/api/thumbnails/delete", {
@@ -59,12 +59,25 @@ export default function ImagePreview({ thumbnail, isLoading, index }) {
 
         // Remove corresponding preview
         dispatch(removePreview(index));
+
+        // If this was the selected thumbnail, reset the selection
+        if (index === selectedThumbnail) {
+          dispatch(setSelectedThumbnail(null));
+        }
       } catch (error) {
         console.error("Error deleting thumbnail:", error);
         // Handle error (e.g., show an error message to the user)
       }
     },
-    [dispatch, index, thumbnailFiles, previews, projectId, thumbnail]
+    [
+      dispatch,
+      index,
+      thumbnailFiles,
+      previews,
+      projectId,
+      thumbnail,
+      selectedThumbnail,
+    ]
   );
 
   const selectedThumbnailStyle = "border-4 border-blue-500";

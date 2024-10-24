@@ -3,7 +3,7 @@ import { Storage } from "@google-cloud/storage";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { db } from "@/app/lib/firebase/firebase.config";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
 
 const storage = new Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
@@ -25,12 +25,15 @@ export async function POST(req) {
   const { projectId, thumbnailUrl } = await req.json();
 
   if (!projectId || !thumbnailUrl) {
-    return NextResponse.json({ error: "Missing required parameters" }, { status: 400 });
+    return NextResponse.json(
+      { error: "Missing required parameters" },
+      { status: 400 }
+    );
   }
 
   try {
     // Extract the file name from the URL
-    const fileName = thumbnailUrl.split('/').pop().split('?')[0];
+    const fileName = thumbnailUrl.split("/").pop().split("?")[0];
     const filePath = `${session.user.id}/${projectId}/${fileName}`;
 
     // Delete the file from Google Cloud Storage
@@ -47,15 +50,19 @@ export async function POST(req) {
     const userData = userDoc.data();
     let projects = userData.projects;
 
-    if (!projects || typeof projects !== 'object' || !projects[projectId]) {
+    const projectIndex = projects.findIndex(
+      (project) => project.id === projectId
+    );
+    if (projectIndex === -1) {
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
-    // Remove the thumbnail URL from the project
-    projects[projectId].thumbnailUrls = projects[projectId].thumbnailUrls.filter(url => url !== thumbnailUrl);
-    projects[projectId].updatedAt = new Date().toISOString();
+    projects[projectIndex].thumbnailUrls = projects[
+      projectIndex
+    ].thumbnailUrls.filter((url) => url !== thumbnailUrl);
+    projects[projectIndex].updatedAt = new Date().toISOString();
 
-    // Update the user document with the modified projects object
+    // Update the user document with the modified projects array
     await updateDoc(userRef, { projects });
 
     return NextResponse.json({ success: true }, { status: 200 });
@@ -67,4 +74,3 @@ export async function POST(req) {
     );
   }
 }
-
