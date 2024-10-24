@@ -9,7 +9,7 @@ import Thumbnails from "./thumbnails/thumbnails";
 import TitleManager from "../titleManager/titleManager";
 import UserDetails from "./userDetails/userDetails";
 import { useParams } from "next/navigation";
-
+import Creator from "../creator/creator";
 const tabs = [
   {
     name: "Images",
@@ -18,6 +18,10 @@ const tabs = [
   {
     name: "Titles",
     content: <TitleManager />,
+  },
+  {
+    name: "Creator",
+    content: <Creator />,
   },
 ];
 
