@@ -10,6 +10,7 @@ import { clearProjectData } from "@/app/redux/slices/app.slice";
 import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
 import { clearTitleData } from "@/app/redux/slices/title.slice";
 import { useDispatch } from "react-redux";
+import Loader from "@/app/components/loader/loader";
 export default function Dashboard() {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function Dashboard() {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
