@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Image as ImageIcon } from "react-feather";
 
 export default function ProjectItem({ project }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -37,8 +38,16 @@ export default function ProjectItem({ project }) {
         />
       </div>
       <div className="flex flex-col pt-4">
-        <div className="text-md font-semibold mb-1 line-clamp-2">
-          {project.name}
+        <div className="flex justify-between">
+          <div className="text-md font-semibold mb-1 line-clamp-2">
+            {project.name}
+          </div>
+          <div className=" flex text-md items-center gap-2 text-gray-500">
+            <div>
+              {project.thumbnailUrls ? project.thumbnailUrls.length : 0}
+            </div>
+            <ImageIcon className="w-4 h-4" />
+          </div>
         </div>
         <div className="text-sm text-gray-500 line-clamp-2">
           {new Date(project.createdAt).toLocaleDateString()}
