@@ -15,7 +15,6 @@ export default function PreviewBar() {
 
   return (
     <div className="flex  justify-center gap-4 p-2 px-4 items-center h-fit bg-white dark:bg-zinc-800 rounded-xl shadow-md">
-      <div className="text-xs font-bold text-center">Previews</div>
       <button
         className={`flex flex-col p-2 items-center rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-700 ${
           isSelected === 0
