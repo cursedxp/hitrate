@@ -4,6 +4,9 @@ import { signInWithCredential, getAuth } from "firebase/auth";
 import { GoogleAuthProvider } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebase/firebase.config";
+import Stripe from "stripe";
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const authOptions = {
   providers: [
@@ -19,8 +22,30 @@ export const authOptions = {
           const userRef = doc(db, "users", user.id);
           const userSnap = await getDoc(userRef);
 
+          let stripeCustomerId;
+
           if (!userSnap.exists()) {
-            // User doesn't exist, create a new user document
+            // Check if a Stripe customer already exists for this email
+            const existingCustomers = await stripe.customers.list({
+              email: user.email,
+              limit: 1,
+            });
+
+            if (existingCustomers.data.length > 0) {
+              stripeCustomerId = existingCustomers.data[0].id;
+            } else {
+              // Create a new Stripe customer
+              const stripeCustomer = await stripe.customers.create({
+                email: user.email,
+                name: user.name,
+                metadata: {
+                  firebaseUserId: user.id,
+                },
+              });
+              stripeCustomerId = stripeCustomer.id;
+            }
+
+            // Create a new user document
             await setDoc(userRef, {
               name: user.name,
               email: user.email,
@@ -28,7 +53,8 @@ export const authOptions = {
               createdAt: new Date(),
               lastLoginAt: new Date(),
               subscriptionStatus: "trialing",
-              projects: {}, // Initialize projects as an empty object
+              projects: {},
+              stripeCustomerId: stripeCustomerId,
             });
           } else {
             // User exists, update last login
