@@ -31,6 +31,11 @@ export async function POST(req) {
       const session = event.data.object;
       await handleCheckoutSessionCompleted(session);
       break;
+    case "customer.subscription.updated":
+    case "customer.subscription.created":
+      const subscription = event.data.object;
+      await handleSubscriptionUpdate(subscription);
+      break;
     default:
       console.log(`Unhandled event type ${event.type}`);
   }
@@ -65,12 +70,51 @@ async function handleCheckoutSessionCompleted(session) {
       subscriptionStatus: subscriptionData.status,
       subscriptionId: subscriptionId,
       subscriptionPlan: subscriptionData.items.data[0].price.nickname,
-      trialStart: new Date(subscriptionData.trial_start * 1000),
-      trialEnd: new Date(subscriptionData.trial_end * 1000),
       subscriptionCurrentPeriodEnd: new Date(
         subscriptionData.current_period_end * 1000
       ),
     });
+  } catch (error) {
+    console.error("Error updating user subscription info:", error);
+  }
+}
+
+async function handleSubscriptionUpdate(subscription) {
+  const userId = subscription.metadata.userId;
+
+  if (!userId) {
+    console.error("Missing user ID in subscription metadata");
+    return;
+  }
+
+  try {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+
+    if (!userDoc.exists()) {
+      console.error(`User with ID ${userId} not found`);
+      return;
+    }
+
+    const isSubscribed =
+      subscription.status === "active" || subscription.status === "trialing";
+
+    await updateDoc(userRef, {
+      isSubscribed: isSubscribed,
+      subscriptionStatus: subscription.status,
+      subscriptionId: subscription.id,
+      subscriptionPlan: subscription.items.data[0].price.nickname,
+      subscriptionCurrentPeriodEnd: new Date(
+        subscription.current_period_end * 1000
+      ),
+      trialEnd: subscription.trial_end
+        ? new Date(subscription.trial_end * 1000)
+        : null,
+    });
+
+    console.log(
+      `Updated subscription for user ${userId}. Status: ${subscription.status}, Is Subscribed: ${isSubscribed}`
+    );
   } catch (error) {
     console.error("Error updating user subscription info:", error);
   }
