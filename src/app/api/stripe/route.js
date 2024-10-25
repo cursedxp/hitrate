@@ -27,6 +27,17 @@ export async function POST(req) {
   }
 
   try {
+    // Check if user is already a Stripe customer
+    let customerId;
+    const customers = await stripe.customers.list({
+      email: session.user.email,
+      limit: 1,
+    });
+
+    if (customers.data.length > 0) {
+      customerId = customers.data[0].id;
+    }
+
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "subscription",
       payment_method_types: ["card", "paypal"],
@@ -36,7 +47,8 @@ export async function POST(req) {
       )}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.get("origin")}/pricing`,
       client_reference_id: userId,
-      customer_email: session.user.email,
+      customer: customerId, // Use existing customer ID if found
+      customer_email: customerId ? undefined : session.user.email, // Only set if no customer ID
       metadata: {
         userId: userId,
         currentStatus: session.user.subscriptionStatus,
