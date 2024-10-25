@@ -1,11 +1,11 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { Plus, ChevronDown } from "react-feather";
+import { Plus, ChevronDown, CreditCard, LogOut } from "react-feather";
 import ProjectItem from "../components/dashboard/projectItem/projectItem";
 import NewProjectButton from "../components/dashboard/newProjectButton/newProjectButton";
-
+import { signOut } from "next-auth/react";
 import { clearProjectData } from "@/app/redux/slices/app.slice";
 import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
 import { clearTitleData } from "@/app/redux/slices/title.slice";
@@ -17,7 +17,8 @@ export default function Dashboard() {
   const { data: session } = useSession();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
   const fetchProjects = async () => {
     setLoading(true);
     try {
@@ -44,11 +45,25 @@ export default function Dashboard() {
     dispatch(clearTitleData());
   };
 
+  const handleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsDropdownOpen(false);
+    }
+  };
+
   useEffect(() => {
     if (session) {
       resetReduxStates();
       fetchProjects();
     }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [session]);
 
   return (
@@ -63,20 +78,38 @@ export default function Dashboard() {
             className="rounded-full"
           />
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="relative flex flex-col gap-1" ref={dropdownRef}>
           <div className="flex gap-2 items-center">
             <div className="text-xl font-semibold">{session?.user?.name}</div>
             <div className="flex h-6 items-center justify-center text-xs text-center bg-blue-100 text-blue-500  font-medium rounded-md px-2">
               Trial
             </div>
-            <div className="flex w-6 h-6 items-center justify-center hover:cursor-pointer hover:bg-zinc-100 rounded-md">
+            <div
+              className="flex w-6 h-6 items-center justify-center hover:cursor-pointer hover:bg-zinc-100 rounded-md"
+              onClick={handleDropdown}
+            >
               <ChevronDown className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-gray-600">{session?.user?.email}</div>
-          <div className="flex items-center text-sm gap-2 w-36 bg-yellow-200 text-yellow-800 px-2 py-1 rounded-md cursor-pointer">
+          <div className="text-zinc-400 text-sm">{session?.user?.email}</div>
+          <div className="flex items-center text-sm gap-2 w-36 bg-yellow-200 text-yellow-800 px-2 py-1 rounded-md cursor-pointer mt-1">
             <span className="text-sm">👑</span> Upgrade to Pro
           </div>
+          {isDropdownOpen && (
+            <div className="absolute top-10 left-0 w-full bg-white shadow-md rounded-md">
+              <ul className="flex flex-col gap-1">
+                <li className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2">
+                  <CreditCard className="w-4 h-4" /> Subscriptions
+                </li>
+                <li
+                  className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2"
+                  onClick={() => signOut()}
+                >
+                  <LogOut className="w-4 h-4" /> Sign Out
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
       </div>
       <nav className="flex justify-center mt-8">
