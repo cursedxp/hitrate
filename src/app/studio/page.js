@@ -10,6 +10,7 @@ import { clearProjectData } from "@/app/redux/slices/app.slice";
 import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
 import { clearTitleData } from "@/app/redux/slices/title.slice";
 import { useDispatch } from "react-redux";
+import Link from "next/link";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+
   const fetchProjects = async () => {
     setLoading(true);
     try {
@@ -66,6 +68,26 @@ export default function Dashboard() {
     };
   }, [session]);
 
+  const getUserBadge = () => {
+    const status = session?.user?.subscriptionStatus;
+    switch (status) {
+      case "active":
+        return (
+          <div className="flex h-6 items-center justify-center text-xs text-center bg-green-100 text-green-500 font-medium rounded-md px-2">
+            Pro
+          </div>
+        );
+      case "trialing":
+        return (
+          <div className="flex h-6 items-center justify-center text-xs text-center bg-blue-100 text-blue-500 font-medium rounded-md px-2">
+            Trial
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flex flex-col max-w-7xl py-32 h-screen mx-auto">
       <div className="flex relative gap-4 items-center justify-center space-x-4 ">
@@ -81,9 +103,7 @@ export default function Dashboard() {
         <div className="relative flex flex-col gap-1" ref={dropdownRef}>
           <div className="flex gap-2 items-center">
             <div className="text-xl font-semibold">{session?.user?.name}</div>
-            <div className="flex h-6 items-center justify-center text-xs text-center bg-blue-100 text-blue-500  font-medium rounded-md px-2">
-              Trial
-            </div>
+            {getUserBadge()}
             <div
               className="flex w-6 h-6 items-center justify-center hover:cursor-pointer hover:bg-zinc-100 rounded-md"
               onClick={handleDropdown}
@@ -92,15 +112,22 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="text-zinc-400 text-sm">{session?.user?.email}</div>
-          <div className="flex items-center text-sm gap-2 w-36 bg-yellow-200 text-yellow-800 px-2 py-1 rounded-md cursor-pointer mt-1">
-            <span className="text-sm">👑</span> Upgrade to Pro
-          </div>
+          {session?.user?.subscriptionStatus !== "active" && (
+            <Link
+              href="/pricing"
+              className="flex items-center text-sm gap-2 w-36 bg-yellow-200 text-yellow-800 px-2 py-1 rounded-md cursor-pointer mt-1"
+            >
+              <span className="text-sm">👑</span> Upgrade to Pro
+            </Link>
+          )}
           {isDropdownOpen && (
             <div className="absolute top-10 left-0 w-full bg-white shadow-md rounded-md">
               <ul className="flex flex-col gap-1">
-                <li className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2">
-                  <CreditCard className="w-4 h-4" /> Subscriptions
-                </li>
+                {session?.user?.subscriptionStatus === "active" && (
+                  <li className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2">
+                    <CreditCard className="w-4 h-4" /> Manage Subscription
+                  </li>
+                )}
                 <li
                   className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2"
                   onClick={() => signOut()}
