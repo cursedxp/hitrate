@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import SectionTitle from "@/app/components/features/sectionTitle";
 const faq = [
   {
     question: "What is HitMagnet?",
@@ -28,13 +29,10 @@ const faq = [
 export default function FAQ() {
   return (
     <section className="flex flex-col items-center w-full max-w-3xl justify-center pb-32">
-      <h2 className="text-6xl font-bold text-black text-center mb-6">
-        Quick answers for you.
-      </h2>
-      <p className="text-xl text-gray-500 text-center mb-12">
-        We know you are in a hurry, so we have prepared some quick answers for
-        you.
-      </p>
+      <SectionTitle
+        title="Quick answers for you."
+        description="We know you are in a hurry, so we have prepared some quick answers for you."
+      />
       <div className="space-y-6 w-full">
         {faq.map((item, index) => (
           <FAQItem key={index} item={item} index={index} />
