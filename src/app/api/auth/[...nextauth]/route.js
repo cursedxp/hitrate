@@ -103,14 +103,7 @@ export const authOptions = {
         };
       }
 
-      // Check if user is already subscribed
-      if (session.user.subscriptionStatus === "active") {
-        return NextResponse.json(
-          { error: "You already have an active subscription" },
-          { status: 400 }
-        );
-      }
-
+      // Simply return the session instead of using NextResponse
       return session;
     },
   },
