@@ -3,6 +3,7 @@ import PreviewItem from "./previewItem";
 import { useSelector, useDispatch } from "react-redux";
 import { setChannelAvatars, resetShake } from "@/app/redux/slices/app.slice";
 import { motion, AnimatePresence } from "framer-motion";
+import { useFetchChannelAvatars } from "@/app/hooks/useFetchChannelAvatars";
 
 export default function HomePreview() {
   const dispatch = useDispatch();
@@ -13,36 +14,14 @@ export default function HomePreview() {
     (state) => state.thumbnail.hiddenThumbnails
   );
 
+  useFetchChannelAvatars(allPreviews);
+
   useEffect(() => {
-    const fetchChannelAvatars = async () => {
-      const channelIds = [
-        ...new Set(allPreviews.map((video) => video.snippet.channelId)),
-      ];
-      const missingChannelIds = channelIds.filter((id) => !channelAvatars[id]);
-
-      if (missingChannelIds.length === 0) return;
-
-      try {
-        const response = await fetch(
-          `/api/youTube?endpoint=channelAvatars&channelIds=${missingChannelIds.join(
-            ","
-          )}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch channel avatars");
-        const data = await response.json();
-        dispatch(setChannelAvatars(data));
-      } catch (error) {
-        console.error("Error fetching channel avatars:", error);
-      }
-    };
-
-    fetchChannelAvatars();
-
     if (shakeUploaded) {
       const timer = setTimeout(() => dispatch(resetShake()), 2000);
       return () => clearTimeout(timer);
     }
-  }, [allPreviews, channelAvatars, dispatch, shakeUploaded]);
+  }, [dispatch, shakeUploaded]);
 
   const visiblePreviews = allPreviews.filter(
     (video) =>
