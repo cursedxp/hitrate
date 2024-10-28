@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import FAQ from "./components/features/faq";
-
+import Pricing from "./components/features/pricing";
 export default function Home() {
   const router = useRouter();
   const [items, setItems] = useState([
@@ -245,89 +245,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32">
-          <h2 className="text-6xl text-black text-center mb-6">
-            Start creating amazing thumbnails today.
-          </h2>
-          <p className="text-2xl text-zinc-500 text-center mb-16 leading-relaxed px-20">
-            One plan for all your needs and start creating amazing thumbnails
-            today.
-          </p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl shadow-md p-10 max-w-sm w-full relative"
-          >
-            <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-1 rounded-tr-2xl rounded-bl-2xl text-sm font-semibold">
-              Most Popular
-            </div>
-            <h2 className="text-3xl text-left mb-4">HitMagnet Pro</h2>
-            <p className="text-md text-gray-500 text-left mb-6">
-              Unlock the full potential of HitMagnet and create eye-catching
-              thumbnails that drive clicks and views.
-            </p>
-            <div className="text-left mb-6">
-              <span className="text-4xl flex items-center">
-                10$ <span className="text-gray-600 text-sm ml-2">/ Month</span>
-              </span>
-            </div>
-            <ul className="mb-10 space-y-4">
-              <li className="flex items-center">
-                <svg
-                  className="h-5 w-5 text-green-500 mr-3"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7"></path>
-                </svg>
-                Unlimited thumbnails
-              </li>
-              <li className="flex items-center">
-                <svg
-                  className="h-5 w-5 text-green-500 mr-3"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7"></path>
-                </svg>
-                Advanced analytics
-              </li>
-              <li className="flex items-center">
-                <svg
-                  className="h-5 w-5 text-green-500 mr-3"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M5 13l4 4L19 7"></path>
-                </svg>
-                Priority support
-              </li>
-            </ul>
-            <motion.button
-              onClick={() => router.push("/pricing")}
-              className="w-full bg-blue-500 text-white rounded-2xl py-4 font-semibold hover:bg-blue-700 transition duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started
-            </motion.button>
-          </motion.div>
-        </section>
+        <Pricing />
 
         <FAQ />
       </div>
