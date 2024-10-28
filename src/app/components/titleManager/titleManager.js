@@ -21,12 +21,6 @@ export default function TitleManager() {
     dispatch(updateTitle({ index, value: newValue }));
   };
 
-  const handleTitleKeyDown = async (e) => {
-    if (e.key === "Enter") {
-      await updateTitleInDatabase(selectedTitle);
-    }
-  };
-
   const handleAddTitle = () => {
     dispatch(addTitle());
   };
@@ -145,7 +139,6 @@ export default function TitleManager() {
               onSelect={handleSetSelectedTitle}
               isSelected={title === selectedTitle}
               isSingleTitle={titles.length === 1}
-              onKeyDown={handleTitleKeyDown}
             />
           ))}
         </div>
