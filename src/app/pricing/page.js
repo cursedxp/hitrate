@@ -4,7 +4,8 @@ import { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSession, signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import FAQ from "@/app/components/features/faq";
+import { Check } from "react-feather";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
@@ -24,9 +25,7 @@ const AnimatedButton = ({ onClick, className, children }) => (
 
 export default function Pricing() {
   const [isYearly, setIsYearly] = useState(false);
-  const [openFAQ, setOpenFAQ] = useState(null);
   const { data: session, status } = useSession();
-  const router = useRouter();
 
   const monthlyPriceId = "price_1QAq2SPryQLXqSIpN2rPAPy8";
   const yearlyPriceId = "price_1QAs5yPryQLXqSIpb2G8hjIL";
@@ -67,33 +66,6 @@ export default function Pricing() {
     } catch (error) {
       console.error("Error in handleSubscribe:", error);
     }
-  };
-
-  const faqData = [
-    {
-      question: "What is HitMagnet?",
-      answer:
-        "HitMagnet is a tool that helps you create eye-catching thumbnails for your content by analyzing trends and providing insights to improve your visuals.",
-    },
-    {
-      question: "How will this help me make better thumbnails?",
-      answer:
-        "HitMagnet will help you make better thumbnails by allowing you to compare your thumbnails with those of other channels, giving you inspiration and ideas to improve your visuals.",
-    },
-    {
-      question: "How does the pricing work?",
-      answer:
-        "We offer a Premium Plan with both monthly and yearly subscription options. The yearly plan offers savings compared to the monthly plan.",
-    },
-    {
-      question: "Can I cancel my subscription?",
-      answer:
-        "Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period.",
-    },
-  ];
-
-  const toggleFAQ = (index) => {
-    setOpenFAQ(openFAQ === index ? null : index);
   };
 
   return (
@@ -181,45 +153,15 @@ export default function Pricing() {
         </div>
         <ul className="mb-10 space-y-4">
           <li className="flex items-center">
-            <svg
-              className="h-5 w-5 text-green-500 mr-3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M5 13l4 4L19 7"></path>
-            </svg>
+            <Check className="h-5 w-5 text-green-500 mr-3" />
             Unlimited thumbnails
           </li>
           <li className="flex items-center">
-            <svg
-              className="h-5 w-5 text-green-500 mr-3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M5 13l4 4L19 7"></path>
-            </svg>
+            <Check className="h-5 w-5 text-green-500 mr-3" />
             Advanced analytics
           </li>
           <li className="flex items-center">
-            <svg
-              className="h-5 w-5 text-green-500 mr-3"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M5 13l4 4L19 7"></path>
-            </svg>
+            <Check className="h-5 w-5 text-green-500 mr-3" />
             Priority support
           </li>
         </ul>
@@ -233,58 +175,7 @@ export default function Pricing() {
         </motion.button>
       </motion.div>
 
-      <div className="max-w-3xl w-full mt-5">
-        <h2 className="text-6xl font-bold text-center mb-6">
-          Quick answers for you.
-        </h2>
-        <p className="text-xl text-gray-500 text-center mb-12">
-          We know you are in a hurry, so we have prepared some quick answers for
-          you.
-        </p>
-        <div className="space-y-6">
-          {faqData.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={false}
-              className="border border-gray-200 rounded-lg overflow-hidden"
-            >
-              <motion.button
-                className="flex justify-between items-center w-full text-left p-6"
-                onClick={() => toggleFAQ(index)}
-              >
-                <h3 className="text-xl font-semibold">{faq.question}</h3>
-                <motion.svg
-                  animate={{ rotate: openFAQ === index ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M19 9l-7 7-7-7"
-                  />
-                </motion.svg>
-              </motion.button>
-              <AnimatePresence initial={false}>
-                {openFAQ === index && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <p className="text-gray-600 p-6 pt-0">{faq.answer}</p>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </div>
-      </div>
+      <FAQ />
     </div>
   );
 }
