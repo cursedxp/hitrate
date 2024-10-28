@@ -169,7 +169,7 @@ export default function EditorPage() {
     };
 
     fetchChannelAvatars();
-  }, [previews, channelAvatars, dispatch]);
+  }, [channelAvatars, dispatch]);
 
   useEffect(() => {
     const fetchProjectThumbnails = async () => {
