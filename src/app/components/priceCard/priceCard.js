@@ -38,8 +38,8 @@ export default function PriceCard({ isYearly }) {
       )}
       <h2 className="text-3xl text-left mb-4">HitMagnet Pro</h2>
       <p className="text-md text-gray-500 text-left mb-6">
-        Unlock the full potential of HitMagnet and create eye-catching
-        thumbnails that drive clicks and views.
+        Unlock the full potential of HitMagnet and start comparing thumbnails to
+        get more views.
       </p>
       <div className="text-left h-24 flex flex-col  ">
         <AnimatePresence mode="wait">
