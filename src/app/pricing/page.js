@@ -90,11 +90,6 @@ export default function Pricing() {
       answer:
         "Yes, you can cancel your subscription at any time. Your access will continue until the end of your current billing period.",
     },
-    {
-      question: "Is there a free trial?",
-      answer:
-        "We currently offer 15 days of free trial, but also have a money-back guarantee if you're not satisfied with our service within the first 15 days.",
-    },
   ];
 
   const toggleFAQ = (index) => {
@@ -105,7 +100,7 @@ export default function Pricing() {
     <div className="flex flex-col items-center min-h-screen bg-white py-20">
       <div className="text-center mb-16">
         <h1 className="text-6xl font-bold mb-6 max-w-3xl">
-          Try any plan for 14 days, completely free.
+          Start creating amazing thumbnails today.
         </h1>
         <p className="text-xl text-gray-500">
           One plan for all your needs and start creating amazing thumbnails
