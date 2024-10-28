@@ -52,7 +52,7 @@ export const authOptions = {
               image: user.image,
               createdAt: new Date(),
               lastLoginAt: new Date(),
-              subscriptionStatus: "trialing",
+              subscriptionStatus: "inactive",
               projects: {},
               stripeCustomerId: stripeCustomerId,
             });
@@ -87,7 +87,7 @@ export const authOptions = {
           session.user = {
             ...session.user,
             id: token.sub,
-            subscriptionStatus: "trialing",
+            subscriptionStatus: "inactive",
             lastLoginAt: new Date(),
             projects: [],
           };
@@ -97,10 +97,18 @@ export const authOptions = {
         session.user = {
           ...session.user,
           id: token.sub,
-          subscriptionStatus: "trialing",
+          subscriptionStatus: "inactive",
           lastLoginAt: new Date(),
           projects: [],
         };
+      }
+
+      // Check if user is already subscribed
+      if (session.user.subscriptionStatus === "active") {
+        return NextResponse.json(
+          { error: "You already have an active subscription" },
+          { status: 400 }
+        );
       }
 
       return session;
