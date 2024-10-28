@@ -70,22 +70,40 @@ export default function Dashboard() {
 
   const getUserBadge = () => {
     const status = session?.user?.subscriptionStatus;
-    switch (status) {
-      case "active":
-        return (
-          <div className="flex h-6 items-center justify-center text-xs text-center bg-green-100 text-green-500 font-medium rounded-md px-2">
-            Pro
-          </div>
-        );
-      case "trialing":
-        return (
-          <div className="flex h-6 items-center justify-center text-xs text-center bg-blue-100 text-blue-500 font-medium rounded-md px-2">
-            Trial
-          </div>
-        );
-      default:
-        return null;
+    if (status === "active") {
+      return (
+        <div className="flex h-6 items-center justify-center text-xs text-center bg-green-100 text-green-500 font-medium rounded-md px-2">
+          Pro
+        </div>
+      );
     }
+    return null;
+  };
+
+  const handleManageSubscription = async () => {
+    try {
+      const response = await fetch("/api/stripe/portal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create portal session");
+      }
+
+      const { url } = await response.json();
+      window.location.href = url;
+    } catch (error) {
+      console.error("Error redirecting to customer portal:", error);
+      // You might want to add a toast notification here
+    }
+  };
+
+  // Add this helper function near other helper functions
+  const isSubscribed = () => {
+    return session?.user?.subscriptionStatus === "active";
   };
 
   return (
@@ -112,22 +130,15 @@ export default function Dashboard() {
             </div>
           </div>
           <div className="text-zinc-400 text-sm">{session?.user?.email}</div>
-          {session?.user?.subscriptionStatus !== "active" && (
-            <Link
-              href="/pricing"
-              className="flex items-center text-sm gap-2 w-36 bg-yellow-200 text-yellow-800 px-2 py-1 rounded-md cursor-pointer mt-1"
-            >
-              <span className="text-sm">👑</span> Upgrade to Pro
-            </Link>
-          )}
           {isDropdownOpen && (
-            <div className="absolute top-10 left-0 w-full bg-white shadow-md rounded-md">
+            <div className="absolute top-10 left-0 w-[200px] bg-white shadow-md rounded-md">
               <ul className="flex flex-col gap-1">
-                {session?.user?.subscriptionStatus === "active" && (
-                  <li className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2">
-                    <CreditCard className="w-4 h-4" /> Manage Subscription
-                  </li>
-                )}
+                <li
+                  className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2"
+                  onClick={handleManageSubscription}
+                >
+                  <CreditCard className="w-4 h-4" /> Manage Subscription
+                </li>
                 <li
                   className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2"
                   onClick={() => signOut()}
@@ -167,7 +178,24 @@ export default function Dashboard() {
         {projects.map((project) => (
           <ProjectItem key={project.id} project={project} />
         ))}
-        <NewProjectButton />
+        {isSubscribed() ? (
+          <NewProjectButton />
+        ) : (
+          <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Subscribe to Create
+            </h3>
+            <p className="text-sm text-gray-500 text-center mb-4">
+              Upgrade to Pro to create unlimited projects
+            </p>
+            <Link
+              href="/pricing"
+              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            >
+              Upgrade Now
+            </Link>
+          </div>
+        )}
       </section>
     </div>
   );
