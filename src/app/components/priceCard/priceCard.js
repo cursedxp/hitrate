@@ -14,8 +14,10 @@ export default function PriceCard({ isYearly }) {
 
   const features = [
     "Unlimited thumbnails",
-    "Advanced analytics",
-    "Priority support",
+    "Preview layouts",
+    "Compare with search results",
+    "Shuffle thumbnails",
+    "Dark mode for thumbnails",
   ];
 
   const onSubscribeClick = () => {
@@ -49,9 +51,9 @@ export default function PriceCard({ isYearly }) {
             transition={{ duration: 0.2 }}
             className="text-4xl flex items-center"
           >
-            {isYearly ? "100$ " : "10$ "}
+            {isYearly ? "$100.00 " : "$10.00 "}
             <span className="text-gray-600 text-sm ml-2">
-              /{isYearly ? " Year" : " Month"}
+              /{isYearly ? " year" : " month"}
             </span>
           </motion.span>
         </AnimatePresence>
@@ -64,7 +66,7 @@ export default function PriceCard({ isYearly }) {
               exit={{ opacity: 0, height: 0 }}
               className="text-green-500 mt-1"
             >
-              Save $20 per year
+              Save $20.00 per year
             </motion.p>
           )}
         </AnimatePresence>
