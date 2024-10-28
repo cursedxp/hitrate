@@ -53,7 +53,7 @@ export const authOptions = {
               createdAt: new Date(),
               lastLoginAt: new Date(),
               subscriptionStatus: "inactive",
-              projects: {},
+              projects: [],
               stripeCustomerId: stripeCustomerId,
             });
           } else {
