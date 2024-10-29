@@ -4,9 +4,9 @@ import { useState } from "react";
 const chips = {
   Trending: [
     {
-      image: "/images/trending/1.jpg",
-      title: "Hypercharge for watching the Brawl Stars World Finals",
-      channelName: "Brawl Stars",
+      image: "/images/preview-3.png",
+      title: "Untitled Video",
+      channelName: "Your Channel",
       views: "130K views",
       date: "2 days ago",
     },
@@ -27,9 +27,9 @@ const chips = {
   ],
   Gaming: [
     {
-      image: "/images/gaming/1.jpg",
-      title: "Hypercharge for watching the Brawl Stars World Finals",
-      channelName: "Brawl Stars",
+      image: "/images/preview-3.png",
+      title: "Untitled Video",
+      channelName: "Your Channel",
       views: "130K views",
       date: "2 days ago",
     },
@@ -50,9 +50,9 @@ const chips = {
   ],
   Cooking: [
     {
-      image: "/images/cooking/1.jpg",
-      title: "Every Way To Cook A Potato (43 Ways)",
-      channelName: "Joshua Weissman",
+      image: "/images/preview-3.png",
+      title: "Untitled Video",
+      channelName: "Your Channel",
       views: "1.1M views",
       date: "1 days ago",
     },
