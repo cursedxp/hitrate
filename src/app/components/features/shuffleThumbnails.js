@@ -1,19 +1,47 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 export default function ShuffleThumbnails() {
   const [items, setItems] = useState([
-    "/images/preview-1.png",
-    "/images/preview-2.png",
-    "/images/preview-3.png",
-    "/images/preview-4.png",
+    {
+      thumbnail: "/images/preview-1.png",
+      title: "Deamons are atacking Brawl Stars",
+      channel: "CodeMaster",
+      avatar: "/images/avatars/1.jpg",
+      views: "125K views",
+      published: "2 days ago",
+    },
+    {
+      thumbnail: "/images/preview-2.png",
+      title: "Real Madrid vs Barcelona",
+      channel: "ESPN",
+      avatar: "/images/avatars/2.jpg",
+      views: "89K views",
+      published: "1 week ago",
+    },
+    {
+      thumbnail: "/images/preview-3.png",
+      title: "Untitled Video",
+      channel: "Your Channel",
+      views: "256K views",
+      published: "3 days ago",
+    },
+    {
+      thumbnail: "/images/preview-4.png",
+      title: "Joker VS Giorno",
+      channel: "Death Battle",
+      avatar: "/images/avatars/4.jpg",
+      views: "178K views",
+      published: "5 days ago",
+    },
   ]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
       setItems((items) => [...items].sort(() => Math.random() - 0.5));
-    }, 2000);
+    }, 4000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -41,24 +69,53 @@ export default function ShuffleThumbnails() {
           <div className="grid grid-cols-2 gap-6 w-full">
             {items.map((item) => (
               <motion.div
-                key={item}
+                key={item.thumbnail}
                 layout
-                className="relative w-full rounded-lg overflow-hidden"
-                style={{ paddingTop: "56.25%" }} // This creates a 16:9 aspect ratio
+                className="relative flex flex-col w-full"
                 transition={{
                   duration: 0.5,
                   type: "spring",
                   bounce: 0.2,
                 }}
               >
-                <Image
-                  src={item}
-                  alt="Preview"
-                  fill
-                  quality={100}
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
+                <div
+                  className="relative w-full rounded-lg overflow-hidden"
+                  style={{ paddingTop: "56.25%" }}
+                >
+                  <Image
+                    src={item.thumbnail}
+                    alt="Preview"
+                    fill
+                    quality={100}
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="flex mt-2 gap-2">
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                    {item.avatar ? (
+                      <Image
+                        src={item.avatar}
+                        alt={item.channel}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="bg-gray-200 w-full h-full flex items-center justify-center">
+                        <UserIcon className="w-6 h-6 text-gray-500" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium text-sm line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-gray-500">{item.channel}</p>
+                    <p className="text-sm text-gray-500">
+                      {item.views} • {item.published}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
