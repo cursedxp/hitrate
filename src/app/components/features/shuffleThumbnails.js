@@ -6,15 +6,15 @@ import { UserIcon } from "@heroicons/react/24/outline";
 export default function ShuffleThumbnails() {
   const [items, setItems] = useState([
     {
-      thumbnail: "/images/preview-1.png",
+      thumbnail: "/images/preview-1.jpg",
       title: "Deamons are atacking Brawl Stars",
-      channel: "CodeMaster",
+      channel: "Brawl Stars",
       avatar: "/images/avatars/1.jpg",
       views: "125K views",
       published: "2 days ago",
     },
     {
-      thumbnail: "/images/preview-2.png",
+      thumbnail: "/images/preview-2.jpg",
       title: "Real Madrid vs Barcelona",
       channel: "ESPN",
       avatar: "/images/avatars/2.jpg",
@@ -22,14 +22,14 @@ export default function ShuffleThumbnails() {
       published: "1 week ago",
     },
     {
-      thumbnail: "/images/preview-3.png",
+      thumbnail: "/images/preview-3.jpg",
       title: "Untitled Video",
       channel: "Your Channel",
       views: "256K views",
       published: "3 days ago",
     },
     {
-      thumbnail: "/images/preview-4.png",
+      thumbnail: "/images/preview-4.jpg",
       title: "Joker VS Giorno",
       channel: "Death Battle",
       avatar: "/images/avatars/4.jpg",
@@ -79,15 +79,16 @@ export default function ShuffleThumbnails() {
                 }}
               >
                 <div
-                  className="relative w-full rounded-lg overflow-hidden"
+                  className="relative w-full rounded-2xl overflow-hidden"
                   style={{ paddingTop: "56.25%" }}
                 >
                   <Image
                     src={item.thumbnail}
                     alt="Preview"
                     fill
+                    loading="lazy"
                     quality={100}
-                    className="object-cover"
+                    className="object-cover rounded-lg"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
