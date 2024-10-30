@@ -6,22 +6,11 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import FAQ from "./components/features/faq";
 import Pricing from "./components/features/pricing";
+import SearchResults from "./components/features/searchResults";
+import SectionTitle from "./components/features/sectionTitle";
+import ShuffleThumbnails from "./components/features/shuffleThumbnails";
 export default function Home() {
   const router = useRouter();
-  const [items, setItems] = useState([
-    "/images/preview-1.png",
-    "/images/preview-2.png",
-    "/images/preview-3.png",
-    "/images/preview-4.png",
-  ]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setItems((items) => [...items].sort(() => Math.random() - 0.5));
-    }, 2000); // Shuffle every 3 seconds
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
     <>
@@ -125,121 +114,95 @@ export default function Home() {
 
         {/* Features Section */}
         <section className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32">
-          <h2 className="text-6xl text-black text-center mb-6">
-            Powerful features to enhance your workflow
-          </h2>
-          <p className="text-2xl text-zinc-500 text-center mb-16 leading-relaxed px-20">
-            Take advantage of our advanced features designed to make your
-            content creation process smoother and more efficient.
-          </p>
-
-          {/* First Feature - Shuffle */}
-          <div className="flex items-center gap-8 justify-center w-full mb-32">
-            <div className="flex flex-col w-[40%] self-start">
-              <div className="flex text-sm font-bold w-fit mb-4 border border-black rounded-xl px-4 py-2 text-black">
-                SHUFFLE
-              </div>
-              <div className="text-4xl font-bold text-black mb-4">
-                Shuffle and experiment with layouts
-              </div>
-              <p className="text-xl text-zinc-500 mb-8 leading-relaxed">
-                Use our shuffle feature to instantly rearrange your thumbnails
-                and see how they work together. Test different combinations and
-                positions to find the most engaging layout for your content.
-              </p>
-            </div>
+          <SectionTitle
+            title="Powerful features to enhance your workflow"
+            description="Take advantage of our advanced features designed to make your content creation process smoother and more efficient."
+          />
+          <SearchResults />
+          <ShuffleThumbnails />
+          <div className="flex items-center gap-8 justify-center w-full mb-16">
             <div className="w-[60%]">
               <div
                 className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col items-center justify-center gap-4 p-6"
                 style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
               >
-                <div className="grid grid-cols-2 gap-6 w-full">
-                  {items.map((item) => (
-                    <motion.div
-                      key={item}
-                      layout
-                      className="relative w-full rounded-lg overflow-hidden"
-                      style={{ paddingTop: "56.25%" }} // This creates a 16:9 aspect ratio
-                      transition={{
-                        duration: 0.5,
-                        type: "spring",
-                        bounce: 0.2,
-                      }}
-                    >
-                      <Image
-                        src={item}
-                        alt="Preview"
-                        fill
-                        quality={100}
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Second Feature - Search Results */}
-          <div className="flex items-center gap-8 justify-center w-full">
-            <div className="w-[60%]">
-              <div
-                className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col items-center justify-center gap-4 p-6"
-                style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
-              >
-                <div className="w-full max-w-2xl">
-                  <div className="flex items-center gap-2 mb-4">
-                    <div className="flex gap-2 overflow-x-auto pb-2">
-                      {["Gaming", "Technology", "Cooking"].map((chip) => (
-                        <div
-                          key={chip}
-                          className="px-4 py-2 bg-white rounded-md shadow-md text-sm font-medium text-gray-700 whitespace-nowrap hover:bg-zinc-800 hover:text-white cursor-pointer"
-                        >
-                          {chip}
+                <div className="w-full max-w-2xl space-y-4">
+                  <div className="flex flex-col gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-64 h-36 bg-gray-100 rounded-lg relative flex-shrink-0">
+                        <Image
+                          src="/images/preview-1.jpg"
+                          alt="Video thumbnail"
+                          fill
+                          quality={100}
+                          loading="lazy"
+                          className="object-cover rounded-lg"
+                        />
+                      </div>
+                      <div className="flex-1 space-y-2">
+                        <div className="font-medium text-gray-900">
+                          {/* Current title display */}
+                          <h3 className="text-lg" id="currentTitle">
+                            Select a suggested title below
+                          </h3>
                         </div>
-                      ))}
+                        <p className="text-sm text-gray-500">Your Channel</p>
+                        <p className="text-sm text-gray-500">
+                          0 views • Just now
+                        </p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => {
+                          document.getElementById("currentTitle").textContent =
+                            "Epic Gaming Moments That Break The Internet!";
+                        }}
+                        className="w-full h-12 bg-emerald-50 hover:bg-emerald-100 rounded-lg p-3 flex items-center transition-colors duration-200"
+                      >
+                        <span className="text-sm text-emerald-700">
+                          🎯 "Epic Gaming Moments That Break The Internet!"
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          document.getElementById("currentTitle").textContent =
+                            "You Won't Believe What Happened In This Game!";
+                        }}
+                        className="w-full h-12 bg-emerald-50 hover:bg-emerald-100 rounded-lg p-3 flex items-center transition-colors duration-200"
+                      >
+                        <span className="text-sm text-emerald-700">
+                          ✨ "You Won't Believe What Happened In This Game!"
+                        </span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          document.getElementById("currentTitle").textContent =
+                            "This Gaming Strategy Changes Everything!";
+                        }}
+                        className="w-full h-12 bg-emerald-50 hover:bg-emerald-100 rounded-lg p-3 flex items-center transition-colors duration-200"
+                      >
+                        <span className="text-sm text-emerald-700">
+                          🔥 "This Gaming Strategy Changes Everything!"
+                        </span>
+                      </button>
                     </div>
                   </div>
-                  <div className="space-y-4">
-                    {[1, 2, 3].map((item) => (
-                      <div key={item} className="flex gap-4 items-start">
-                        <div className="w-40 h-24 bg-gray-100 rounded-lg relative flex-shrink-0">
-                          <Image
-                            src="/images/preview-1.png"
-                            alt="Video thumbnail"
-                            fill
-                            className="object-cover rounded-lg"
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <h3 className="font-medium text-gray-900 line-clamp-2">
-                            Sample Video Title That Shows How Your Content
-                            Appears in Search
-                          </h3>
-                          <p className="text-sm text-gray-500">Channel Name</p>
-                          <p className="text-sm text-gray-500">
-                            10K views • 2 days ago
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
             <div className="flex flex-col w-[40%] self-start">
               <div className="flex text-sm font-bold w-fit mb-4 border border-black rounded-xl px-4 py-2 text-black">
-                SEARCH
+                AUTO GENERATE
               </div>
               <div className="text-4xl font-bold text-black mb-4">
-                Compare search results
+                AI-powered title generation
               </div>
               <p className="text-xl text-zinc-500 mb-8 leading-relaxed">
-                See how your content appears in YouTube search results. Compare
-                your thumbnails and titles against competitors in your niche
-                using topic-based filters to optimize your content's
-                discoverability.
+                Let our AI help you create engaging titles that grab attention.
+                Get smart suggestions based on your content and niche, optimized
+                for maximum viewer engagement and click-through rates. Click any
+                suggestion to preview how it looks.
               </p>
             </div>
           </div>

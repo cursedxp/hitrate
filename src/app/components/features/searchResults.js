@@ -76,7 +76,7 @@ const chips = {
 export default function SearchResults() {
   const [chip, setChip] = useState("Trending");
   return (
-    <div className="flex items-center gap-4 justify-center w-full">
+    <div className="flex items-center gap-4 justify-center w-full mb-16">
       <div className="w-[60%]">
         <div
           className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col  justify-center gap-4 "
