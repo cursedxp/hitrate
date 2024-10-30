@@ -7,17 +7,17 @@ export default function ShuffleThumbnails() {
   const [items, setItems] = useState([
     {
       thumbnail: "/images/preview-1.jpg",
-      title: "Deamons are atacking Brawl Stars",
-      channel: "Brawl Stars",
-      avatar: "/images/avatars/1.jpg",
+      title: "DANTDM ANIMATED FUNNY MOMENTS",
+      channel: "DANTDM",
+      avatar: "/images/avatars/5.jpg",
       views: "125K views",
       published: "2 days ago",
     },
     {
       thumbnail: "/images/preview-2.jpg",
-      title: "Real Madrid vs Barcelona",
-      channel: "ESPN",
-      avatar: "/images/avatars/2.jpg",
+      title: "My wife insisted I do this for her",
+      channel: "Linus Tech Tips",
+      avatar: "/images/avatars/6.jpg",
       views: "89K views",
       published: "1 week ago",
     },
