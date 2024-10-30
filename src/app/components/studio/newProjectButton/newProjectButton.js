@@ -7,25 +7,19 @@ import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
 import { clearTitleData } from "@/app/redux/slices/title.slice";
 import { useState } from "react";
 
-export default function NewProjectButton() {
+export default function NewProjectButton({ session }) {
   const router = useRouter();
-  const { data: session } = useSession();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
+    resetReduxStates();
     if (!session) {
       console.error("User not logged in");
       return;
     }
-
     setIsLoading(true);
-
     try {
-      dispatch(clearProjectData());
-      dispatch(clearThumbnailData());
-      dispatch(clearTitleData());
-
       const response = await fetch("/api/projects/create", {
         method: "POST",
         headers: {
@@ -44,6 +38,12 @@ export default function NewProjectButton() {
       // Reset loading state on error
       setIsLoading(false);
     }
+  };
+
+  const resetReduxStates = () => {
+    dispatch(clearProjectData());
+    dispatch(clearThumbnailData());
+    dispatch(clearTitleData());
   };
 
   return (
