@@ -22,7 +22,7 @@ export default function ProjectList({ session }) {
             <ProjectItem key={project.id} project={project} />
           ))}
           {isSubscribed() ? (
-            <NewProjectButton />
+            <NewProjectButton session={session} />
           ) : (
             <div className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400">
               <h3 className="text-lg font-medium text-gray-900 mb-2">
