@@ -23,7 +23,7 @@ export default function ShuffleThumbnails() {
     },
     {
       thumbnail: "/images/preview-3.jpg",
-      title: "Untitled Video",
+      title: "Your Video",
       channel: "Your Channel",
       views: "256K views",
       published: "3 days ago",
