@@ -1,16 +1,17 @@
 import { Plus } from "react-feather";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 import { useDispatch } from "react-redux";
 import { clearProjectData } from "@/app/redux/slices/app.slice";
 import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
 import { clearTitleData } from "@/app/redux/slices/title.slice";
-import { useState } from "react";
+
+import useCreateProject from "@/app/hooks/useCreateProject";
 
 export default function NewProjectButton({ session }) {
+  const { createProject, isLoading } = useCreateProject();
+
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = async () => {
     resetReduxStates();
@@ -18,28 +19,11 @@ export default function NewProjectButton({ session }) {
       console.error("User not logged in");
       return;
     }
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/projects/create", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to create project");
-      }
-
-      const { projectId } = await response.json();
-      router.push(`/studio/editor/${projectId}`);
-    } catch (error) {
-      console.error("Error creating new project:", error);
-      // Reset loading state on error
-      setIsLoading(false);
+    const newProjectId = await createProject();
+    if (newProjectId) {
+      router.push(`/studio/editor/${newProjectId}`);
     }
   };
-
   const resetReduxStates = () => {
     dispatch(clearProjectData());
     dispatch(clearThumbnailData());
