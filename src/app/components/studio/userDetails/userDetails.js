@@ -2,15 +2,10 @@ import Image from "next/image";
 import { ChevronDown, CreditCard, LogOut } from "react-feather";
 import { signOut } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { clearProjectData } from "@/app/redux/slices/app.slice";
-import { clearThumbnailData } from "@/app/redux/slices/thumbnail.slice";
-import { clearTitleData } from "@/app/redux/slices/title.slice";
 
 export default function UserDetails({ session }) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const dispatch = useDispatch();
   const getUserBadge = () => {
     const status = session?.user?.subscriptionStatus;
     if (status === "active") {
@@ -48,19 +43,10 @@ export default function UserDetails({ session }) {
       window.location.href = url;
     } catch (error) {
       console.error("Error redirecting to customer portal:", error);
-      // You might want to add a toast notification here
     }
   };
 
-  const resetReduxStates = () => {
-    dispatch(clearProjectData());
-    dispatch(clearThumbnailData());
-    dispatch(clearTitleData());
-  };
   useEffect(() => {
-    if (session) {
-      resetReduxStates();
-    }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
