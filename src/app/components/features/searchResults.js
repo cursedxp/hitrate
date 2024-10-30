@@ -5,22 +5,22 @@ const chips = {
   Trending: [
     {
       image: "/images/preview-3.png",
-      title: "Untitled Video",
+      title: "Your Video",
       channelName: "Your Channel",
       views: "130K views",
       date: "2 days ago",
     },
     {
       image: "/images/trending/2.jpg",
-      title: "F1 Mexico: Race Highlights",
-      channelName: "F1",
+      title: "The Tri Folding Phone Impressions!",
+      channelName: "Marques Brownlee",
       views: "1.2M views",
       date: "1 days ago",
     },
     {
       image: "/images/trending/3.jpg",
-      title: "Real Madrid vs Barcelona: El Clásico",
-      channelName: "ESPN",
+      title: "Dude Perfect Headquarters is GONE!",
+      channelName: "Dude Perfect",
       views: "1.8M views",
       date: "1 days ago",
     },
@@ -28,7 +28,7 @@ const chips = {
   Gaming: [
     {
       image: "/images/preview-3.png",
-      title: "Untitled Video",
+      title: "Your Video",
       channelName: "Your Channel",
       views: "130K views",
       date: "2 days ago",
@@ -51,7 +51,7 @@ const chips = {
   Cooking: [
     {
       image: "/images/preview-3.png",
-      title: "Untitled Video",
+      title: "Your Video",
       channelName: "Your Channel",
       views: "1.1M views",
       date: "1 days ago",
