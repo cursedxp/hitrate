@@ -18,10 +18,6 @@ export default function StudioLayout({ children }) {
     }
   }, [status, session, dispatch, router]);
 
-  if (status === "loading") {
-    return null;
-  }
-
   if (status === "authenticated") {
     return <div>{children}</div>;
   }
