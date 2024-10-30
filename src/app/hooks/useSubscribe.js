@@ -1,7 +1,7 @@
 import { loadStripe } from "@stripe/stripe-js";
 import { useState } from "react";
 
-const useSubscribe = ({ monthlyPriceId, yearlyPriceId }) => {
+export default function useSubscribe({ monthlyPriceId, yearlyPriceId }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubscribe = async (isYearly) => {
@@ -43,6 +43,4 @@ const useSubscribe = ({ monthlyPriceId, yearlyPriceId }) => {
   };
 
   return { handleSubscribe, isLoading };
-};
-
-export default useSubscribe;
+}
