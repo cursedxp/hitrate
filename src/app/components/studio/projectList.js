@@ -4,8 +4,7 @@ import NewProjectButton from "@/app/components/studio/newProjectButton/newProjec
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export default function ProjectList() {
-  const { data: session } = useSession();
+export default function ProjectList({ session }) {
   const isSubscribed = () => {
     return session?.user?.subscriptionStatus === "active";
   };
