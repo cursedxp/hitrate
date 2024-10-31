@@ -1,14 +1,12 @@
 "use client";
 import { useParams } from "next/navigation";
 import { useSelector, useDispatch } from "react-redux";
-import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import {
   setProjectName,
   setSearchList,
   setSelectedSearchItem,
   setAllPreviews,
-  setChannelAvatars,
   setCurrentProjectId,
 } from "@/app/redux/slices/app.slice";
 import SideBar from "@/app/components/sideBar/sideBar";
@@ -22,47 +20,40 @@ import { setSelectedTitle, setTitles } from "@/app/redux/slices/title.slice";
 import { uuidv7 } from "uuidv7";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import Loader from "@/app/components/loader/loader";
-
+import useFetchSingleProject from "@/app/hooks/useFetchSingleProject";
 export default function EditorPage() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
-  const { data: session, status } = useSession();
   const currentPreview = useSelector((state) => state.app.currentPreview);
   const selectedSearchItem = useSelector(
     (state) => state.app.selectedSearchItem
   );
   const searchList = useSelector((state) => state.app.searchList);
   const previews = useSelector((state) => state.app.previews);
-  const channelAvatars = useSelector((state) => state.app.channelAvatars);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const selectedTitle = useSelector((state) => state.title.selectedTitle);
   const thumbnailPreviews = useSelector(
     (state) => state.thumbnail.thumbnailPreviews
   );
+  const { fetchProject, loading: projectLoading } = useFetchSingleProject();
 
   useEffect(() => {
     const fetchProjectData = async () => {
-      if (!projectId) {
-        setError("No project ID provided");
-        setLoading(false);
-        return;
-      }
-
       try {
-        const response = await fetch(`/api/projects/${projectId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch project data");
+        setLoading(true);
+        const currentProject = await fetchProject({ projectId });
+
+        if (!currentProject) {
+          throw new Error("Project not found");
         }
-        const data = await response.json();
-        console.log("Fetched project data:", data);
+
         dispatch(setCurrentProjectId(projectId));
-        dispatch(setProjectName(data.project.name));
-        dispatch(setThumbnailPreviews(data.project.thumbnailUrls || []));
-        dispatch(setTitles(data.project.titles || [""]));
-        dispatch(setSelectedTitle(data.project.title || "Untitled"));
+        dispatch(setProjectName(currentProject.name));
+        dispatch(setThumbnailPreviews(currentProject.thumbnailUrls || []));
+        dispatch(setTitles(currentProject.titles || [""]));
+        dispatch(setSelectedTitle(currentProject.title || "Untitled"));
       } catch (err) {
-        console.error("Error fetching project data:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -70,7 +61,7 @@ export default function EditorPage() {
     };
 
     fetchProjectData();
-  }, [projectId, dispatch]);
+  }, [projectId, fetchProject]);
 
   useEffect(() => {
     const preparePreviews = () => {
@@ -129,53 +120,6 @@ export default function EditorPage() {
       dispatch(setAllPreviews(previews));
     }
   }, [selectedSearchItem, searchList, previews, dispatch]);
-
-  useEffect(() => {
-    const fetchChannelAvatars = async () => {
-      const channelIds = [
-        ...new Set(previews.map((video) => video.snippet.channelId)),
-      ];
-      const missingChannelIds = channelIds.filter((id) => !channelAvatars[id]);
-
-      if (missingChannelIds.length === 0) return;
-
-      try {
-        const response = await fetch(
-          `/api/youTube?endpoint=channelAvatars&channelIds=${missingChannelIds.join(
-            ","
-          )}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch channel avatars");
-        const data = await response.json();
-        dispatch(setChannelAvatars(data));
-      } catch (error) {
-        console.error("Error fetching channel avatars:", error);
-      }
-    };
-
-    fetchChannelAvatars();
-  }, [channelAvatars, dispatch]);
-
-  useEffect(() => {
-    const fetchProjectThumbnails = async () => {
-      if (projectId) {
-        try {
-          const response = await fetch(`/api/projects/${projectId}`);
-          if (!response.ok) {
-            throw new Error("Failed to fetch project data");
-          }
-          const data = await response.json();
-          if (data.project && data.project.thumbnailUrls) {
-            dispatch(setThumbnailPreviews(data.project.thumbnailUrls));
-          }
-        } catch (error) {
-          console.error("Error fetching project thumbnails:", error);
-        }
-      }
-    };
-
-    fetchProjectThumbnails();
-  }, [projectId, dispatch]);
 
   if (status === "loading" || loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
