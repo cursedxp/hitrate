@@ -40,21 +40,6 @@ export default function EditorPage() {
   const thumbnailPreviews = useSelector(
     (state) => state.thumbnail.thumbnailPreviews
   );
-  const [loadingMessage, setLoadingMessage] = useState(0);
-  const [loadingProgress, setLoadingProgress] = useState(0);
-
-  const loadingMessages = [
-    "🎥 Smashing that like button...",
-    "🔔 Ringing the notification bell...",
-    "🎬 Don't forget to subscribe!",
-    "👍 Giving this video a thumbs up...",
-    "💬 Responding to comments...",
-    "🚀 To the moon with views!",
-    "🔥 Making this content fire...",
-    "🤯 Mind-blowing edits in progress...",
-    "🎭 Perfecting our clickbait face...",
-    "🏆 Chasing that YouTube algorithm...",
-  ];
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -191,17 +176,6 @@ export default function EditorPage() {
 
     fetchProjectThumbnails();
   }, [projectId, dispatch]);
-
-  useEffect(() => {
-    if (status === "loading" || loading) {
-      const interval = setInterval(() => {
-        setLoadingMessage((prev) => (prev + 1) % loadingMessages.length);
-        setLoadingProgress((prev) => Math.min(prev + 10, 100)); // Increase by 10% each time, max 100%
-      }, 3000); // Change message every 3 seconds
-
-      return () => clearInterval(interval);
-    }
-  }, [status, loading]);
 
   if (status === "loading" || loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
