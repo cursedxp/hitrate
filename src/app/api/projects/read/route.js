@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
 import { db } from "@/app/lib/firebase/firebase.config";
 import { doc, getDoc } from "firebase/firestore";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getUserFromToken } from "@/app/utils/session";
 
 export async function GET(req) {
-  const session = await getServerSession(authOptions);
+  const sessionToken = req.cookies.get("next-auth.session-token").value;
+  const userId = await getUserFromToken(sessionToken);
 
-  if (!session || !session.user) {
+  if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
-    const userDoc = await getDoc(doc(db, "users", session.user.id));
+    const userDoc = await getDoc(doc(db, "users", userId));
     if (!userDoc.exists()) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
