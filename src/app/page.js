@@ -33,7 +33,7 @@ export default function Home() {
               <h1 className="text-9xl font-bold mb-4">
                 <span className="">Preview your </span>
                 <motion.span
-                  className="bg-clip-text text-transparent bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple-500"
+                  className="bg-clip-text text-transparent bg-gradient-to-r from-red-500  via-blue-500 to-purple-500"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
