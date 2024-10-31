@@ -125,7 +125,7 @@ export default function EditorPage() {
     }
   }, [selectedSearchItem, searchList, previews, dispatch]);
 
-  if (status === "loading" || loading) return <Loader />;
+  if (projectLoading || trendingLoading || loading) return <Loader />;
   if (error) return <div>Error: {error}</div>;
 
   return (
