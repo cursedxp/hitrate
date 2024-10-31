@@ -27,11 +27,11 @@ const authMiddleware = async (request) => {
   return NextResponse.next();
 };
 
-// export const config = {
-//   matcher: [
-//     ...Object.values(PROTECTED_ROUTES),
-//     "/((?!api/auth|_next/static|_next/image|favicon.ico).*)",
-//   ],
-// };
+export const config = {
+  matcher: [
+    ...Object.values(PROTECTED_ROUTES),
+    "/((?!api/auth|_next/static|_next/image|favicon.ico).*)",
+  ],
+};
 
 export default authMiddleware;
