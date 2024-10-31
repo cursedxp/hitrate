@@ -21,6 +21,8 @@ import { uuidv7 } from "uuidv7";
 import { setPreviews } from "@/app/redux/slices/app.slice";
 import Loader from "@/app/components/loader/loader";
 import useFetchSingleProject from "@/app/hooks/useFetchSingleProject";
+import useFetchTrendings from "@/app/hooks/useFetchTrendings";
+
 export default function EditorPage() {
   const { projectId } = useParams();
   const dispatch = useDispatch();
@@ -37,6 +39,7 @@ export default function EditorPage() {
     (state) => state.thumbnail.thumbnailPreviews
   );
   const { fetchProject, loading: projectLoading } = useFetchSingleProject();
+  const { fetchTrendings, loading: trendingLoading } = useFetchTrendings();
 
   useEffect(() => {
     const fetchProjectData = async () => {
@@ -92,10 +95,11 @@ export default function EditorPage() {
     const fetchVideos = async () => {
       if (searchList.length === 0) {
         try {
-          const response = await fetch(`/api/youTube?endpoint=trending`);
-          const data = await response.json();
-          if (data) {
-            dispatch(setSearchList({ query: "trending", results: data }));
+          const trendingData = await fetchTrendings();
+          if (trendingData) {
+            dispatch(
+              setSearchList({ query: "trending", results: trendingData })
+            );
             dispatch(setSelectedSearchItem("trending"));
           } else {
             throw new Error("Invalid response format");
@@ -108,7 +112,7 @@ export default function EditorPage() {
     };
 
     fetchVideos();
-  }, [dispatch, searchList]);
+  }, [dispatch, searchList, fetchTrendings]);
 
   useEffect(() => {
     const searchResults = searchList.find(
