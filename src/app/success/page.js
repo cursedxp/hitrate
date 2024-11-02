@@ -1,9 +1,18 @@
 "use client";
-import { useEffect, useState, useRef, Suspense } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import confetti from "canvas-confetti";
+
+// Move LoadingSpinner outside of SuccessPageContent to avoid recreating on every render
+const LoadingSpinner = () => (
+  <motion.div
+    animate={{ rotate: 360 }}
+    transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+    className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full"
+  ></motion.div>
+);
 
 // Separate component for the content that uses useSearchParams
 function SuccessPageContent() {
@@ -12,11 +21,8 @@ function SuccessPageContent() {
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const effectRan = useRef(false);
 
   useEffect(() => {
-    if (effectRan.current) return;
-
     const fetchSessionData = async () => {
       if (!session_id) {
         setLoading(false);
@@ -47,7 +53,6 @@ function SuccessPageContent() {
     };
 
     fetchSessionData();
-    effectRan.current = true;
   }, [session_id]);
 
   useEffect(() => {
@@ -59,14 +64,6 @@ function SuccessPageContent() {
       });
     }
   }, [session, loading, error]);
-
-  const LoadingSpinner = () => (
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-      className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full"
-    ></motion.div>
-  );
 
   const ErrorMessage = ({ message }) => (
     <motion.div
@@ -175,17 +172,7 @@ function SuccessPageContent() {
 // Main page component with Suspense boundary
 export default function SuccessPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="flex flex-col items-center justify-center min-h-screen">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full"
-          ></motion.div>
-        </div>
-      }
-    >
+    <Suspense fallback={<LoadingSpinner />}>
       <SuccessPageContent />
     </Suspense>
   );
