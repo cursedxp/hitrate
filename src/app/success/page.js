@@ -1,11 +1,12 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import confetti from "canvas-confetti";
 
-export default function SuccessPage() {
+// Separate component for the content that uses useSearchParams
+function SuccessPageContent() {
   const searchParams = useSearchParams();
   const session_id = searchParams.get("session_id");
   const [session, setSession] = useState(null);
@@ -168,5 +169,24 @@ export default function SuccessPage() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+// Main page component with Suspense boundary
+export default function SuccessPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex flex-col items-center justify-center min-h-screen">
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full"
+          ></motion.div>
+        </div>
+      }
+    >
+      <SuccessPageContent />
+    </Suspense>
   );
 }
