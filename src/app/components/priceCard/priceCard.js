@@ -18,6 +18,7 @@ export default function PriceCard({ isYearly }) {
     "Compare with search results",
     "Shuffle thumbnails",
     "Dark mode for thumbnails",
+    "Ai powered title generator",
   ];
 
   const onSubscribeClick = () => {
