@@ -1,3 +1,4 @@
+import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 
 const PROTECTED_ROUTES = {
@@ -7,31 +8,24 @@ const PROTECTED_ROUTES = {
   PROJECTS_API_UPDATE: "/api/projects/update",
   PROJECTS_API_DELETE: "/api/projects/delete",
 };
-const authMiddleware = async (request) => {
-  const path = request.nextUrl.pathname;
 
-  const isProtectedRoute = Object.values(PROTECTED_ROUTES).some(
-    (route) => path.startsWith(route) || path === route
-  );
-
-  if (isProtectedRoute) {
-    const sessionToken = request.cookies.get("next-auth.session-token")?.value;
-
-    if (!sessionToken) {
-      const loginUrl = new URL("/api/auth/signin", request.url);
-      loginUrl.searchParams.set("callbackUrl", request.url);
-      return NextResponse.redirect(loginUrl);
-    }
+export default withAuth(
+  function middleware(req) {
+    return NextResponse.next();
+  },
+  {
+    callbacks: {
+      authorized: ({ token }) => !!token,
+    },
   }
-
-  return NextResponse.next();
-};
+);
 
 export const config = {
   matcher: [
-    ...Object.values(PROTECTED_ROUTES),
-    "/((?!api/auth|_next/static|_next/image|favicon.ico).*)",
+    "/studio/:path*",
+    "/studio/editor/:path*",
+    "/api/projects/create",
+    "/api/projects/update",
+    "/api/projects/delete",
   ],
 };
-
-export default authMiddleware;
