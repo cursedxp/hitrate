@@ -9,6 +9,7 @@ export default function Previews() {
       channel: "Channel Name",
       preview: "/images/channels/previews/4.jpg",
       views: "45K views",
+      avatar: "",
       published: "3 hours ago",
     },
     {
