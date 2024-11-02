@@ -4,7 +4,7 @@ import { useState } from "react";
 const chips = {
   Trending: [
     {
-      image: "/images/preview-3.png",
+      image: "/images/channels/previews/4.jpg",
       title: "Your Video",
       channelName: "Your Channel",
       views: "130K views",
