@@ -6,8 +6,11 @@ import Previews from "./components/features/previews";
 import FAQ from "./components/features/faq";
 import Pricing from "./components/features/pricing";
 import FeatureSets from "./components/features/featureSets";
+import { useSession, signIn } from "next-auth/react";
+
 export default function Home() {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   return (
     <>
@@ -58,8 +61,12 @@ export default function Home() {
               <div className="flex items-center justify-center">
                 <button
                   className="bg-blue-500 text-xl text-white px-8 py-4 rounded-2xl hover:shadow-2xl transition-shadow duration-300 hover:scale-105"
-                  onClick={() => {
-                    router.push("/studio");
+                  onClick={async () => {
+                    if (session) {
+                      router.push("/studio");
+                    } else {
+                      await signIn("google", { callbackUrl: "/studio" });
+                    }
                   }}
                 >
                   Launch App
