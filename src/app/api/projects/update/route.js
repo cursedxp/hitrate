@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
 import { db } from "@/app/lib/firebase/firebase.config";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { getUserFromToken } from "@/app/utils/session";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export async function POST(req) {
-  const sessionToken = req.cookies.get("next-auth.session-token").value;
-  const userId = await getUserFromToken(sessionToken);
+  const session = await getServerSession(authOptions);
 
-  if (!userId) {
+  if (!session || !session.user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   try {
     const { projectId, updates } = await req.json();
 
-    const userRef = doc(db, "users", userId);
+    const userRef = doc(db, "users", session.user.id);
     const userDoc = await getDoc(userRef);
 
     if (!userDoc.exists()) {
@@ -44,7 +44,6 @@ export async function POST(req) {
       updatedAt: new Date().toISOString(),
     };
 
-    // Update the user document with the modified projects
     await updateDoc(userRef, { projects });
 
     return NextResponse.json({ success: true }, { status: 200 });
