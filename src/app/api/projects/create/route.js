@@ -16,7 +16,7 @@ export async function POST(req) {
 
     const newProject = {
       id: Date.now().toString(),
-      name: "Untitled",
+      name: "Untitled Project",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       title: "",
