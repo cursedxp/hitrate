@@ -100,7 +100,7 @@ export default function TitleManager() {
             disabled={isGenerating}
             className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold dark:border-white disabled:opacity-50 hover:bg-zinc-100 dark:hover:bg-zinc-700"
           >
-            <Cpu className={`w-4 h-4 ${isGenerating ? "animate-spin" : ""}`} />
+            AI
           </button>
         )}
       </div>
