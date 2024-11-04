@@ -47,9 +47,9 @@ export const authOptions = {
 
             // Create a new user document
             await setDoc(userRef, {
-              name: user.name,
+              name: user.name || "Anonymous User",
               email: user.email,
-              image: user.image,
+              image: user.image || null,
               createdAt: new Date(),
               lastLoginAt: new Date(),
               subscriptionStatus: "inactive",
