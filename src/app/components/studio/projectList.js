@@ -8,7 +8,13 @@ export default function ProjectList({ session }) {
   const isSubscribed = () => {
     return session?.user?.subscriptionStatus === "active";
   };
-  const { loading, projects } = useFetchProjects();
+  const { loading, projects, refresh } = useFetchProjects();
+
+  // Sort projects by updatedAt in descending order (newest first)
+  const sortedProjects = [...projects].sort((a, b) => {
+    return new Date(b.updatedAt) - new Date(a.updatedAt);
+  });
+
   return (
     <section className="mt-20">
       {loading ? (
@@ -18,8 +24,12 @@ export default function ProjectList({ session }) {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {projects.map((project) => (
-            <ProjectItem key={project.id} project={project} />
+          {sortedProjects.map((project) => (
+            <ProjectItem
+              key={project.id}
+              project={project}
+              onDelete={refresh}
+            />
           ))}
           {isSubscribed() ? (
             <NewProjectButton session={session} />
