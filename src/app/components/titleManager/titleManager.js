@@ -8,14 +8,16 @@ import {
 } from "@/app/redux/slices/title.slice";
 import TitleItem from "./titleItem";
 import { useEffect, useState } from "react";
+import updateTitlesOfProject from "@/app/hooks/useUpdateTitles";
+import useGenerateAiTitles from "@/app/hooks/useGenerateAiTitles";
 
 export default function TitleManager() {
   const dispatch = useDispatch();
   const titles = useSelector((state) => state.title.titles);
   const selectedTitle = useSelector((state) => state.title.selectedTitle);
   const projectId = useSelector((state) => state.app.currentProjectId);
-  const [isGenerating, setIsGenerating] = useState(false);
-
+  const { updateTitles } = updateTitlesOfProject();
+  const { isGenerating, generateAiTitles } = useGenerateAiTitles();
   const handleTitleChange = (index, e) => {
     const newValue = e.target.value;
     dispatch(updateTitle({ index, value: newValue }));
@@ -36,29 +38,7 @@ export default function TitleManager() {
   };
 
   const updateTitleInDatabase = async (title) => {
-    try {
-      const response = await fetch("/api/projects/update", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          projectId,
-          updates: { title: title, titles: titles },
-        }),
-      });
-
-      const text = await response.text();
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to update selected title: ${response.status} - ${text}`
-        );
-      }
-      const data = JSON.parse(text);
-    } catch (error) {
-      console.error("Error updating selected title:", error);
-    }
+    updateTitles(projectId, title, titles);
   };
 
   useEffect(() => {
@@ -77,50 +57,13 @@ export default function TitleManager() {
   }, [titles, selectedTitle]);
 
   const handleGenerateAITitles = async () => {
-    setIsGenerating(true);
-    try {
-      const response = await fetch("/api/ai", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ titles }),
-      });
+    const generatedTitles = await generateAiTitles(titles);
 
-      if (!response.ok) {
-        throw new Error("Failed to generate titles");
+    generatedTitles.forEach((title) => {
+      if (title) {
+        dispatch(addTitle(title));
       }
-
-      const data = await response.json();
-      let generatedTitles = data.titles;
-
-      // Ensure generatedTitles is an array
-      if (typeof generatedTitles === "string") {
-        generatedTitles = generatedTitles
-          .split("\n")
-          .filter((title) => title.trim() !== "");
-      }
-
-      // Remove any numbering, quotation marks, and trim whitespace from the titles
-      generatedTitles = generatedTitles.map((title) => {
-        return title
-          .replace(/^\d+\.\s*/, "") // Remove numbering
-          .replace(/^["']|["']$/g, "") // Remove leading and trailing quotes
-          .trim();
-      });
-
-      // Add generated titles to the existing titles
-      generatedTitles.forEach((title) => {
-        if (title) {
-          dispatch(addTitle(title));
-        }
-      });
-    } catch (error) {
-      console.error("Error generating titles:", error);
-      // Handle error (e.g., show an error message to the user)
-    } finally {
-      setIsGenerating(false);
-    }
+    });
   };
 
   return (
