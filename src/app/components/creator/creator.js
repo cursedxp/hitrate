@@ -73,7 +73,7 @@ export default function Creator() {
           <input
             type="text"
             placeholder="Creator name"
-            className="w-full p-2 border border-zinc-200 dark:border-zinc-800 rounded-md"
+            className="w-full p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 dark:bg-zinc-700 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-blue-100 active:outline-none  dark:text-white"
             value={creatorName}
             onChange={(e) => setCreatorName(e.target.value)}
             onKeyDown={(e) => {
