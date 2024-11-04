@@ -80,7 +80,7 @@ export default function Chips() {
         <div className="relative">
           <input
             type="text"
-            className="bg-white shadow-md text-gray-800 p-3 rounded-xl dark:text-white dark:bg-zinc-800 w-80"
+            className="bg-white shadow-md text-gray-800 p-3 rounded-xl dark:text-white dark:bg-zinc-800 w-80  border border-zinc-200 dark:border-zinc-800 focus:ring-2 focus:ring-blue-500 focus:outline-none focus:bg-blue-100 active:outline-none  "
             value={value}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
