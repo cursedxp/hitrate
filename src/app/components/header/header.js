@@ -37,7 +37,7 @@ export default function Header() {
     { name: "Home", action: "/" },
     { name: "Features", action: () => handleNavigation("features") },
     { name: "Pricing", action: () => handleNavigation("pricing") },
-    { name: "Contact", action: "mailto:contact@hitmagnet.com" },
+    { name: "Contact", action: "mailto:hello@hitmagnet.app" },
   ];
 
   return (
