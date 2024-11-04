@@ -12,30 +12,37 @@ export default function ProjectItem({ project }) {
     router.push(`/studio/editor/${project.id}`);
   };
 
-  // Get the first thumbnail URL or use a default image
-  const previewImageUrl =
-    project.thumbnailUrls && project.thumbnailUrls.length > 0
-      ? project.thumbnailUrls[0]
-      : "https://picsum.photos/400/300";
+  // Get the first thumbnail URL or use a placeholder div with gradient background
+  const hasPreviewImage =
+    project.thumbnailUrls && project.thumbnailUrls.length > 0;
 
   return (
     <div onClick={handleClick} className="cursor-pointer">
       <div className="relative h-48 rounded-xl">
-        <Image
-          src={previewImageUrl}
-          alt={project.name}
-          fill
-          className={`rounded-xl object-cover transition-opacity duration-300 ${
-            imageLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          onLoadingComplete={() => setImageLoaded(true)}
-          loading="lazy"
-          placeholder="blur"
-          blurDataURL={`data:image/svg+xml;base64,${toBase64(
-            shimmer(700, 475)
-          )}`}
-        />
+        {hasPreviewImage ? (
+          <Image
+            src={project.thumbnailUrls[0]}
+            alt={project.name}
+            fill
+            className={`rounded-xl object-cover transition-opacity duration-300 ${
+              imageLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            onLoadingComplete={() => setImageLoaded(true)}
+            loading="lazy"
+            placeholder="blur"
+            blurDataURL={`data:image/svg+xml;base64,${toBase64(
+              shimmer(700, 475)
+            )}`}
+          />
+        ) : (
+          <div className="w-full h-full rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center">
+            <div className="flex flex-col items-center gap-2 text-gray-400">
+              <ImageIcon className="w-8 h-8" />
+              <span className="text-sm">No thumbnail yet added</span>
+            </div>
+          </div>
+        )}
       </div>
       <div className="flex flex-col pt-4">
         <div className="flex justify-between">
