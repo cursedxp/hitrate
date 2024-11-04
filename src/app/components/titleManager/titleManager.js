@@ -95,13 +95,20 @@ export default function TitleManager() {
           Add Title
         </button>
         {titles.length > 0 && (
-          <button
-            onClick={handleGenerateAITitles}
-            disabled={isGenerating}
-            className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold dark:border-white disabled:opacity-50 hover:bg-zinc-100 dark:hover:bg-zinc-700"
-          >
-            AI
-          </button>
+          <div className="relative group">
+            <button
+              onClick={handleGenerateAITitles}
+              disabled={isGenerating || !titles.some((title) => title.trim())}
+              className="flex items-center w-14 justify-center gap-1 py-3 rounded-lg text-xs font-bold dark:border-white disabled:opacity-50 hover:bg-zinc-100 dark:hover:bg-zinc-700 cursor-pointer"
+            >
+              AI
+            </button>
+            {!titles.some((title) => title.trim()) && (
+              <div className="absolute -left-36 bottom-full mb-2 hidden group-hover:block w-48 p-2 text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-400 rounded-md shadow-md">
+                Enter at least one title to generate AI variations
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
