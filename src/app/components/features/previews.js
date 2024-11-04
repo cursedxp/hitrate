@@ -60,7 +60,10 @@ export default function Previews() {
   ];
 
   return (
-    <section className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32">
+    <section
+      id="features"
+      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32"
+    >
       <SectionTitle
         title="Quickly preview thumbnails and titles."
         description="Preview your thumbnails and titles across multiple YouTube formats - home feed, search results, and suggested videos. See your content through your viewers' eyes."
