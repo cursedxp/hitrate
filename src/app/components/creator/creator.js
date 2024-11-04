@@ -65,7 +65,9 @@ export default function Creator() {
   return (
     <div className="flex flex-col gap-2 p-2">
       <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 p-2 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-2">
-        <Info className="w-4 h-4" />
+        <div className="flex items-center gap-2">
+          <Info className="w-4 h-4 " />
+        </div>
         Enter your YouTube channel name to set your channel avatar
       </div>
       {!isMatch && (
