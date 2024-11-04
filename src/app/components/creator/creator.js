@@ -4,6 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { setChannelName, setChannelAvatar } from "@/app/redux/slices/app.slice";
 import { useSelector } from "react-redux";
+import { Info } from "react-feather";
 export default function Creator() {
   const channelName = useSelector((state) => state.app.channelName);
   const channelAvatar = useSelector((state) => state.app.channelAvatar);
@@ -63,6 +64,10 @@ export default function Creator() {
 
   return (
     <div className="flex flex-col gap-2 p-2">
+      <div className="text-xs text-zinc-600 dark:text-zinc-400 mb-1 p-2 bg-zinc-100 dark:bg-zinc-800 rounded-xl flex items-center gap-2">
+        <Info className="w-4 h-4" />
+        Enter your YouTube channel name to set your channel avatar
+      </div>
       {!isMatch && (
         <>
           <input
