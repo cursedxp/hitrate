@@ -86,7 +86,7 @@ export default function UserDetails({ session }) {
               </li>
               <li
                 className="text-sm flex items-center gap-2 hover:cursor-pointer hover:bg-zinc-100 rounded-md px-2 py-2"
-                onClick={() => signOut()}
+                onClick={() => signOut({ callbackUrl: "/" })}
               >
                 <LogOut className="w-4 h-4" /> Sign Out
               </li>

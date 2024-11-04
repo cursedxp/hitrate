@@ -17,10 +17,6 @@ export default function UserDetails() {
 
   const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
 
-  const handleSignOut = () => {
-    signOut();
-  };
-
   return (
     <div className="relative">
       <div className="flex items-center gap-2 p-4 border-b border-zinc-100 dark:border-zinc-700">
@@ -58,7 +54,7 @@ export default function UserDetails() {
             </li>
             <li>
               <button
-                onClick={handleSignOut}
+                onClick={() => signOut({ callbackUrl: "/" })}
                 className="flex items-center rounded-lg px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700 w-full text-left"
               >
                 <LogOut className="w-4 h-4 mr-2" />
