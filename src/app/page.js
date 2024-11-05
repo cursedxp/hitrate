@@ -129,14 +129,6 @@ export default function Home() {
                 <ul className="space-y-2">
                   <li>
                     <a
-                      href="/privacy"
-                      className="text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      Privacy Policy
-                    </a>
-                  </li>
-                  <li>
-                    <a
                       href="/terms"
                       className="text-sm text-gray-600 hover:text-gray-900"
                     >
@@ -153,15 +145,23 @@ export default function Home() {
                       href="mailto:contact@hitmagnet.com"
                       className="text-sm text-gray-600 hover:text-gray-900"
                     >
-                      contact@hitmagnet.com
+                      hello@hitmagnet.app
                     </a>
                   </li>
                   <li>
                     <a
-                      href="https://twitter.com/hitmagnet"
+                      href="https://x.com/HitMagnet"
                       className="text-sm text-gray-600 hover:text-gray-900"
                     >
                       Twitter
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="https://instagram.com/hitmagnet"
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Instagram
                     </a>
                   </li>
                 </ul>
