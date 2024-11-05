@@ -55,6 +55,7 @@ export const authOptions = {
               subscriptionStatus: "inactive",
               projects: [],
               stripeCustomerId: stripeCustomerId,
+              inspirations: [],
             });
           } else {
             // User exists, update last login
@@ -82,6 +83,7 @@ export const authOptions = {
             subscriptionStatus: userData.subscriptionStatus,
             lastLoginAt: userData.lastLoginAt,
             projects: userData.projects || [],
+            inspirations: userData.inspirations || [],
           };
         } else {
           session.user = {
@@ -90,6 +92,7 @@ export const authOptions = {
             subscriptionStatus: "inactive",
             lastLoginAt: new Date(),
             projects: [],
+            inspirations: [],
           };
         }
       } catch (error) {
@@ -100,6 +103,7 @@ export const authOptions = {
           subscriptionStatus: "inactive",
           lastLoginAt: new Date(),
           projects: [],
+          inspirations: [],
         };
       }
 
