@@ -135,6 +135,14 @@ export default function Home() {
                       Terms of Service
                     </a>
                   </li>
+                  <li>
+                    <a
+                      href="/privacy"
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Privacy Policy
+                    </a>
+                  </li>
                 </ul>
               </div>
               <div>

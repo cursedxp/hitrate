@@ -15,17 +15,23 @@ export default function TermsPage() {
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               These terms and conditions outline the rules and regulations for
-              the use of HitMagnet, located at https://hitmagnet.app. By
-              accessing this website, we assume you accept these terms and
-              conditions. Do not continue to use HitMagnet if you do not agree
-              to take all of the terms and conditions stated on this page.
+              using HitMagnet, located at{" "}
+              <a
+                href="https://hitmagnet.app"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                https://hitmagnet.app
+              </a>
+              . By accessing this website, you accept these terms and
+              conditions. Please discontinue use if you do not agree with the
+              terms.
             </p>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               The following terminology applies throughout these terms:
-              "Client", "You" and "Your" refers to you, the user of HitMagnet.
-              "The Company", "Ourselves", "We", "Our" and "Us", refers to
-              HitMagnet. All terms refer to the offer, acceptance, and
-              consideration of payment necessary to provide our service to you.
+              "Client," "You," and "Your" refer to the user of HitMagnet. "The
+              Company," "Ourselves," "We," "Our," and "Us" refer to HitMagnet.
+              All terms refer to the offer, acceptance, and consideration of
+              payment necessary to provide our services.
             </p>
           </section>
 
@@ -34,14 +40,20 @@ export default function TermsPage() {
               2. Cookies and Tracking
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              We employ the use of cookies and similar tracking technologies. By
-              accessing HitMagnet, you agree to use cookies in agreement with
-              our Privacy Policy. These technologies are used to:
+              We use cookies and similar tracking technologies as outlined in
+              our{" "}
+              <a
+                href="/privacy"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Privacy Policy
+              </a>
+              . By accessing HitMagnet, you agree to their use to:
             </p>
             <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-              <li>Maintain your session and preferences</li>
+              <li>Maintain session and preferences</li>
               <li>Analyze usage patterns and performance</li>
-              <li>Enable certain platform functionality</li>
+              <li>Enable platform functionality</li>
               <li>Provide security features</li>
             </ul>
           </section>
@@ -52,106 +64,194 @@ export default function TermsPage() {
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               Unless otherwise stated, HitMagnet owns the intellectual property
-              rights for all material on our platform. You must not:
+              rights to all material on our platform. You must not:
             </p>
             <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-              <li>Republish material from HitMagnet</li>
-              <li>Sell, rent, or sub-license material from HitMagnet</li>
-              <li>Reproduce, duplicate, or copy material from HitMagnet</li>
-              <li>Redistribute content from HitMagnet</li>
+              <li>Republish, sell, or sub-license material from HitMagnet</li>
+              <li>Reproduce, duplicate, or copy material</li>
+              <li>Redistribute content</li>
             </ul>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Content uploaded by users remains the property of the users, but
+              by posting content on HitMagnet, you grant us a non-exclusive,
+              royalty-free license to use, reproduce, and display such content
+              for platform operations and improvements. Users are solely
+              responsible for the content they submit, ensuring it doesn't
+              infringe on any third-party rights.
+            </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              4. Reservation of Rights
+              4. User-Uploaded Content and Cloud Storage
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Users can upload thumbnail images and other files to HitMagnet for
+              use within the platform. Uploaded files are stored securely on our
+              cloud infrastructure. These files are accessible solely for
+              platform-related purposes and are not shared with third parties.
+              Users may request the removal of their files at any time by
+              contacting support.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              5. AI Title Generation Feature
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              HitMagnet provides an AI-based title generation feature to assist
+              users in creating engaging titles for their YouTube content. The
+              AI-generated titles are suggestions only, and users are free to
+              use or disregard these suggestions as they see fit. HitMagnet does
+              not guarantee any specific results from using AI-generated titles.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              6. Google Authentication and Data Protection
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              HitMagnet requires users to log in using Google authentication. We
+              use your Google information solely for identity verification and
+              access to the platform. We only collect necessary information,
+              such as name and email, and do not share this data with third
+              parties. For more on our data handling practices, please refer to
+              our{" "}
+              <a
+                href="/privacy"
+                className="text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Privacy Policy
+              </a>
+              .
+            </p>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              HitMagnet complies with the EU General Data Protection Regulation
+              (GDPR). Users have the right to access, modify, or delete their
+              personal information upon request.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              7. Reservation of Rights
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               We reserve the right to:
             </p>
             <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
               <li>Modify or withdraw any part of our service without notice</li>
-              <li>
-                Remove any content we deem inappropriate or in violation of our
-                terms
-              </li>
-              <li>Monitor and review all content submitted to our platform</li>
-              <li>Take legal action against users who violate these terms</li>
+              <li>Remove content deemed inappropriate or violating terms</li>
+              <li>Monitor and review submitted content</li>
+              <li>Take legal action against violators</li>
+            </ul>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              Changes to these terms will be communicated via email or displayed
+              prominently on our website. Continued use of the site signifies
+              acceptance of updated terms.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              8. Content Liability
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              You are responsible for any content you submit to HitMagnet and
+              agree to indemnify us against claims arising from your content. By
+              submitting, you warrant that:
+            </p>
+            <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
+              <li>You own the necessary rights to share the content</li>
+              <li>It complies with all applicable laws</li>
+              <li>It does not infringe on third-party rights</li>
             </ul>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              5. Content Liability
+              9. Refund Policy
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              You are fully responsible for any content you submit to HitMagnet.
-              By submitting content, you warrant and represent that:
+              Annual Subscriptions:
             </p>
             <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
               <li>
-                You have all necessary rights and permissions to share the
-                content
+                Refund requests must be submitted within 14 days of purchase
               </li>
-              <li>The content does not infringe on any third-party rights</li>
-              <li>
-                The content complies with all applicable laws and regulations
-              </li>
-              <li>
-                You will indemnify us against any claims resulting from your
-                content
-              </li>
-            </ul>
-          </section>
-
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              6. Refund Policy
-            </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
-              Our refund policy applies only to annual subscriptions:
-            </p>
-            <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-              <li>
-                Refund requests for annual subscriptions must be submitted
-                within 14 days of purchase
-              </li>
-              <li>Refunds will be processed within 5-10 business days</li>
+              <li>Refunds processed within 5–10 business days</li>
               <li>
                 We reserve the right to deny refunds in cases of abuse or
                 excessive usage
               </li>
-              <li>Monthly subscriptions are not eligible for refunds</li>
             </ul>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              To request a refund for your annual subscription, please contact
-              our support team with your order details and reason for the
-              refund.
+              Monthly Subscriptions:
+            </p>
+            <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
+              <li>
+                No refunds; the subscription will continue until the end of the
+                billing cycle
+              </li>
+            </ul>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              For refunds on annual subscriptions, contact our support team with
+              your order details and reason.
             </p>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              7. Contact Information
+              10. Third-Party Content and YouTube API
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
-              For any questions or concerns about these terms, please contact
-              us:
+              HitMagnet utilizes YouTube's API to provide relevant content for
+              thumbnail comparison. Users agree to use YouTube data solely for
+              personal and comparison purposes. Redistribution or unauthorized
+              use of this data is prohibited. For further information, please
+              refer to YouTube's Terms of Service.
+            </p>
+          </section>
+
+          <section className="mb-8">
+            <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+              11. Contact Information
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
+              For questions or concerns, reach out to us:
             </p>
             <ul className="list-none pl-6 text-gray-600 dark:text-gray-300 mb-4">
-              <li>Email: hello@hitmagnet.app</li>
-              <li>Website: https://hitmagnet.app</li>
+              <li>
+                Email:{" "}
+                <a
+                  href="mailto:hello@hitmagnet.app"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  hello@hitmagnet.app
+                </a>
+              </li>
+              <li>
+                Website:{" "}
+                <a
+                  href="https://hitmagnet.app"
+                  className="text-blue-600 dark:text-blue-400 hover:underline"
+                >
+                  https://hitmagnet.app
+                </a>
+              </li>
             </ul>
           </section>
 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
-              8. Disclaimer
+              12. Disclaimer
             </h2>
             <p className="text-gray-600 dark:text-gray-300 mb-4">
               To the maximum extent permitted by law, we exclude all
               representations, warranties, and conditions relating to our
-              website and service. Nothing in this disclaimer will:
+              website and services. Nothing in this disclaimer will:
             </p>
             <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
               <li>Limit or exclude liability for death or personal injury</li>
