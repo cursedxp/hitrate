@@ -1,34 +1,29 @@
 import { loadStripe } from "@stripe/stripe-js";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
 
 export default function useSubscribe({ monthlyPriceId, yearlyPriceId }) {
   const [isLoading, setIsLoading] = useState(false);
-  const { data: session, status } = useSession();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const plan = searchParams.get("plan");
-    if (status === "authenticated" && plan) {
-      handleSubscribe(plan === "yearly");
-    }
-  }, [status, searchParams]);
+  const { data: session } = useSession();
 
   const handleSubscribe = async (isYearly) => {
     try {
       setIsLoading(true);
 
       if (!session) {
+        localStorage.setItem("selectedPlan", isYearly ? "yearly" : "monthly");
         await signIn("google", {
-          callbackUrl: `${window.location.href}?plan=${
-            isYearly ? "yearly" : "monthly"
-          }`,
+          callbackUrl: window.location.href,
         });
         return;
       }
 
-      const priceId = isYearly ? yearlyPriceId : monthlyPriceId;
+      const storedPlan = localStorage.getItem("selectedPlan");
+      const finalPlanType = storedPlan || (isYearly ? "yearly" : "monthly");
+      const priceId =
+        finalPlanType === "yearly" ? yearlyPriceId : monthlyPriceId;
+
+      localStorage.removeItem("selectedPlan");
 
       if (!priceId) {
         throw new Error("Price ID is not defined");
