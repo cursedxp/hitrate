@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Image from "next/image";
 
 export default function Header() {
   const router = useRouter();
@@ -45,7 +46,13 @@ export default function Header() {
       <div className="flex items-center justify-center h-20">
         <nav className="flex items-center justify-between h-full w-full max-w-7xl px-4">
           <div className="text-2xl font-bold uppercase tracking-widest">
-            HitMagnet
+            <Image
+              src="/images/logo.svg"
+              alt="HitMagnet"
+              width={200}
+              height={40}
+              priority
+            />
           </div>
           <ul className="flex items-center space-x-8">
             {navigationItems.map((item, index) => (

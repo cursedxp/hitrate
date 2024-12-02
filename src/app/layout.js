@@ -1,8 +1,29 @@
-"use client";
 import "./globals.css";
 import ThemeProvider from "./components/themeProvider/themeProvider";
 import NextAuthSessionProvider from "./components/sessionProvider/sessionProvider";
 import StoreProvider from "./redux/storeProvider";
+
+export const metadata = {
+  title: "HitMagnet",
+  description: "YouTube thumbnail optimization tool",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      {
+        url: "/hitrate/public/favicon/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/hitrate/public/favicon/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: [{ url: "/favicon/apple-touch-icon.png" }],
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <StoreProvider>
