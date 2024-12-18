@@ -10,7 +10,7 @@ export default function AiTitleGeneration() {
     <div className="flex items-center gap-8 justify-center w-full mb-16">
       <div className="w-[60%]">
         <div
-          className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col items-center justify-center gap-4 p-6"
+          className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col  justify-center gap-4"
           style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
         >
           <div className="w-full max-w-2xl space-y-4">
