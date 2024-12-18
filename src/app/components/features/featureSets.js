@@ -2,7 +2,7 @@ import SectionTitle from "@/app/components/features/sectionTitle";
 import SearchResults from "./searchResults";
 import ShuffleThumbnails from "./shuffleThumbnails";
 import AiTitleGeneration from "./aiTitleGeneration";
-
+import ChromeExtension from "./chromeExtension";
 export default function FeatureSets() {
   return (
     <section className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32">
@@ -13,6 +13,7 @@ export default function FeatureSets() {
       <SearchResults />
       <ShuffleThumbnails />
       <AiTitleGeneration />
+      {/* <ChromeExtension /> */}
     </section>
   );
 }
