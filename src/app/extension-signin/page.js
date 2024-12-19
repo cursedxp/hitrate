@@ -4,21 +4,32 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function ExtensionSignin() {
   const router = useRouter();
   const { data: session } = useSession();
-  const [authStatus, setAuthStatus] = useState({ success: false, error: null });
+  const [authStatus, setAuthStatus] = useState({
+    success: false,
+    error: null,
+    loading: false,
+  });
+  const hasNotified = useRef(false);
 
   function notifyExtension(userInfo) {
+    if (hasNotified.current) {
+      return;
+    }
+
     const EXTENSION_ID = process.env.NEXT_PUBLIC_EXTENSION_ID;
 
     if (!EXTENSION_ID) {
       console.error("Extension ID not found in environment variables");
-      setAuthStatus({ success: true, error: null }); // Still show success for development
+      setAuthStatus({ success: true, error: null, loading: false });
       return;
     }
+
+    setAuthStatus((prev) => ({ ...prev, loading: true }));
 
     try {
       chrome.runtime.sendMessage(
@@ -34,28 +45,35 @@ export default function ExtensionSignin() {
           },
         },
         (response) => {
+          hasNotified.current = true;
           if (response?.success) {
             console.log("Extension authentication successful");
-            setAuthStatus({ success: true, error: null });
+            setAuthStatus({ success: true, error: null, loading: false });
           } else {
             console.error("Extension authentication failed:", response?.error);
             setAuthStatus({
               success: false,
               error: "Failed to authenticate with extension",
+              loading: false,
             });
           }
         }
       );
     } catch (error) {
       console.error("Failed to communicate with extension:", error);
-      setAuthStatus({ success: true, error: null }); // Still show success if extension isn't installed yet
+      hasNotified.current = true;
+      setAuthStatus({ success: true, error: null, loading: false });
     }
   }
 
   useEffect(() => {
-    if (session?.user) {
+    if (session?.user && !hasNotified.current) {
       notifyExtension(session.user);
     }
+
+    return () => {
+      hasNotified.current = false;
+    };
   }, [session]);
 
   const handleSignIn = async () => {
