@@ -96,7 +96,6 @@ export default function ExtensionSignin() {
       console.error("Extension error details:", {
         error: error.message,
         extensionId: EXTENSION_ID,
-        retryCount,
         chrome: typeof chrome !== "undefined",
       });
       hasNotified.current = false;
