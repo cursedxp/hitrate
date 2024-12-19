@@ -12,7 +12,7 @@ export default function ExtensionSignin() {
   const [authStatus, setAuthStatus] = useState({ success: false, error: null });
 
   function notifyExtension(userInfo) {
-    const EXTENSION_ID = "your-extension-id"; // Replace with your actual extension ID
+    const EXTENSION_ID = process.env.EXTENSION_ID;
 
     try {
       chrome.runtime.sendMessage(
