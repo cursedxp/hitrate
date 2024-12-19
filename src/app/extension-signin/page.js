@@ -5,63 +5,58 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
 
-const TIMEOUT_MS = 5000;
-const MAX_RETRIES = 2;
+const TIMEOUT_MS = 10000;
+const MAX_RETRIES = 3;
 
-const sendMessageWithRetry = async (extensionId, message, retryCount = 0) => {
-  try {
-    const response = await Promise.race([
-      new Promise((resolve, reject) => {
-        chrome.runtime.sendMessage(extensionId, message, (response) => {
-          if (chrome.runtime.lastError) {
-            reject(chrome.runtime.lastError);
-          } else {
-            resolve(response);
-          }
-        });
-      }),
-      new Promise((_, reject) =>
-        setTimeout(
-          () => reject(new Error("Extension communication timeout")),
-          TIMEOUT_MS
-        )
-      ),
-    ]);
-    return response;
-  } catch (error) {
-    if (retryCount < MAX_RETRIES) {
-      console.log(
-        `Retrying extension communication (${retryCount + 1}/${MAX_RETRIES})...`
+const sendMessageToExtension = async (extensionId, message) => {
+  if (!chrome?.runtime?.sendMessage) {
+    throw new Error("Chrome runtime not available");
+  }
+
+  return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(
+        new Error(`Extension communication timeout after ${TIMEOUT_MS}ms`)
       );
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait 1s before retry
-      return sendMessageWithRetry(extensionId, message, retryCount + 1);
+    }, TIMEOUT_MS);
+
+    chrome.runtime.sendMessage(extensionId, message, (response) => {
+      clearTimeout(timeout);
+      if (chrome.runtime.lastError) {
+        reject(chrome.runtime.lastError);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+};
+
+const withRetry = async (fn, retries = MAX_RETRIES) => {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (i === retries) throw error;
+      const waitTime = 1000 * (i + 1);
+      await new Promise((resolve) => setTimeout(resolve, waitTime));
     }
-    throw error;
   }
 };
 
 export default function ExtensionSignin() {
   const { data: session } = useSession();
-  const [authStatus, setAuthStatus] = useState(() => ({
-    success:
-      typeof window !== "undefined"
-        ? window.sessionStorage.getItem("extensionAuthenticated") === "true"
-        : false,
+  const [authStatus, setAuthStatus] = useState({
+    success: sessionStorage?.getItem("extensionAuthenticated") === "true",
     error: null,
     loading: false,
-  }));
-  const hasNotified = useRef(
-    typeof window !== "undefined"
-      ? window.sessionStorage.getItem("extensionAuthenticated") === "true"
-      : false
-  );
+  });
+  const hasNotified = useRef(authStatus.success);
 
   async function notifyExtension(userInfo) {
     if (hasNotified.current || authStatus.success) return;
 
     const EXTENSION_ID = process.env.NEXT_PUBLIC_EXTENSION_ID;
     if (!EXTENSION_ID) {
-      console.error("Extension ID not found in environment variables");
       setAuthStatus({
         success: false,
         error: "Extension ID not configured",
@@ -73,33 +68,29 @@ export default function ExtensionSignin() {
     setAuthStatus((prev) => ({ ...prev, loading: true }));
 
     try {
-      const response = await sendMessageWithRetry(EXTENSION_ID, {
-        type: "websiteAuth",
-        userInfo: {
-          id: userInfo.id,
-          email: userInfo.email,
-          name: userInfo.name,
-          image: userInfo.image,
-          subscriptionStatus: userInfo.subscriptionStatus || "inactive",
-        },
-      });
+      const response = await withRetry(() =>
+        sendMessageToExtension(EXTENSION_ID, {
+          type: "websiteAuth",
+          userInfo: {
+            id: userInfo.id,
+            email: userInfo.email,
+            name: userInfo.name,
+            image: userInfo.image,
+            subscriptionStatus: userInfo.subscriptionStatus || "inactive",
+          },
+        })
+      );
 
-      hasNotified.current = true;
-      window.sessionStorage.setItem("extensionAuthenticated", "true");
       if (response?.success) {
-        console.log("Extension authentication successful");
+        hasNotified.current = true;
+        sessionStorage.setItem("extensionAuthenticated", "true");
         setAuthStatus({ success: true, error: null, loading: false });
       } else {
         throw new Error(response?.error || "Extension authentication failed");
       }
     } catch (error) {
-      console.error("Extension error details:", {
-        error: error.message,
-        extensionId: EXTENSION_ID,
-        chrome: typeof chrome !== "undefined",
-      });
       hasNotified.current = false;
-      window.sessionStorage.removeItem("extensionAuthenticated");
+      sessionStorage.removeItem("extensionAuthenticated");
       setAuthStatus({
         success: false,
         error:
