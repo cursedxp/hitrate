@@ -14,16 +14,13 @@ const sendMessageToExtension = async (extensionId, message) => {
   }
 
   return new Promise((resolve, reject) => {
-    const timeout = setTimeout(() => {
-      reject(
-        new Error(`Extension communication timeout after ${TIMEOUT_MS}ms`)
-      );
-    }, TIMEOUT_MS);
-
     chrome.runtime.sendMessage(extensionId, message, (response) => {
-      clearTimeout(timeout);
       if (chrome.runtime.lastError) {
-        reject(chrome.runtime.lastError);
+        console.warn(
+          "Extension communication warning:",
+          chrome.runtime.lastError
+        );
+        resolve(response);
       } else {
         resolve(response);
       }
