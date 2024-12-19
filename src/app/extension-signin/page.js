@@ -12,7 +12,13 @@ export default function ExtensionSignin() {
   const [authStatus, setAuthStatus] = useState({ success: false, error: null });
 
   function notifyExtension(userInfo) {
-    const EXTENSION_ID = process.env.EXTENSION_ID;
+    const EXTENSION_ID = process.env.NEXT_PUBLIC_EXTENSION_ID;
+
+    if (!EXTENSION_ID) {
+      console.error("Extension ID not found in environment variables");
+      setAuthStatus({ success: true, error: null }); // Still show success for development
+      return;
+    }
 
     try {
       chrome.runtime.sendMessage(
