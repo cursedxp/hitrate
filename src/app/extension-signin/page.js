@@ -55,7 +55,7 @@ export default function ExtensionSignin() {
   async function notifyExtension(userInfo) {
     if (hasNotified.current || authStatus.success) return;
 
-    const EXTENSION_ID = process.env.NEXT_PUBLIC_EXTENSION_ID;
+    const EXTENSION_ID = "aapjjofpoggafibiobamkiildoipclih";
     if (!EXTENSION_ID) {
       setAuthStatus({
         success: false,
