@@ -86,6 +86,22 @@ export default function ExtensionSignin() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-zinc-900 flex flex-col items-center justify-center py-16 px-4 sm:px-6 lg:px-8">
+      {/* Loading Overlay */}
+      {authStatus.loading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-white dark:bg-zinc-800 rounded-xl p-6 flex flex-col items-center space-y-4"
+          >
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+            <p className="text-gray-600 dark:text-gray-300">
+              Authenticating with extension...
+            </p>
+          </motion.div>
+        </div>
+      )}
+
       <div className="max-w-md w-full space-y-8">
         <div className="flex flex-col items-center">
           <Image
