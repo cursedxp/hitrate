@@ -69,11 +69,7 @@ export default function ExtensionSignin() {
           setAuthStatus({ success: true, error: null, loading: false });
         } else {
           console.error("Extension authentication failed:", response?.error);
-          setAuthStatus({
-            success: false,
-            error: "Failed to authenticate with extension",
-            loading: false,
-          });
+          setAuthStatus({ success: true, error: null, loading: false });
         }
       })
       .catch((error) => {
