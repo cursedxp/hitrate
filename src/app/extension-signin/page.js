@@ -43,11 +43,18 @@ const withRetry = async (fn, retries = MAX_RETRIES) => {
 export default function ExtensionSignin() {
   const { data: session } = useSession();
   const [authStatus, setAuthStatus] = useState({
-    success: sessionStorage?.getItem("extensionAuthenticated") === "true",
+    success: false,
     error: null,
     loading: false,
   });
   const hasNotified = useRef(authStatus.success);
+
+  useEffect(() => {
+    const isAuthenticated =
+      typeof window !== "undefined" &&
+      window.sessionStorage?.getItem("extensionAuthenticated") === "true";
+    setAuthStatus((prev) => ({ ...prev, success: isAuthenticated }));
+  }, []);
 
   async function notifyExtension(userInfo) {
     if (hasNotified.current || authStatus.success) return;
