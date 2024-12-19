@@ -42,17 +42,17 @@ const sendMessageWithRetry = async (extensionId, message, retryCount = 0) => {
 
 export default function ExtensionSignin() {
   const { data: session } = useSession();
-  const [authStatus, setAuthStatus] = useState({
-    success: false,
+  const [authStatus, setAuthStatus] = useState(() => ({
+    success: sessionStorage.getItem("extensionAuthenticated") === "true",
     error: null,
     loading: false,
-  });
+  }));
   const hasNotified = useRef(
     sessionStorage.getItem("extensionAuthenticated") === "true"
   );
 
   async function notifyExtension(userInfo) {
-    if (hasNotified.current) return;
+    if (hasNotified.current || authStatus.success) return;
 
     const EXTENSION_ID = process.env.NEXT_PUBLIC_EXTENSION_ID;
     if (!EXTENSION_ID) {
@@ -101,15 +101,10 @@ export default function ExtensionSignin() {
   }
 
   useEffect(() => {
-    if (session?.user && !hasNotified.current) {
+    if (session?.user && !authStatus.success && !hasNotified.current) {
       notifyExtension(session.user);
     }
-
-    return () => {
-      // Don't reset hasNotified on unmount
-      // hasNotified.current = false;
-    };
-  }, [session]);
+  }, [session, authStatus.success]);
 
   const handleSignIn = async () => {
     if (session) {
