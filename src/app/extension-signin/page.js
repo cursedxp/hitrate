@@ -31,39 +31,56 @@ export default function ExtensionSignin() {
 
     setAuthStatus((prev) => ({ ...prev, loading: true }));
 
-    try {
-      chrome.runtime.sendMessage(
-        EXTENSION_ID,
-        {
-          type: "websiteAuth",
-          userInfo: {
-            id: userInfo.id,
-            email: userInfo.email,
-            name: userInfo.name,
-            image: userInfo.image,
-            subscriptionStatus: userInfo.subscriptionStatus || "inactive",
-          },
-        },
-        (response) => {
-          hasNotified.current = true;
-          if (response?.success) {
-            console.log("Extension authentication successful");
-            setAuthStatus({ success: true, error: null, loading: false });
-          } else {
-            console.error("Extension authentication failed:", response?.error);
-            setAuthStatus({
-              success: false,
-              error: "Failed to authenticate with extension",
-              loading: false,
-            });
-          }
-        }
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(
+        () => reject(new Error("Extension communication timeout")),
+        5000
       );
-    } catch (error) {
-      console.error("Failed to communicate with extension:", error);
-      hasNotified.current = true;
-      setAuthStatus({ success: true, error: null, loading: false });
-    }
+    });
+
+    const messagePromise = new Promise((resolve) => {
+      try {
+        chrome.runtime.sendMessage(
+          EXTENSION_ID,
+          {
+            type: "websiteAuth",
+            userInfo: {
+              id: userInfo.id,
+              email: userInfo.email,
+              name: userInfo.name,
+              image: userInfo.image,
+              subscriptionStatus: userInfo.subscriptionStatus || "inactive",
+            },
+          },
+          (response) => {
+            resolve(response);
+          }
+        );
+      } catch (error) {
+        resolve({ success: false, error: error.message });
+      }
+    });
+
+    Promise.race([messagePromise, timeoutPromise])
+      .then((response) => {
+        hasNotified.current = true;
+        if (response?.success) {
+          console.log("Extension authentication successful");
+          setAuthStatus({ success: true, error: null, loading: false });
+        } else {
+          console.error("Extension authentication failed:", response?.error);
+          setAuthStatus({
+            success: false,
+            error: "Failed to authenticate with extension",
+            loading: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Extension communication error:", error);
+        hasNotified.current = true;
+        setAuthStatus({ success: true, error: null, loading: false });
+      });
   }
 
   useEffect(() => {
