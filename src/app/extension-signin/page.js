@@ -93,7 +93,12 @@ export default function ExtensionSignin() {
         throw new Error(response?.error || "Extension authentication failed");
       }
     } catch (error) {
-      console.error("Extension communication error:", error);
+      console.error("Extension error details:", {
+        error: error.message,
+        extensionId: EXTENSION_ID,
+        retryCount,
+        chrome: typeof chrome !== "undefined",
+      });
       hasNotified.current = false;
       window.sessionStorage.removeItem("extensionAuthenticated");
       setAuthStatus({
