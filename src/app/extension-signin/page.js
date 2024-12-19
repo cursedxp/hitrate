@@ -43,12 +43,17 @@ const sendMessageWithRetry = async (extensionId, message, retryCount = 0) => {
 export default function ExtensionSignin() {
   const { data: session } = useSession();
   const [authStatus, setAuthStatus] = useState(() => ({
-    success: sessionStorage.getItem("extensionAuthenticated") === "true",
+    success:
+      typeof window !== "undefined"
+        ? window.sessionStorage.getItem("extensionAuthenticated") === "true"
+        : false,
     error: null,
     loading: false,
   }));
   const hasNotified = useRef(
-    sessionStorage.getItem("extensionAuthenticated") === "true"
+    typeof window !== "undefined"
+      ? window.sessionStorage.getItem("extensionAuthenticated") === "true"
+      : false
   );
 
   async function notifyExtension(userInfo) {
@@ -80,7 +85,7 @@ export default function ExtensionSignin() {
       });
 
       hasNotified.current = true;
-      sessionStorage.setItem("extensionAuthenticated", "true");
+      window.sessionStorage.setItem("extensionAuthenticated", "true");
       if (response?.success) {
         console.log("Extension authentication successful");
         setAuthStatus({ success: true, error: null, loading: false });
@@ -90,7 +95,7 @@ export default function ExtensionSignin() {
     } catch (error) {
       console.error("Extension communication error:", error);
       hasNotified.current = false;
-      sessionStorage.removeItem("extensionAuthenticated");
+      window.sessionStorage.removeItem("extensionAuthenticated");
       setAuthStatus({
         success: false,
         error:
