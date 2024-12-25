@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function AiTitleGeneration() {
   const [currentTitle, setCurrentTitle] = useState(
-    "7 Days Exploring An Underground City"
+    "The Most Beautiful Beaches to Explore"
   );
 
   return (
@@ -18,7 +18,7 @@ export default function AiTitleGeneration() {
               <div className="flex items-center gap-3">
                 <div className="w-64 h-36 bg-gray-100 rounded-lg relative flex-shrink-0">
                   <Image
-                    src="/images/preview-5.jpg"
+                    src="/images/preview-5.png"
                     alt="Video thumbnail"
                     fill
                     quality={100}
@@ -39,39 +39,32 @@ export default function AiTitleGeneration() {
               <div className="space-y-2">
                 <button
                   onClick={() => {
-                    setCurrentTitle(
-                      "Secret Underground City Explored For 7 Days Straight"
-                    );
+                    setCurrentTitle("The World’s Most Stunning Beaches");
                   }}
                   className="w-full h-12 bg-emerald-50 hover:bg-emerald-100 rounded-lg p-3 flex items-center transition-colors duration-200"
                 >
                   <span className="text-sm text-emerald-700">
-                    🌟 "Secret Underground City Explored For 7 Days Straight"
+                    🌟 "The World’s Most Stunning Beaches"
                   </span>
                 </button>
                 <button
                   onClick={() => {
-                    setCurrentTitle(
-                      "Living Underground For A Week Changed Everything"
-                    );
+                    setCurrentTitle(" Exploring the Best Beaches on Earth");
                   }}
                   className="w-full h-12 bg-emerald-50 hover:bg-emerald-100 rounded-lg p-3 flex items-center transition-colors duration-200"
                 >
                   <span className="text-sm text-emerald-700">
-                    🔍 "Living Underground For A Week Changed Everything"
+                    🔍 " Exploring the Best Beaches on Earth"
                   </span>
                 </button>
                 <button
                   onClick={() => {
-                    setCurrentTitle(
-                      "What I Found After 7 Days In This Secret Underground City"
-                    );
+                    setCurrentTitle("Secret Beaches You’ve Never Heard Of");
                   }}
                   className="w-full h-12 bg-emerald-50 hover:bg-emerald-100 rounded-lg p-3 flex items-center transition-colors duration-200"
                 >
                   <span className="text-sm text-emerald-700">
-                    💎 "What I Found After 7 Days In This Secret Underground
-                    City"
+                    💎 "Secret Beaches You’ve Never Heard Of"
                   </span>
                 </button>
               </div>

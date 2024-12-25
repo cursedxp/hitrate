@@ -15,7 +15,7 @@ export default function Previews() {
     {
       id: 2,
       title: "AI is ruining the internet",
-      channel: "Drew Gooden",
+      channel: "Tech Talk",
       avatar: "/images/channels/avatars/2.png",
       preview: "/images/channels/previews/2.png",
       views: "892K views",
