@@ -1,11 +1,8 @@
-import { useState } from "react";
-
-export default function Navigation() {
-  const [isActive, setIsActive] = useState("Projects");
+export default function Navigation({ isActive, setIsActive }) {
   return (
     <nav className="flex justify-center mt-8">
       <ul className="flex mt-4 space-x-4">
-        {["Projects"].map((item) => (
+        {["Projects", "Collections"].map((item) => (
           <li key={item}>
             <a
               href={`#${item.toLowerCase().replace(" ", "-")}`}
