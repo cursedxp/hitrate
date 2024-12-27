@@ -1,7 +1,7 @@
 import Image from "next/image";
 export default function CollectionItem({ collection }) {
   return (
-    <div key={collection.id} className="flex flex-col">
+    <div className="flex flex-col cursor-pointer hover:opacity-90 transition-opacity">
       {/* Main large image */}
       <div className="aspect-[16/10] relative rounded-lg overflow-hidden bg-gray-100 mb-2">
         {collection.thumbnails[0]?.url ? (
