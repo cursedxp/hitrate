@@ -72,7 +72,7 @@ function serializeSession(session) {
       lastLoginAt: serializeTimestamp(session.user?.lastLoginAt),
       createdAt: serializeTimestamp(session.user?.createdAt),
       projects: serializeData(session.user?.projects),
-      inspirations: serializeData(session.user?.inspirations),
+      collections: serializeData(session.user?.collections),
       // Serialize any other potential timestamp fields
       updatedAt: serializeTimestamp(session.user?.updatedAt),
       subscriptionCurrentPeriodEnd: serializeTimestamp(

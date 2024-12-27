@@ -12,6 +12,7 @@ import CollectionList from "@/app/components/studio/collectionList/collectionLis
 
 export default function StudioClient({ session, trendingData }) {
   const [isActive, setIsActive] = useState("Projects");
+  const [key, setKey] = useState(0);
   const dispatch = useDispatch();
   const searchList = useSelector((state) => state.app.searchList);
 
@@ -22,14 +23,19 @@ export default function StudioClient({ session, trendingData }) {
     }
   }, [trendingData, dispatch, searchList]);
 
+  const handleTabChange = (tab) => {
+    setIsActive(tab);
+    setKey((prev) => prev + 1);
+  };
+
   return (
     <div className="flex flex-col max-w-7xl py-32 h-screen mx-auto">
       <UserDetails session={session} />
-      <Navigation isActive={isActive} setIsActive={setIsActive} />
+      <Navigation isActive={isActive} setIsActive={handleTabChange} />
       {isActive === "Projects" ? (
-        <ProjectList session={session} />
+        <ProjectList key={`projects-${key}`} session={session} />
       ) : (
-        <CollectionList session={session} />
+        <CollectionList key={`collections-${key}`} session={session} />
       )}
     </div>
   );
