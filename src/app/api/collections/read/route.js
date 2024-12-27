@@ -4,6 +4,33 @@ import { doc, getDoc } from "firebase/firestore";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+// Helper function to serialize timestamps
+function serializeTimestamps(data) {
+  if (!data) return null;
+
+  if (data instanceof Date) {
+    return data.toISOString();
+  }
+
+  if (data?.toDate) {
+    return data.toDate().toISOString();
+  }
+
+  if (Array.isArray(data)) {
+    return data.map((item) => serializeTimestamps(item));
+  }
+
+  if (typeof data === "object") {
+    const serialized = {};
+    for (const [key, value] of Object.entries(data)) {
+      serialized[key] = serializeTimestamps(value);
+    }
+    return serialized;
+  }
+
+  return data;
+}
+
 export async function GET(req) {
   const session = await getServerSession(authOptions);
 
@@ -23,7 +50,7 @@ export async function GET(req) {
     const collectionsArray = Object.entries(collections).map(
       ([id, collection]) => ({
         id,
-        ...collection,
+        ...serializeTimestamps(collection),
       })
     );
 

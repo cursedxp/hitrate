@@ -20,6 +20,47 @@ async function getInitialTrending() {
   return response.json();
 }
 
+// Helper function to serialize timestamps
+function serializeTimestamp(timestamp) {
+  if (!timestamp) return null;
+
+  if (timestamp instanceof Date) {
+    return timestamp.toISOString();
+  }
+
+  if (timestamp.seconds) {
+    return new Date(timestamp.seconds * 1000).toISOString();
+  }
+
+  return timestamp;
+}
+
+// Helper function to serialize arrays and objects
+function serializeData(data) {
+  if (!data) return null;
+
+  if (Array.isArray(data)) {
+    return data.map((item) => serializeData(item));
+  }
+
+  if (typeof data === "object") {
+    const serialized = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (
+        key.toLowerCase().includes("date") ||
+        key.toLowerCase().includes("at")
+      ) {
+        serialized[key] = serializeTimestamp(value);
+      } else {
+        serialized[key] = serializeData(value);
+      }
+    }
+    return serialized;
+  }
+
+  return data;
+}
+
 // Helper function to serialize the session data
 function serializeSession(session) {
   if (!session) return null;
@@ -28,15 +69,15 @@ function serializeSession(session) {
     ...session,
     user: {
       ...session.user,
-      // Convert Timestamp to ISO string if it exists
-      lastLoginAt: session.user?.lastLoginAt
-        ? new Date(session.user.lastLoginAt.seconds * 1000).toISOString()
-        : null,
-      // Ensure other date fields are also serialized if they exist
-      createdAt: session.user?.createdAt
-        ? new Date(session.user.createdAt.seconds * 1000).toISOString()
-        : null,
-      // Add any other Timestamp fields that need conversion
+      lastLoginAt: serializeTimestamp(session.user?.lastLoginAt),
+      createdAt: serializeTimestamp(session.user?.createdAt),
+      projects: serializeData(session.user?.projects),
+      inspirations: serializeData(session.user?.inspirations),
+      // Serialize any other potential timestamp fields
+      updatedAt: serializeTimestamp(session.user?.updatedAt),
+      subscriptionCurrentPeriodEnd: serializeTimestamp(
+        session.user?.subscriptionCurrentPeriodEnd
+      ),
     },
   };
 }
