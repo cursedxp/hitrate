@@ -1,80 +1,80 @@
-import { useState } from "react";
-import { useFetchCollections } from "@/app/hooks/useFetchCollections";
-import CollectionItem from "@/app/components/studio/collectionItem/collectionItem";
-import CollectionContent from "@/app/components/collectionContent/collectionContent";
-import Loader from "@/app/components/loader/loader";
+import { useState, useEffect } from "react";
+import CollectionItem from "../collectionItem/collectionItem";
+import CollectionContent from "../../collectionContent/collectionContent";
+import Loader from "../../loader/loader";
 
 export default function CollectionList({ session }) {
-  const { loading, collections, refresh } = useFetchCollections();
+  const [collections, setCollections] = useState([]);
   const [selectedCollection, setSelectedCollection] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCollections = async () => {
+    try {
+      const response = await fetch("/api/collections/read");
+      if (!response.ok) throw new Error("Failed to fetch collections");
+      const data = await response.json();
+      setCollections(data.collections);
+    } catch (error) {
+      console.error("Error fetching collections:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCollections();
+  }, []);
 
   const handleCollectionClick = (collection) => {
     setSelectedCollection(collection);
   };
 
-  const handleCollectionUpdate = (updatedCollection) => {
-    // Update the selected collection with new data
-    setSelectedCollection(updatedCollection);
-
-    // Update the collections list in memory
-    const updatedCollections = collections.map((collection) =>
-      collection.id === updatedCollection.id ? updatedCollection : collection
+  const handleCollectionDelete = async (collectionId) => {
+    setCollections(
+      collections.filter((collection) => collection.id !== collectionId)
     );
-
-    // Force a refresh of the collections data
-    refresh();
+    await fetchCollections();
   };
 
-  const handleDeleteCollection = async (collectionId) => {
-    try {
-      const response = await fetch(`/api/collections/delete`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ collectionId }),
-      });
+  const handleBack = () => {
+    setSelectedCollection(null);
+    fetchCollections();
+  };
 
-      if (!response.ok) {
-        throw new Error("Failed to delete collection");
-      }
-
-      refresh();
-      setSelectedCollection(null);
-    } catch (error) {
-      console.error("Error deleting collection:", error);
-    }
+  const handleUpdate = (updatedCollection) => {
+    setCollections(
+      collections.map((collection) =>
+        collection.id === updatedCollection.id ? updatedCollection : collection
+      )
+    );
   };
 
   if (loading) {
     return <Loader />;
   }
 
+  if (selectedCollection) {
+    return (
+      <CollectionContent
+        collection={selectedCollection}
+        onBack={handleBack}
+        onUpdate={handleUpdate}
+      />
+    );
+  }
+
   return (
-    <div className="mt-20">
-      {selectedCollection ? (
-        <CollectionContent
-          collection={selectedCollection}
-          onBack={() => {
-            setSelectedCollection(null);
-            refresh();
-          }}
-          onUpdate={handleCollectionUpdate}
-          onDelete={handleDeleteCollection}
-        />
-      ) : (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {collections.map((collection) => (
-            <div
-              key={collection.id}
-              onClick={() => handleCollectionClick(collection)}
-              className="cursor-pointer"
-            >
-              <CollectionItem collection={collection} />
-            </div>
-          ))}
-        </section>
-      )}
-    </div>
+    <section className="mt-20">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {collections.map((collection) => (
+          <CollectionItem
+            key={collection.id}
+            collection={collection}
+            onClick={() => handleCollectionClick(collection)}
+            onDelete={handleCollectionDelete}
+          />
+        ))}
+      </div>
+    </section>
   );
 }

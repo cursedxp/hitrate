@@ -3,6 +3,7 @@ import { ChevronLeft, Download, Trash2 } from "react-feather";
 import { useState } from "react";
 import ConfirmationModal from "@/app/components/modal/confirmationModal";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 
 export default function CollectionContent({ collection, onBack, onUpdate }) {
   const { data: session } = useSession();
@@ -32,9 +33,9 @@ export default function CollectionContent({ collection, onBack, onUpdate }) {
     setShowDeleteModal(true);
   };
 
-  const onDelete = async (collectionId, thumbnail) => {
+  const handleDeleteThumbnail = async (collectionId, thumbnail) => {
     try {
-      const response = await fetch("/api/collections/delete", {
+      const response = await fetch("/api/collections/items/delete", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,66 +62,69 @@ export default function CollectionContent({ collection, onBack, onUpdate }) {
           thumbnails: updatedThumbnails,
         });
       }
+
+      toast.success("Thumbnail deleted successfully");
     } catch (error) {
       console.error("Error deleting thumbnail:", error);
+      toast.error("Failed to delete thumbnail");
     }
   };
 
   return (
     <div className="flex flex-col gap-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={onBack}
-            className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-          <h2 className="">Back</h2>
-        </div>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={onBack}
+          className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-700 rounded-lg transition-colors"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <h2 className="text-xl font-semibold">{collection.name}</h2>
       </div>
 
-      {/* Grid of thumbnails */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {thumbnails.map((thumbnail, index) => (
+      {/* Thumbnails grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {thumbnails.map((thumbnail) => (
           <div
-            key={index}
-            className="group relative aspect-video rounded-lg overflow-hidden bg-zinc-100 dark:bg-zinc-800"
+            key={thumbnail.url}
+            className="relative group aspect-video rounded-lg overflow-hidden"
           >
             <Image
               src={thumbnail.url}
-              alt={`Thumbnail ${index + 1}`}
+              alt="Thumbnail"
               fill
               className="object-cover"
             />
-            {/* Updated hover overlay with both buttons */}
-            <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-200">
-              <button
-                onClick={() => handleDownload(thumbnail.url)}
-                className="p-2 bg-black/90 rounded-lg text-white hover:bg-black transition-colors"
-              >
-                <Download className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleDeleteClick(thumbnail)}
-                className="p-2 bg-black/90 rounded-lg text-white hover:bg-black transition-colors"
-              >
-                <Trash2 className="w-4 h-4" />
-              </button>
+            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <div className="absolute top-2 right-2 flex gap-2">
+                <button
+                  onClick={() => handleDownload(thumbnail.url)}
+                  className="p-2 bg-black/90 rounded-lg text-white hover:bg-black transition-colors"
+                >
+                  <Download className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleDeleteClick(thumbnail)}
+                  className="p-2 bg-black/90 rounded-lg text-white hover:bg-black transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Confirmation Modal */}
       <ConfirmationModal
         isOpen={showDeleteModal}
-        onClose={() => setShowDeleteModal(false)}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setThumbnailToDelete(null);
+        }}
         onConfirm={() => {
-          if (thumbnailToDelete) {
-            onDelete(collection.id, thumbnailToDelete);
-          }
+          handleDeleteThumbnail(collection.id, thumbnailToDelete);
           setShowDeleteModal(false);
           setThumbnailToDelete(null);
         }}
