@@ -45,7 +45,7 @@ export async function GET(req) {
     }
 
     const userData = userDoc.data();
-    const collections = userData.inspirations || {};
+    const collections = userData.collections || {};
 
     const collectionsArray = Object.entries(collections).map(
       ([id, collection]) => ({
