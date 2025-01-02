@@ -77,7 +77,7 @@ export default function Previews() {
           <div className="text-3xl md:text-4xl font-bold text-black mb-4">
             Stand out from your competition
           </div>
-          <p className="text-lg md:text-xl text-zinc-500 mb-8 leading-relaxed">
+          <p className=" text-zinc-500 mb-8 leading-relaxed">
             See how your thumbnails and titles compare against your competition.
             Analyze what works in your niche and get inspiration from successful
             creators. Make data-driven decisions to improve your content's

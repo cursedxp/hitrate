@@ -130,7 +130,7 @@ export default function SearchResults() {
         <div className="text-3xl md:text-4xl font-bold text-black mb-4">
           Compare search results
         </div>
-        <p className="text-lg md:text-xl text-zinc-500 mb-8 leading-relaxed">
+        <p className=" text-zinc-500 mb-8 leading-relaxed">
           See how your content appears in YouTube search results. Compare your
           thumbnails and titles against competitors in your niche using
           topic-based filters to optimize your content's discoverability.

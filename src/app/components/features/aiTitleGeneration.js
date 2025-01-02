@@ -9,7 +9,7 @@ export default function AiTitleGeneration() {
   return (
     <div className="flex flex-col-reverse md:flex-row items-center gap-4 md:gap-8 justify-center w-full mb-16 px-4 md:px-0">
       <div className="w-full md:w-[60%]">
-        <div className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col justify-center gap-4 p-4 md:p-6">
+        <div className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col justify-center gap-4">
           <div className="w-full max-w-2xl space-y-4">
             <div className="flex flex-col gap-3">
               <div className="flex flex-col md:flex-row items-start md:items-center gap-3">
@@ -80,7 +80,7 @@ export default function AiTitleGeneration() {
         <div className="text-3xl md:text-4xl font-bold text-black mb-4">
           AI-powered title generation
         </div>
-        <p className="text-lg md:text-xl text-zinc-500 mb-8 leading-relaxed">
+        <p className="text-zinc-500 mb-8 leading-relaxed">
           Let our AI help you create engaging titles that grab attention. Get
           smart suggestions based on your content and niche, optimized for
           maximum viewer engagement and click-through rates. Click any

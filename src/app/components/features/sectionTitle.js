@@ -1,11 +1,11 @@
 export default function SectionTitle({ title, description, paragraphStyle }) {
   return (
     <div className="text-center w-full flex flex-col items-center mb-16">
-      <h1 className="lg:text-7xl md:text-5xl sm:text-5xl font-bold text-center mb-6 max-w-3xl">
+      <h1 className="text-5xl sm:text-6xl md:text-6xl lg:text-7xl font-bold text-center mb-6">
         {title}
       </h1>
       <p
-        className={`text-xl md:text-lg text-gray-500 text-center ${paragraphStyle}`}
+        className={`text-xl md:text-xl sm:text-lg text-gray-500 text-center p-4 ${paragraphStyle}`}
       >
         {description}
       </p>
