@@ -17,7 +17,7 @@ export default function Home() {
       <Header />
       <div className="flex flex-col items-center bg-white w-full h-screen">
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-center mb-32">
+        <section className="flex flex-col items-center justify-center mb-16 md:mb-32">
           <div
             className="absolute h-[700px] inset-0 opacity-50"
             style={{
@@ -32,8 +32,8 @@ export default function Home() {
             <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-transparent to-white z-50"></div>
           </div>
           <div className="flex flex-col h-full w-full max-w-7xl z-10">
-            <div className="flex flex-col justify-center items-center text-center text-zinc-900 min-h-min p-40">
-              <h1 className="text-9xl font-bold mb-4">
+            <div className="flex flex-col justify-center items-center text-center text-zinc-900 min-h-min p-4 md:p-40">
+              <h1 className="text-5xl md:text-9xl font-bold mb-4">
                 <span className="">Preview your </span>
                 <motion.span
                   className="bg-clip-text text-transparent bg-gradient-to-r from-red-500  via-blue-500 to-purple-500"
@@ -53,14 +53,14 @@ export default function Home() {
                   ))}
                 </motion.span>
               </h1>
-              <p className="text-2xl text-zinc-500 text-center mb-8 leading-relaxed">
+              <p className="text-lg md:text-2xl text-zinc-500 text-center mb-8 leading-relaxed px-4 md:px-0">
                 See how your YouTube content appears across different views
                 before publishing. Test thumbnails and titles to maximize
                 engagement and click-through rates.
               </p>
               <div className="flex items-center justify-center">
                 <button
-                  className="bg-blue-500 text-xl text-white px-8 py-4 rounded-2xl hover:shadow-2xl transition-shadow duration-300 hover:scale-105"
+                  className="bg-blue-500 text-lg md:text-xl text-white px-6 md:px-8 py-3 md:py-4 rounded-2xl hover:shadow-2xl transition-shadow duration-300 hover:scale-105"
                   onClick={async () => {
                     if (session) {
                       router.push("/studio");

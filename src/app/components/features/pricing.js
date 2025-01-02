@@ -10,7 +10,7 @@ export default function Pricing() {
   return (
     <section
       id="pricing"
-      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32"
+      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-16 md:mb-32 px-4 md:px-0"
     >
       <SectionTitle
         title="Compare your thumbnails with competitors."

@@ -28,12 +28,12 @@ const faq = [
 
 export default function FAQ() {
   return (
-    <section className="flex flex-col items-center w-full max-w-3xl justify-center pb-32">
+    <section className="flex flex-col items-center w-full max-w-3xl justify-center pb-16 md:pb-32 px-4 md:px-0">
       <SectionTitle
         title="Quick answers for you."
         description="We know you are in a hurry, so we have prepared some quick answers for you."
       />
-      <div className="space-y-6 w-full">
+      <div className="space-y-4 md:space-y-6 w-full">
         {faq.map((item, index) => (
           <FAQItem key={index} item={item} index={index} />
         ))}
@@ -51,10 +51,10 @@ function FAQItem({ item, index }) {
       className="border border-gray-200 rounded-lg overflow-hidden"
     >
       <motion.button
-        className="flex justify-between items-center w-full text-left p-6"
+        className="flex justify-between items-center w-full text-left p-4 md:p-6"
         onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
       >
-        <h3 className="text-xl font-semibold">{item.question}</h3>
+        <h3 className="text-lg md:text-xl font-semibold">{item.question}</h3>
         <motion.svg
           animate={{ rotate: openFAQ === index ? 180 : 0 }}
           transition={{ duration: 0.3 }}

@@ -62,30 +62,30 @@ export default function Previews() {
   return (
     <section
       id="features"
-      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32"
+      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-16 md:mb-32 px-4 md:px-0"
     >
       <SectionTitle
         title="Quickly preview thumbnails and titles."
         description="Preview your thumbnails and titles across multiple YouTube formats - home feed, search results, and suggested videos. See your content through your viewers' eyes."
-        paragraphStyle="px-40"
+        paragraphStyle="px-4 md:px-40"
       />
-      <div className="flex items-center gap-8 justify-center">
-        <div className="flex flex-col w-[40%] self-start mt-10">
+      <div className="flex flex-col md:flex-row items-center gap-8 justify-center">
+        <div className="flex flex-col w-full md:w-[40%] self-start mt-10">
           <div className="flex text-sm font-bold w-fit mb-4 border border-black rounded-xl px-4 py-2 text-black">
             PREVIEW
           </div>
-          <div className="text-4xl font-bold text-black mb-4">
+          <div className="text-3xl md:text-4xl font-bold text-black mb-4">
             Stand out from your competition
           </div>
-          <p className="text-xl text-zinc-500 mb-8 leading-relaxed">
+          <p className="text-lg md:text-xl text-zinc-500 mb-8 leading-relaxed">
             See how your thumbnails and titles compare against your competition.
             Analyze what works in your niche and get inspiration from successful
             creators. Make data-driven decisions to improve your content's
             performance.
           </p>
         </div>
-        <div className="w-[60%] bg-white rounded-3xl p-6">
-          <div className="grid grid-cols-3 gap-4">
+        <div className="w-full md:w-[60%] bg-white rounded-3xl p-4 md:p-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {previewVideos.map((item) => (
               <div key={item.id} className="flex flex-col gap-2">
                 <div className="aspect-video bg-gray-100 rounded-2xl relative">
