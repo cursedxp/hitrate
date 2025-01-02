@@ -14,7 +14,7 @@ export default function ChromeExtension() {
         >
           <div className="relative h-[500px] w-full rounded-lg overflow-hidden">
             <Image
-              src="/chrome-extension-preview.png"
+              src="/images/extension.png"
               alt="Chrome Extension Preview"
               fill
               quality={100}
@@ -71,7 +71,7 @@ export default function ChromeExtension() {
 
         {/* CTA */}
         <a
-          href="#"
+          href="https://chrome.google.com/webstore/detail/poifjopaeakiakblodnmnbhanlphffmb"
           className="inline-flex items-center px-6 py-3 text-base font-medium rounded-xl text-white bg-zinc-800 hover:bg-zinc-700 w-fit"
         >
           Add to Chrome - It&apos;s Free
