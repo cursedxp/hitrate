@@ -28,7 +28,7 @@ const faq = [
 
 export default function FAQ() {
   return (
-    <section className="flex flex-col items-center w-full max-w-3xl justify-center pb-16 md:pb-32 px-4 md:px-0">
+    <section className="flex flex-col items-center w-full max-w-3xl justify-center pb-16 md:pb-32 px-4 md:px-4">
       <SectionTitle
         title="Quick answers for you."
         description="We know you are in a hurry, so we have prepared some quick answers for you."

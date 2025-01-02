@@ -5,7 +5,7 @@ import AiTitleGeneration from "./aiTitleGeneration";
 import ChromeExtension from "./chromeExtension";
 export default function FeatureSets() {
   return (
-    <section className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32">
+    <section className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-32 md:px-4">
       <SectionTitle
         title="Powerful features to enhance your workflow"
         description="Take advantage of our advanced features designed to make your content creation process smoother and more efficient."

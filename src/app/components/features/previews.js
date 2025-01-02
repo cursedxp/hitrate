@@ -62,12 +62,12 @@ export default function Previews() {
   return (
     <section
       id="features"
-      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-16 md:mb-32 px-4 md:px-0"
+      className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-16 md:mb-32 px-4 md:px-4"
     >
       <SectionTitle
         title="Quickly preview thumbnails and titles."
         description="Preview your thumbnails and titles across multiple YouTube formats - home feed, search results, and suggested videos. See your content through your viewers' eyes."
-        paragraphStyle="px-4 md:px-40"
+        paragraphStyle="px-4 md:px-16"
       />
       <div className="flex flex-col md:flex-row items-center gap-8 justify-center">
         <div className="flex flex-col w-full md:w-[40%] self-start mt-10">
@@ -84,7 +84,7 @@ export default function Previews() {
             performance.
           </p>
         </div>
-        <div className="w-full md:w-[60%] bg-white rounded-3xl p-4 md:p-6">
+        <div className="w-full md:w-[60%] bg-white rounded-3xl md:p-6">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
             {previewVideos.map((item) => (
               <div key={item.id} className="flex flex-col gap-2">
