@@ -2,11 +2,12 @@ import AuthButton from "../authButton/authButton";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export default function Header() {
   const router = useRouter();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     // Check if there's a hash in the URL when the component mounts
@@ -54,7 +55,58 @@ export default function Header() {
               priority
             />
           </div>
-          <ul className="flex items-center space-x-8">
+
+          <button
+            className="md:hidden p-2"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <div className="w-6 h-0.5 bg-gray-600 mb-1"></div>
+            <div className="w-6 h-0.5 bg-gray-600 mb-1"></div>
+            <div className="w-6 h-0.5 bg-gray-600"></div>
+          </button>
+
+          <div
+            className={`${
+              isMenuOpen ? "flex" : "hidden"
+            } md:hidden absolute top-20 left-0 right-0 bg-white border-b border-gray-200`}
+          >
+            <ul className="flex flex-col w-full">
+              {navigationItems.map((item, index) => (
+                <motion.li
+                  key={item.name}
+                  className="border-b border-gray-100 last:border-0"
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                >
+                  {typeof item.action === "function" ? (
+                    <button
+                      onClick={() => {
+                        item.action();
+                        setIsMenuOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-3 text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                    >
+                      {item.name}
+                    </button>
+                  ) : (
+                    <Link
+                      className="block px-4 py-3 text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                      href={item.action}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                </motion.li>
+              ))}
+              <li className="px-4 py-3">
+                <AuthButton />
+              </li>
+            </ul>
+          </div>
+
+          <ul className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item, index) => (
               <motion.li
                 key={item.name}
@@ -80,7 +132,9 @@ export default function Header() {
               </motion.li>
             ))}
           </ul>
-          <AuthButton />
+          <div className="hidden md:block">
+            <AuthButton />
+          </div>
         </nav>
       </div>
     </header>
