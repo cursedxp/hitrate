@@ -17,7 +17,7 @@ export default function Home() {
       <Header />
       <div className="flex flex-col items-center bg-white w-full h-screen">
         {/* Hero Section */}
-        <section className="flex flex-col items-center justify-center mb-16 md:mb-32 sm:mt-36">
+        <section className="flex flex-col items-center justify-center mb-16 mt-32 md:mb-32 sm:mt-40">
           <div
             className="absolute h-[700px] inset-0 opacity-50"
             style={{
@@ -32,8 +32,8 @@ export default function Home() {
             <div className="absolute bottom-0 left-0 right-0 h-96 bg-gradient-to-b from-transparent to-white z-50"></div>
           </div>
           <div className="flex flex-col h-full w-full max-w-7xl z-10">
-            <div className="flex flex-col justify-center items-center text-center text-zinc-900 min-h-min p-4 md:p-40">
-              <h1 className="lg:text-9xl md:text-8xl sm:text-7xl font-bold mb-4">
+            <div className="flex flex-col justify-center items-center text-center text-zinc-900 min-h-min p-4 md:p-32">
+              <h1 className="text-7xl md:text-8xl lg:text-9xl font-bold mb-4">
                 <span className="">Preview your </span>
                 <motion.span
                   className="bg-clip-text text-transparent bg-gradient-to-r from-red-500  via-blue-500 to-purple-500"
