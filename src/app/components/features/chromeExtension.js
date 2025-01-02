@@ -76,9 +76,7 @@ export default function ChromeExtension() {
         >
           Add to Chrome - It&apos;s Free
         </a>
-        <p className="mt-3 text-sm text-gray-500">
-          Available for Chrome, Firefox, and Edge browsers
-        </p>
+        <p className="mt-3 text-sm text-gray-500">Available for Chrome</p>
       </div>
     </div>
   );
