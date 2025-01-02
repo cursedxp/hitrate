@@ -76,19 +76,16 @@ const chips = {
 export default function SearchResults() {
   const [chip, setChip] = useState("Trending");
   return (
-    <div className="flex items-center gap-4 justify-center w-full mb-16">
-      <div className="w-[60%]">
-        <div
-          className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col  justify-center gap-4 "
-          style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
-        >
+    <div className="flex flex-col-reverse md:flex-row items-center gap-4 justify-center w-full mb-16 px-4 md:px-0">
+      <div className="w-full md:w-[60%]">
+        <div className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col justify-center gap-4">
           <div className="w-full max-w-2xl">
             <div className="flex items-center gap-2 mb-4">
-              <div className="flex gap-2 overflow-x-auto pb-2">
+              <div className="flex gap-2 overflow-x-auto pb-2 w-full">
                 {["Trending", "Gaming", "Cooking"].map((chip) => (
                   <div
                     key={chip}
-                    className="px-6 py-3 bg-white rounded-xl shadow-md text-sm font-medium text-gray-700 whitespace-nowrap hover:bg-zinc-800 hover:text-white cursor-pointer "
+                    className="px-4 md:px-6 py-2 md:py-3 bg-white rounded-xl shadow-md text-sm font-medium text-gray-700 whitespace-nowrap hover:bg-zinc-800 hover:text-white cursor-pointer"
                     onClick={() => setChip(chip)}
                   >
                     {chip}
@@ -98,8 +95,8 @@ export default function SearchResults() {
             </div>
             <div className="space-y-4">
               {chips[chip].map((item) => (
-                <div key={item} className="flex gap-4 items-start">
-                  <div className="w-40 h-24 bg-gray-100 rounded-lg relative flex-shrink-0">
+                <div key={item} className="flex gap-3 md:gap-4 items-start">
+                  <div className="w-32 md:w-40 h-20 md:h-24 bg-gray-100 rounded-lg relative flex-shrink-0">
                     <Image
                       src={item.image}
                       alt={item.title}
@@ -110,11 +107,13 @@ export default function SearchResults() {
                     />
                   </div>
                   <div className="flex flex-col">
-                    <h3 className="font-medium text-gray-900 line-clamp-2">
+                    <h3 className="font-medium text-sm md:text-base text-gray-900 line-clamp-2">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-500">{item.channelName}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-xs md:text-sm text-gray-500">
+                      {item.channelName}
+                    </p>
+                    <p className="text-xs md:text-sm text-gray-500">
                       {item.views} • {item.date}
                     </p>
                   </div>
@@ -124,14 +123,14 @@ export default function SearchResults() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-[40%] self-start">
+      <div className="flex flex-col w-full md:w-[40%] self-start mb-8 md:mb-0">
         <div className="flex text-sm font-bold w-fit mb-4 border border-black rounded-xl px-4 py-2 text-black">
           SEARCH
         </div>
-        <div className="text-4xl font-bold text-black mb-4">
+        <div className="text-3xl md:text-4xl font-bold text-black mb-4">
           Compare search results
         </div>
-        <p className="text-xl text-zinc-500 mb-8 leading-relaxed">
+        <p className="text-lg md:text-xl text-zinc-500 mb-8 leading-relaxed">
           See how your content appears in YouTube search results. Compare your
           thumbnails and titles against competitors in your niche using
           topic-based filters to optimize your content's discoverability.

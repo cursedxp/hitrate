@@ -47,26 +47,10 @@ export default function ShuffleThumbnails() {
   }, []);
 
   return (
-    <div className="flex items-center gap-8 justify-center w-full mb-16">
-      <div className="flex flex-col w-[40%] self-start">
-        <div className="flex text-sm font-bold w-fit mb-4 border border-black rounded-xl px-4 py-2 text-black">
-          SHUFFLE
-        </div>
-        <div className="text-4xl font-bold text-black mb-4">
-          Shuffle and experiment with layouts
-        </div>
-        <p className="text-xl text-zinc-500 mb-8 leading-relaxed">
-          Use our shuffle feature to instantly rearrange your thumbnails and see
-          how they work together. Test different combinations and positions to
-          find the most engaging layout for your content.
-        </p>
-      </div>
-      <div className="w-[60%]">
-        <div
-          className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col items-center justify-center gap-4 p-6"
-          style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
-        >
-          <div className="grid grid-cols-2 gap-6 w-full">
+    <div className="flex flex-col-reverse md:flex-row items-center gap-4 md:gap-8 justify-center w-full mb-16 px-4 md:px-0">
+      <div className="w-full md:w-[60%]">
+        <div className="grid-item relative rounded-2xl bg-white transition-all duration-300 flex flex-col items-center justify-center gap-4 p-4 md:p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 w-full">
             {items.map((item) => (
               <motion.div
                 key={item.thumbnail}
@@ -93,7 +77,7 @@ export default function ShuffleThumbnails() {
                   />
                 </div>
                 <div className="flex mt-2 gap-2">
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                  <div className="relative w-8 md:w-10 h-8 md:h-10 rounded-full overflow-hidden flex-shrink-0">
                     {item.avatar ? (
                       <Image
                         src={item.avatar}
@@ -108,11 +92,13 @@ export default function ShuffleThumbnails() {
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-medium text-sm line-clamp-2">
+                    <h3 className="font-medium text-xs md:text-sm line-clamp-2">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-500">{item.channel}</p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-xs md:text-sm text-gray-500">
+                      {item.channel}
+                    </p>
+                    <p className="text-xs md:text-sm text-gray-500">
                       {item.views} • {item.published}
                     </p>
                   </div>
@@ -121,6 +107,19 @@ export default function ShuffleThumbnails() {
             ))}
           </div>
         </div>
+      </div>
+      <div className="flex flex-col w-full md:w-[40%] self-start mb-8 md:mb-0">
+        <div className="flex text-sm font-bold w-fit mb-4 border border-black rounded-xl px-4 py-2 text-black">
+          SHUFFLE
+        </div>
+        <div className="text-3xl md:text-4xl font-bold text-black mb-4">
+          Shuffle and experiment with layouts
+        </div>
+        <p className="text-lg md:text-xl text-zinc-500 mb-8 leading-relaxed">
+          Use our shuffle feature to instantly rearrange your thumbnails and see
+          how they work together. Test different combinations and positions to
+          find the most engaging layout for your content.
+        </p>
       </div>
     </div>
   );
