@@ -58,6 +58,14 @@ export default function Footer() {
                   Privacy Policy
                 </a>
               </li>
+              <li>
+                <a
+                  href="/impressum"
+                  className="text-sm text-gray-600 hover:text-gray-900"
+                >
+                  Impressum
+                </a>
+              </li>
             </ul>
           </div>
           <div>
