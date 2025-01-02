@@ -13,10 +13,11 @@ export default function PriceCard({ isYearly }) {
   });
 
   const features = [
-    "Unlimited thumbnails",
-    "Preview layouts",
-    "Compare with search results",
-    "Shuffle thumbnails",
+    "Unlimited projects",
+    "Unlimited collections",
+    "Preview on different YouTube layouts",
+    "Compare your thumbnails with your competitors",
+    "Shuffle thumbnails across different YouTube content",
     "Dark mode for thumbnails",
     "Ai powered title generator",
   ];
