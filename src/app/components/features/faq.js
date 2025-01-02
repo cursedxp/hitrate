@@ -7,17 +7,17 @@ const faq = [
   {
     question: "What is HitMagnet?",
     answer:
-      "HitMagnet is a tool that helps you create eye-catching thumbnails for your content by analyzing trends and providing insights to improve your visuals.",
+      "HitMagnet is a powerful tool that helps YouTube creators optimize their thumbnails by comparing them with successful competitors, generating AI-powered titles, and organizing thumbnails in collections. With features like thumbnail shuffling, dark mode previews, and a Chrome extension for easy downloading, HitMagnet provides everything you need to create more engaging YouTube content.",
   },
   {
     question: "How will this help me make better thumbnails?",
     answer:
-      "HitMagnet will help you make better thumbnails by allowing you to compare your thumbnails with those of other channels, giving you inspiration and ideas to improve your visuals.",
+      "HitMagnet helps you improve thumbnails by comparing with successful competitors, previewing in different layouts, generating AI titles, organizing collections, and easily downloading with our Chrome extension.",
   },
   {
     question: "How does the pricing work?",
     answer:
-      "We offer a Premium Plan with both monthly and yearly subscription options. The yearly plan offers savings compared to the monthly plan.",
+      "We offer a Premium Plan at $10/month or $100/year. The yearly plan saves you $20 compared to monthly billing. Premium includes unlimited projects, collections, competitor comparisons, thumbnail shuffling, dark mode previews, and AI title generation.",
   },
   {
     question: "Can I cancel my subscription?",
