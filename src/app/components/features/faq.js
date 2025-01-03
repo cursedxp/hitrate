@@ -7,12 +7,12 @@ const faq = [
   {
     question: "What is HitMagnet?",
     answer:
-      "HitMagnet is a powerful tool that helps YouTube creators optimize their thumbnails by comparing them with successful competitors, generating AI-powered titles, and organizing thumbnails in collections. With features like thumbnail shuffling, dark mode previews, and a Chrome extension for easy downloading, HitMagnet provides everything you need to create more engaging YouTube content.",
+      "HitMagnet is a powerful tool that helps YouTube creators optimize their thumbnails by comparing them with successful competitors, generating AI-powered titles, and organizing thumbnails in collections. With features like thumbnail shuffling, dark mode previews, and a Chrome extension for saving thumbnails to collections, HitMagnet provides everything you need to create more engaging YouTube content.",
   },
   {
     question: "How will this help me make better thumbnails?",
     answer:
-      "HitMagnet helps you improve thumbnails by comparing with successful competitors, previewing in different layouts, generating AI titles, organizing collections, and easily downloading with our Chrome extension.",
+      "HitMagnet helps you improve thumbnails by comparing with successful competitors, previewing in different layouts, generating AI titles and creating collections with our Chrome extension.",
   },
   {
     question: "How does the pricing work?",
