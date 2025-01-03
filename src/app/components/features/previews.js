@@ -65,7 +65,7 @@ export default function Previews() {
       className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-16 md:mb-32 px-4 md:px-4"
     >
       <SectionTitle
-        title="Quickly preview thumbnails and titles."
+        title="Quickly preview your thumbnails and titles before publishing."
         description="Preview your thumbnails and titles across multiple YouTube formats - home feed, search results, and suggested videos. See your content through your viewers' eyes."
         paragraphStyle="px-4 md:px-16"
       />
