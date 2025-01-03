@@ -32,42 +32,24 @@ export default function ChromeExtension() {
           EXTENSION
         </div>
         <div className="text-3xl md:text-4xl font-bold text-black mb-4">
-          Download & Save YouTube Thumbnails
+          Create Collections of YouTube Thumbnails
         </div>
         <p className="text-base md:text-xl text-zinc-500 mb-8 leading-relaxed">
-          Download thumbnails for free or save them to your collections with a
-          Pro subscription
+          Create thumbnail collections directly on HitMagnet.
         </p>
 
         {/* Features list */}
         <div className="space-y-4 md:space-y-6 mb-8">
           <div className="flex flex-col">
             <h3 className="text-base md:text-lg font-medium text-gray-900">
-              Free Download
+              Create Collections
             </h3>
             <p className="text-sm md:text-base text-gray-500">
-              Download any YouTube thumbnail instantly to your device -
-              available for all users.
-            </p>
-          </div>
-
-          <div className="flex flex-col">
-            <h3 className="text-base md:text-lg font-medium text-gray-900">
-              Pro: Save to Collections
-            </h3>
-            <p className="text-sm md:text-base text-gray-500">
-              Pro users can save thumbnails directly to their HitMagnet
-              collections for better organization.
-            </p>
-          </div>
-
-          <div className="flex flex-col">
-            <h3 className="text-base md:text-lg font-medium text-gray-900">
-              Pro: Advanced Features
-            </h3>
-            <p className="text-sm md:text-base text-gray-500">
-              Get unlimited storage, custom collections, tags, and instant
-              syncing across all devices.
+              Save YouTube thumbnails directly to your HitMagnet collections
+              with one click. Organize and categorize thumbnails from successful
+              videos to study what works and get inspiration for your own
+              content. Perfect for researching your niche and tracking
+              competitor strategies.
             </p>
           </div>
         </div>
