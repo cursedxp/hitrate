@@ -13,8 +13,8 @@ export default function Pricing() {
       className="flex flex-col gap-2 items-center w-full max-w-7xl justify-center mb-16 md:mb-32 px-4 md:px-0"
     >
       <SectionTitle
-        title="Compare your thumbnails with competitors."
-        description="Compare thumbnails with successful channels to improve your strategy and get more views."
+        title="Simple, Transparent Pricing"
+        description="Choose the plan that works best for you - monthly or yearly."
       />
       <PriceSwitch isYearly={isYearly} setIsYearly={setIsYearly} />
       <PriceCard isYearly={isYearly} />
