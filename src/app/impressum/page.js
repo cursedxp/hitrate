@@ -27,16 +27,6 @@ export default function ImpressumPage() {
             <p>Website: www.hitmagnet.app</p>
           </div>
         </section>
-
-        <section className="mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-            Commercial Register
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300">
-            [Commercial Register Details if applicable]
-          </p>
-        </section>
-
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
             Disclaimer
