@@ -13,7 +13,7 @@ export default function FeatureSets() {
       <SearchResults />
       <ShuffleThumbnails />
       <AiTitleGeneration />
-      <ChromeExtension />
+      {/* <ChromeExtension /> */}
     </section>
   );
 }
